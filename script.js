@@ -1,4 +1,4 @@
-console.log("Script Loaded!");
+
 (async function verifyIntegrity() {
     try {
         let response = await fetch("\\version.json");
