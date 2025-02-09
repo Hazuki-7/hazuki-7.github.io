@@ -1,5 +1,5 @@
 {
     "version": "18.0",
-    "require_update": true,
+    "require_update": false,
     "message": " This version is outdated. Please update to the latest version: https://github.com/ivysone"
 }
