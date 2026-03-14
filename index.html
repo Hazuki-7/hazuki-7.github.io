@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDS Reviewer Hub</title>
+<style>
+:root {
+    --primary: #4361ee;
+    --secondary: #3f37c9;
+    --bg: #f4f7fe;
+    --card-bg: #ffffff;
+    --text: #2b2d42;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+
+body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 30px 20px; text-align: center; }
+nav { display: flex; justify-content: center; gap: 10px; background: #fff; padding: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+nav button { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 8px 18px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+nav button.active { background: var(--primary); color: white; }
+.container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
+.card { background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+
+/* Home Grid */
+.subject-selection { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.subject-btn { background: white; border: 2px solid #e2e8f0; border-radius: 15px; padding: 20px; text-align: left; cursor: pointer; transition: 0.3s; display: flex; justify-content: space-between; align-items: center; }
+.subject-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(67, 97, 238, 0.15); }
+.start-badge { background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+
+/* Quiz Styles */
+.answers-grid { display: grid; gap: 10px; margin-top: 15px; }
+.btn-choice { width: 100%; padding: 14px; border: 2px solid #edf2f7; border-radius: 10px; background: white; text-align: left; cursor: pointer; transition: 0.2s; font-size: 15px; }
+.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; }
+.wrong { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; }
+.multi-info { background: #e0e7ff; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; color: var(--secondary); font-weight: bold; }
+
+#progressBar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 20px; }
+#progress { height: 100%; width: 0%; background: var(--primary); border-radius: 4px; transition: 0.4s; }
+.btn-main { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>FDS Reviewer Hub</h1>
+    <p id="subjectTitle">Select a Part to Begin</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')" id="btn-home">Home</button>
+    <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
+    <button onclick="showPage('leaderboardPage')" id="btn-leaderboardPage">Scores</button>
+</nav>
+
+<div class="container" id="home">
+    <div class="card" style="text-align: center;">
+        <h2>Ready for Midterms?</h2>
+        <p>Pick a specific quiz part or the full master deck.</p>
+        <div class="subject-selection" id="subjectGrid"></div>
+    </div>
+</div>
+
+<div class="container" id="quiz" style="display:none">
+    <div id="progressBar"><div id="progress"></div></div>
+    <div id="quizContainer"></div>
+    <div id="scoreBox" style="display:none" class="card" style="text-align:center">
+        <h2>Quiz Result</h2>
+        <p id="score" style="font-size: 40px; font-weight: bold; color: var(--primary);"></p>
+        <input id="username" type="text" placeholder="Enter Name" style="padding:10px; width:70%; margin-bottom:15px;"><br>
+        <button class="btn-main" onclick="saveScore()">Save Score</button>
+    </div>
+</div>
+
+<div class="container" id="leaderboardPage" style="display:none">
+    <div class="card">
+        <h2>🏆 Top Scores</h2>
+        <div id="leaderboardList"></div>
+    </div>
+</div>
+
+<script>
+const STUDY_CONTENT = {
+    fds_p1: {
+        title: "Part 1: DBMS Fundamentals",
+        icon: "📘",
+        questions: [
+        // Matching Type Section
+        { q: "It is the process of using specific commands to request, retrieve, manipulate, or analyze data stored within a relational database:", choices: ["Querying", "Abstraction", "Schema", "Instance"], correct: 0 },
+        { q: "Managing complexity by hiding intricate implementation details and focusing on essential features:", choices: ["Data Model", "Abstraction", "Physical Level", "Transaction"], correct: 1 },
+        { q: "These are computer professionals who write application programs that interact with the database and design user interfaces:", choices: ["Database Administrators", "Naive Users", "Application Programmers", "System Analysts"], correct: 2 },
+        { q: "A collection of tools for describing data, data relationships, data semantics, and data constraints:", choices: ["Storage Manager", "Data Model", "Data Dictionary", "Metadata"], correct: 1 },
+        { q: "These are used to manage collections of data that are highly valuable, relatively large, and accessed by multiple users and applications, often at the same time:", choices: ["Database", "Database Systems", "Data Dictionary", "File System"], correct: 1 },
+        { q: "The ability to modify the physical schema without changing the logical schema:", choices: ["Logical Independence", "Physical Data Independence", "Data Security", "Concurrency"], correct: 1 },
+        { q: "The overall physical structure of the database:", choices: ["Physical Schema", "Logical Schema", "View Level", "Instance"], correct: 0 },
+        { q: "A person with central control over the database system and its operations:", choices: ["Application Programmer", "Database Administrator", "End User", "Data Scientist"], correct: 1 },
+        { q: "These are programs that are used to interact with the database in this fashion:", choices: ["Application Programs", "End User", "Instance", "Database Administrator"], correct: 0 },
+        { q: "The actual content of the database at a particular point in time:", choices: ["Schema", "Metadata", "Instance", "Snapshot"], correct: 2 },
+        { q: "It is a collection of operations that performs a single logical function in a database application:", choices: ["Query", "Transaction", "Script", "Procedure"], correct: 1 },
+        { q: "The software system consists of a collection of interrelated data and a collection of programs to access those data:", choices: ["DBMS", "DML", "DDL", "SQL"], correct: 0 },
+        { q: "The language that enables users to access, update, and manipulate the data in a database according to its structure. It allows users to retrieve or modify data without changing the database design:", choices: ["DDL", "DML", "Relational Algebra", "Java"], correct: 1 },
+        { q: "It provides the interface between the low-level data stored in the database and the application programs and queries submitted to the system:", choices: ["Buffer Manager", "Transaction Manager", "Storage Manager", "Query Processor"], correct: 2 },
+        { q: "In late 1960s and 1970s, he introduced the relational data model and would win the ACM Turing Award for this work:", choices: ["Alan Turing", "Charles Babbage", "Ted Codd", "James Gosling"], correct: 2 },
+        { q: "It ensures that the database remains in a consistent (correct) state despite system failures:", choices: ["Storage Management", "Transaction Management", "Query Optimization", "Data Modeling"], correct: 1 },
+        { q: "Require a user to specify what data are needed without specifying how to get those data:", choices: ["Procedural DML", "Declarative DML", "Structural DML", "Navigational DML"], correct: 1 },
+        { q: "The language used to define the structure of a database, like creating tables and specifying rules for the data. It specifys the database schema and other properties of the data:", choices: ["DML", "SQL", "DDL", "XML"], correct: 2 },
+        { q: "The highest level of abstraction describing only part of the database:", choices: ["View Level", "Logical Level", "Physical Level", "Conceptual Level"], correct: 0 },
+        { q: "MThis model uses a collection of tables, with rows and columns, to represent both data and the relationships among those data:", choices: ["Network Model", "Hierarchical Model", "Relational Model", "Object-Oriented Model"], correct: 2 },
+
+        // Enumeration Section (Multi-choice)
+        { 
+            type: "multi", 
+            q: "Give 3 Features of Database-Management System:", 
+            choices: ["Data Security", "Data Redundancy", "Concurrency Control", "Data Integrity", "Manual Sorting"], 
+            correct: [0, 2, 3], 
+            points: 3 
+        },
+        { 
+            type: "multi", 
+            q: "Give 2 Database Applications Partition:", 
+            choices: ["Single-tier", "Two-tier Architecture", "Three-tier Architecture", "Mesh Architecture"], 
+            correct: [1, 2], 
+            points: 2 
+        },
+        { 
+            type: "multi", 
+            q: "Give 3 Levels of Abstraction:", 
+            choices: ["Physical Level", "Logical Level", "View Level", "Application Level", "User Level"], 
+            correct: [0, 1, 2], 
+            points: 3 
+        },
+        { 
+            type: "multi", 
+            q: "Give 2 Types of Data Manipulation Language:", 
+            choices: ["Procedural DML", "Structural DML", "Declarative DML", "Functional DML"], 
+            correct: [0, 2], 
+            points: 2 
+        }
+    ]
+    },
+    fds_p2: {
+        title: "Part 2: Relational & SQL",
+        icon: "💻",
+        questions: [
+        // TEST I: MATCHING TYPE (From Quiz 2 - Word for Word)
+        { q: "A procedural language consisting of six basic operations: select, project, union, set difference, Cartesian product, and rename that take one or two relations as input and produce a new relation as their result.", choices: ["SQL", "Relational Algebra", "DML", "DDL"], correct: 1 },
+        { q: "A named column of a relation that represents a specific property of the data stored. Its allowed values are defined by a domain.", choices: ["Tuple", "Row", "Attribute", "Relation"], correct: 2 },
+        { q: "The set of allowed values for a column in a relation. All values in that column must belong to this set.", choices: ["Schema", "Domain", "Metadata", "Instance"], correct: 1 },
+        { q: "The current values within a single relation at a particular point in time.", choices: ["Relation Schema", "Relation Instance", "Database State", "Snapshot"], correct: 1 },
+        { q: "The key chosen from among the candidate keys to serve as the main, unique identifier of tuples in a relation.", choices: ["Superkey", "Candidate Key", "Primary Key", "Foreign Key"], correct: 2 },
+        { q: "A set of one or more attributes whose combined values are sufficient to uniquely identify every tuple in a possible relation instance.", choices: ["Superkey", "Foreign Key", "Attribute", "Domain"], correct: 0 },
+        { q: "A superkey where no proper subset can still uniquely identify a tuple. It is the minimal form of a superkey.", choices: ["Primary Key", "Candidate Key", "Secondary Key", "Minimal Key"], correct: 1 },
+        { q: "A referential integrity constraint that requires a value in one relation also appear as a primary key value in another relation.", choices: ["Domain Constraint", "Foreign Key", "Unique Constraint", "Entity Integrity"], correct: 1 },
+        { q: "The logical structure of a database — the name of a relation and its list of attributes (e.g., instructor(ID, name, dept_name, salary)).", choices: ["Database Instance", "Database Schema", "Physical Level", "Metadata"], correct: 1 },
+        { q: "A special marker used in SQL that indicates an unknown or missing value. It is a member of every domain.", choices: ["Void", "Null", "Empty", "Zero"], correct: 1 },
+        { q: "This is the only DQL command. It is used to retrieve data from one or more tables from the database.", choices: ["GET", "SELECT", "RETRIEVE", "SEARCH"], correct: 1 },
+        { q: "This DML command is used to modify existing data in one or more rows of a table based on a specified condition.", choices: ["ALTER", "UPDATE", "CHANGE", "SET"], correct: 1 },
+        { q: "This DML command is used to add new rows of data into a table.", choices: ["ADD", "CREATE", "INSERT", "APPEND"], correct: 2 },
+        { q: "This DDL command is used to define a new table, creating the structure and specifying its column names, data types, and constraints.", choices: ["NEW", "BUILD", "CREATE", "DEFINE"], correct: 2 },
+        { q: "This DML command removes rows from a table that satisfy a given condition.", choices: ["DROP", "DELETE", "REMOVE", "TRUNCATE"], correct: 1 },
+        { q: "This DQL clause filters rows before any grouping or aggregation is applied.", choices: ["HAVING", "GROUP BY", "WHERE", "ORDER BY"], correct: 2 },
+        { q: "This DDL command modifies an existing table structure — for example, by adding or removing a column.", choices: ["UPDATE", "ALTER", "CHANGE", "MODIFY"], correct: 1 },
+        { q: "This DQL clause sorts the result set by one or more columns in ascending or descending order.", choices: ["ORDER BY", "SORT BY", "GROUP BY", "ARRANGE BY"], correct: 0 },
+        { q: "This DDL command removes all rows from a table without deleting the table structure itself.", choices: ["DELETE", "TRUNCATE", "CLEAR", "DROP"], correct: 1 },
+        { q: "This DDL command permanently removes a table and all of its data from the database.", choices: ["DELETE", "DROP", "TRUNCATE", "REMOVE"], correct: 1 },
+
+        // TEST II: FILL-IN-THE-BLANK (From Quiz 2 scenarios 21-29)
+        { q: "Create a table named courses with columns: course_id (INT, PRIMARY KEY), title (VARCHAR 100), and units (INT).", choices: ["CREATE TABLE", "ALTER TABLE", "INSERT INTO", "DROP TABLE"], correct: 0 },
+        { q: "Add a new column email with data type VARCHAR(100) to the existing students table.", choices: ["UPDATE", "MODIFY", "ALTER TABLE", "ADD COLUMN"], correct: 2 },
+        { q: "Insert a new record into the instructor table for 'Dr. Juan Cruz' in the 'History' department with a salary of 70000.", choices: ["INSERT INTO", "VALUES", "UPDATE", "ADD RECORD"], correct: 0 },
+        { q: "Retrieve the names and salaries of all instructors, sorted by salary from highest to lowest.", choices: ["ORDER BY salary DESC", "ORDER BY salary ASC", "SORT BY salary", "GROUP BY salary"], correct: 0 },
+        { q: "Update the salary of the instructor with instructor_id 'I004' to 80000.", choices: ["SET salary = 80000", "VALUES 80000", "UPDATE salary", "CHANGE salary"], correct: 0 },
+        { q: "Delete all students who have less than 50 total_credits.", choices: ["DELETE FROM", "REMOVE FROM", "DROP FROM", "TRUNCATE"], correct: 0 },
+        { q: "Retrieve the distinct department names from the student table.", choices: ["SELECT DISTINCT", "SELECT UNIQUE", "SELECT ALL", "SELECT ONLY"], correct: 0 },
+        { q: "Get all instructors whose salary is between 78000 and 92000.", choices: ["WHERE salary BETWEEN", "WHERE salary IN", "WHERE salary LIKE", "WHERE salary IS"], correct: 0 },
+        { q: "Drop the table named archive_records from the database.", choices: ["DROP TABLE", "DELETE TABLE", "REMOVE TABLE", "TRUNCATE TABLE"], correct: 0 },
+
+        // TEST II: WRITE THE QUERY (Scenario Based)
+        { 
+            type: "multi", 
+            q: "The registrar needs a list of all students enrolled in the Computer Science department. Retrieve the student_id and name of all Computer Science students, sorted alphabetically by name.", 
+            choices: ["SELECT student_id, name", "FROM student", "WHERE dept_name = 'Computer Science'", "ORDER BY name ASC", "ORDER BY student_id"], 
+            correct: [0, 1, 2, 3], 
+            points: 4 
+        },
+        { 
+            type: "multi", 
+            q: "The Dean's office wants to know which departments have a budget greater than 380,000. Retrieve the dept_name and budget of those departments, ordered by budget from highest to lowest.", 
+            choices: ["SELECT dept_name, budget", "FROM department", "WHERE budget > 380000", "ORDER BY budget DESC", "ORDER BY budget ASC"], 
+            correct: [0, 1, 2, 3], 
+            points: 4 
+        },
+        { 
+            type: "multi", 
+            q: "The HR department needs to identify senior faculty. Retrieve the name and salary of all instructors whose salary is greater than or equal to 82,000.", 
+            choices: ["SELECT name, salary", "FROM instructor", "WHERE salary >= 82000", "WHERE salary > 82000", "ORDER BY name"], 
+            correct: [0, 1, 2], 
+            points: 3 
+        },
+        { 
+            type: "multi", 
+            q: "A scholarship committee wants to find students who are close to graduation. Retrieve the name and dept_name of all students with total_credits of 90 or more.", 
+            choices: ["SELECT name, total_credits", "FROM student", "WHERE total_credits >= 90", "WHERE total_credits > 90", "ORDER BY name"], 
+            correct: [0, 1, 2], 
+            points: 3 
+        }
+    ]
+    },
+    fds_p3: {
+        title: "Part 3: ER Modeling",
+        icon: "📐",
+        questions: [
+        { q: "Which symbol represents a Relationship Type in an ER diagram?", choices: ["Oval", "Rectangle", "Double oval", "Diamond"], correct: 3 },
+        { q: "What does \"ERD\" stand for?", choices: ["Entity Retrieval Diagram", "Entity Relationship Diagram", "Enterprise Relational Diagram", "Entity Record Design"], correct: 1 },
+        { q: "How is a Key Attribute indicated in an ER diagram?", choices: ["Underlined name inside an oval", "Dashed oval border", "Double rectangle", "Branching ovals"], correct: 0 },
+        { q: "A dashed oval in an ER diagram represents a:", choices: ["Key attribute", "Multi-valued attribute", "Derived attribute", "Composite attribute"], correct: 2 },
+        { q: "Which ER symbol represents a Weak Entity Type?", choices: ["Single rectangle", "Regular diamond", "Dashed oval", "Double rectangle"], correct: 3 },
+        { q: "A relationship involving exactly three entity types is called:", choices: ["Unary", "Binary", "Ternary", "Recursive"], correct: 2 },
+        { q: "Which attribute type can hold more than one value per entity?", choices: ["Multi-valued", "Derived", "Composite", "Key"], correct: 0 },
+        { q: "In ER notation, a Composite Attribute is represented by:", choices: ["Double oval", "Dashed oval", "Branching ovals from a main oval", "Underlined oval"], correct: 2 },
+        { q: "An entity type identifiable solely by its own attributes is called:", choices: ["Weak entity", "Strong entity", "Derived entity", "Partial entity"], correct: 1 },
+        { q: "Which database design phase outputs the ER diagram?", choices: ["Logical Design", "Physical Design", "Requirements Analysis", "Conceptual Design"], correct: 3 },
+        { q: "The Name attribute of EMPLOYEE (Fname, Minit, Lname) is classified as:", choices: ["Composite", "Multi-valued", "Derived", "Key"], correct: 0 },
+        { q: "A double line from an entity to a relationship diamond indicates:", choices: ["Partial participation", "Recursive relationship", "Total participation", "1:1 cardinality"], correct: 2 },
+        { q: "A relationship where the same entity type participates more than once is:", choices: ["Binary", "Recursive (unary)", "Ternary", "Identifying"], correct: 1 },
+        { q: "What is a derived attribute, and how is it shown in an ER diagram?", choices: ["Holds multiple values; shown by a double oval", "Computed from another stored attribute; shown by a dashed oval", "Has sub-parts; shown by branching ovals", "Uniquely identifies an entity; shown with underlined name"], correct: 1 },
+        { q: "What distinguishes an Entity Type from an Entity Set?", choices: ["Entity Type is the blueprint; Entity Set is the actual collection of instances", "Entity Type is the actual data; Entity Set is the design structure", "They are interchangeable terms in ER modeling", "Entity Type is for weak entities; Entity Set is for strong entities"], correct: 0 },
+        { q: "In an ER diagram, total participation (double line) means:", choices: ["The relationship is M:N", "The entity is a weak entity type", "Only some entities participate", "Every entity instance MUST participate in the relationship"], correct: 3 },
+        { q: "Why are M:N relationships typically resolved into two 1:N relationships?", choices: ["M:N relationships are invalid in ER diagrams", "It reduces the number of entities needed", "Most RDBMSs cannot directly represent M:N without a junction table", "M:N relationships cannot have attributes"], correct: 2 },
+        { q: "What is the purpose of role names in a recursive relationship?", choices: ["To define the cardinality ratio between entities", "To clarify the different roles the same entity plays in the relationship", "To mark total or partial participation", "To identify the weak entity in the relationship"], correct: 1 },
+        { q: "Why is a Weak Entity shown with a double rectangle?", choices: ["It cannot be uniquely identified without its owner entity", "It has more attributes than a regular entity", "It participates in multiple relationships", "It is a derived entity type"], correct: 0 },
+        { q: "What does the (min, max) notation in an ER diagram express?", choices: ["The number of attributes an entity must have", "The total number of entities in the diagram", "The number of key attributes in a relationship", "The minimum and maximum times an entity can participate in a relationship"], correct: 3 },
+        { q: "How does Partial Participation differ from Total Participation?", choices: ["Partial uses a double line; total uses a single line", "Partial means all entities must participate; total means some may not", "Partial means some entities may not participate; total means all must", "They are equivalent concepts with different notation"], correct: 2 },
+        { q: "A double diamond in an ER diagram indicates:", choices: ["A relationship between two strong entities", "An identifying relationship connecting a weak entity to its owner", "A ternary relationship type", "A recursive relationship"], correct: 1 },
+        { q: " \"DBMS-independent\" in Conceptual Design means the ER diagram:", choices: ["Is not tied to any specific database software", "Cannot be implemented in any DBMS", "Works only with open-source databases", "Has the DBMS handle all design decisions"], correct: 0 },
+        { q: "A STUDENT entity needs to store multiple email addresses. How should this be modeled?", choices: ["As a simple (atomic) attribute", "As a derived attribute", "As a multi-valued attribute", "As a composite attribute"], correct: 2 },
+        { q: "EMPLOYEE has: Fname, Lname, Ssn, BirthDate, Salary. Which should be a derived attribute?", choices: ["Ssn", "Salary", "Fname", "Age"], correct: 3 },
+        { q: "DEPENDENT (employee's family member) cannot be identified without EMPLOYEE. How should it be modeled?", choices: ["Strong entity with its own primary key", "Weak entity with double rectangle and identifying relationship", "Derived attribute of EMPLOYEE", "Multi-valued attribute of EMPLOYEE"], correct: 1 },
+        { q: "SUPPLIER supplies many COMPONENTS; a COMPONENT can come from many SUPPLIERS (M:N). How is this resolved?", choices: ["Create a junction entity with foreign keys to both Supplier and Component", "Add a foreign key in Supplier pointing to Component", "Add a foreign key in Component pointing to Supplier", "Merge both entities into one table"], correct: 0 },
+        { q: "Each CLASS is taught by one TEACHER; a TEACHER can teach many CLASSES. What is the cardinality?", choices: ["M:N", "1:1", "1:N", "N:1"], correct: 2 },
+        { q: "EMPLOYEE's Address has sub-parts: Street, City, Province, Zip. Classify this attribute.", choices: ["Key", "Multi-valued", "Derived", "Composite"], correct: 3 },
+        { q: "A STUDENT must be enrolled in at least one COURSE. What constraint applies to STUDENT in ENROLLS_IN?", choices: ["Partial participation", "Total participation", "Minimum cardinality of zero", "Derived participation"], correct: 1 },
+        { q: "PROJECT uses project_code to uniquely identify each project. How is project_code shown in the ER diagram?", choices: ["Oval with the name underlined", "Double oval", "Dashed oval", "Double rectangle"], correct: 0 },
+        { q: "EMPLOYEE supervises EMPLOYEE. What type of relationship is this and why?", choices: ["Binary — it links two distinct entity instances", "Ternary — involves supervisor, supervisee, and department", "Recursive (unary) — same entity type participates twice in different roles", "Identifying — creates a dependency between instances"], correct: 2 },
+        { q: "EMPLOYEE has (0,1) and DEPARTMENT has (1,1) in MANAGES. Which entity may optionally not participate?", choices: ["EMPLOYEE — min=0 means an employee may manage no department", "DEPARTMENT — min=1 means a department always has a manager", "Neither — max=1 on both means both must participate", "Both — max=1 makes both optional"], correct: 0 },
+        { q: "WORKS_ON between EMPLOYEE and PROJECT has its own attribute \"Hours.\" What does this indicate?", choices: ["Hours is a key attribute of PROJECT", "Hours is a derived attribute of EMPLOYEE", "Hours is a composite attribute shared by both entities", "Hours is a relationship attribute belonging to WORKS_ON, not either entity"], correct: 3 },
+        { q: "Classify: Name (Fname+Lname), Age (from BirthDate), PhoneNumbers (many), SSN (unique identifier).", choices: ["Composite, Stored, Multi-valued, Derived", "Composite, Derived, Multi-valued, Key", "Multi-valued, Derived, Composite, Key", "Simple, Derived, Stored, Composite"], correct: 1 },
+        { q: "STUDENT must enroll in at least one COURSE; a COURSE can exist with zero students. What constraints apply?", choices: ["Partial for both STUDENT and COURSE", "Total for COURSE; Partial for STUDENT", "Total for STUDENT; Partial for COURSE", "Total for both STUDENT and COURSE"], correct: 2 },
+        { q: "Doctor–Patient (M:N) treatment sessions have a Date and Diagnosis. Where do these attributes belong?", choices: ["As attributes of Doctor", "As unique attributes of the TREATS relationship between Doctor and Patient", "As attributes of Patient", "As a separate weak entity independent of both"], correct: 1 },
+        { q: "An EMPLOYEE table stores both BirthDate and Age as separate columns. Which evaluation is correct?", choices: ["Correct — both values improve query speed", "Correct — Age is a key attribute and must be stored", "Acceptable — the choice depends on the DBMS used", "Incorrect — Age should be derived from BirthDate; storing both causes update anomalies"], correct: 3 },
+        { q: "EMPLOYEE has total participation in WORKS_FOR DEPARTMENT, yet a developer allows NULL for Department_FK. Evaluate:", choices: ["Acceptable — NULLs are standard for foreign keys", "Acceptable — ER model and physical schema need not match", "Incorrect — only if the DBMS does not support NOT NULL", "Incorrect — total participation requires NOT NULL; allowing NULLs violates the constraint"], correct: 3 },
+        { q: "Design an ER model for an online store: a CUSTOMER can place many ORDERS; each ORDER contains many PRODUCTS; each PRODUCT can appear in many ORDERS with a specific Quantity. Which structure best represents this?", choices: ["CUSTOMER –(1:N)→ ORDER –(M:N resolved via ORDER_ITEM with Quantity)→ PRODUCT", "CUSTOMER –(M:N)→ PRODUCT with Order and Quantity as attributes of CUSTOMER", "Single TRANSACTION entity storing Customer, Order, Product, and Quantity as simple attributes", "CUSTOMER –(1:N)→ ORDER; ORDER –(1:1)→ PRODUCT with Quantity as an attribute of PRODUCT"], correct: 0 },
+        { q: "BONUS (3 pts): \"I connect two worlds, but I belong to neither. I was born the moment two became too many for each other. The proof and the existence which holds them together. What am I?\"", choices: ["Associative Entity / Junction Entity", "Strong Entity", "Multi-valued Attribute", "Derived Attribute"], correct: 0 }
+    ]
+    },
+    fds_all: {
+        title: "All Quizzes: Master Deck",
+        icon: "🔥",
+        questions: [] // Populated dynamically
+    }
+};
+
+// Merge all questions for the "All" category
+STUDY_CONTENT.fds_all.questions = [
+    ...STUDY_CONTENT.fds_p1.questions,
+    ...STUDY_CONTENT.fds_p2.questions,
+    ...STUDY_CONTENT.fds_p3.questions
+];
+
+let currentSubjectKey = 'fds_p1';
+let activeQuiz = [];
+let quizIdx = 0;
+let userTotalScore = 0;
+let totalPossiblePoints = 0;
+let multiCorrectFound = 0;
+
+function renderHome() {
+    const grid = document.getElementById('subjectGrid');
+    grid.innerHTML = Object.keys(STUDY_CONTENT).map(key => `
+        <div class="subject-btn" onclick="loadSubject('${key}')">
+            <div>
+                <h3 style="margin:0">${STUDY_CONTENT[key].icon} ${STUDY_CONTENT[key].title}</h3>
+                <small>${STUDY_CONTENT[key].questions.length} Items</small>
+            </div>
+            <div class="start-badge">Start</div>
+        </div>
+    `).join('');
+}
+
+function loadSubject(key) {
+    currentSubjectKey = key;
+    activeQuiz = [...STUDY_CONTENT[key].questions].sort(() => Math.random() - 0.5);
+    totalPossiblePoints = activeQuiz.reduce((acc, q) => acc + (q.points || 1), 0);
+    userTotalScore = 0;
+    quizIdx = 0;
+    showPage('quiz');
+}
+
+function showPage(pageId) {
+    document.querySelectorAll('.container').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(pageId).style.display = 'block';
+    if(document.getElementById('btn-'+pageId)) document.getElementById('btn-'+pageId).classList.add('active');
+    
+    if(pageId === 'quiz') startQuiz();
+    if(pageId === 'leaderboardPage') loadLeaderboard();
+}
+
+function startQuiz() {
+    document.getElementById("scoreBox").style.display = "none";
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const q = activeQuiz[quizIdx];
+    const container = document.getElementById("quizContainer");
+    multiCorrectFound = 0;
+
+    let html = `<div class="card">
+        <small>Question ${quizIdx + 1} of ${activeQuiz.length}</small>
+        <h3>${q.q}</h3>`;
+    
+    if(q.type === "multi") {
+        html += `<div class="multi-info">Select ${q.correct.length} correct items!</div>`;
+    }
+
+    html += `<div class="answers-grid">`;
+    q.choices.forEach((c, i) => {
+        const func = q.type === "multi" ? `checkMulti(this, ${i})` : `checkSingle(this, ${i})`;
+        html += `<button class="btn-choice" onclick="${func}">${c}</button>`;
+    });
+    html += `</div></div>`;
+    
+    container.innerHTML = html;
+    document.getElementById("progress").style.width = (quizIdx / activeQuiz.length * 100) + "%";
+}
+
+function checkSingle(btn, i) {
+    const q = activeQuiz[quizIdx];
+    document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
+    if(i === q.correct) {
+        btn.classList.add('correct');
+        userTotalScore++;
+    } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.btn-choice')[q.correct].classList.add('correct');
+    }
+    nextStep();
+}
+
+function checkMulti(btn, i) {
+    const q = activeQuiz[quizIdx];
+    if(q.correct.includes(i)) {
+        btn.classList.add('correct');
+        btn.disabled = true;
+        userTotalScore++;
+        multiCorrectFound++;
+        if(multiCorrectFound === q.correct.length) nextStep();
+    } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
+        q.correct.forEach(idx => document.querySelectorAll('.btn-choice')[idx].classList.add('correct'));
+        nextStep();
+    }
+}
+
+function nextStep() {
+    setTimeout(() => {
+        quizIdx++;
+        if(quizIdx < activeQuiz.length) loadQuestion();
+        else {
+            document.getElementById("quizContainer").style.display = "none";
+            document.getElementById("scoreBox").style.display = "block";
+            document.getElementById("score").innerText = `${userTotalScore} / ${totalPossiblePoints}`;
+            document.getElementById("progress").style.width = "100%";
+        }
+    }, 1500);
+}
+
+function saveScore() {
+    const name = document.getElementById("username").value || "Anonymous";
+    let board = JSON.parse(localStorage.getItem("lb_" + currentSubjectKey) || "[]");
+    board.push({name, score: userTotalScore});
+    board.sort((a,b) => b.score - a.score);
+    localStorage.setItem("lb_" + currentSubjectKey, JSON.stringify(board.slice(0, 5)));
+    showPage('leaderboardPage');
+}
+
+function loadLeaderboard() {
+    const board = JSON.parse(localStorage.getItem("lb_" + currentSubjectKey) || "[]");
+    document.getElementById("leaderboardList").innerHTML = board.length ? 
+        board.map((p, i) => `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
+            <span>#${i+1} ${p.name}</span><strong>${p.score}</strong></div>`).join('') : "No scores yet!";
+}
+
+renderHome();
+</script>
+</body>
+</html>
