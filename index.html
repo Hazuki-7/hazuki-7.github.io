@@ -1,339 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FDS Reviewer Hub</title>
-<style>
-:root {
-    --primary: #4361ee;
-    --secondary: #3f37c9;
-    --bg: #f4f7fe;
-    --card-bg: #ffffff;
-    --text: #2b2d42;
-    --success: #10b981;
-    --danger: #ef4444;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewer HUB</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --bg: #f4f7fe;
+            --card-bg: #ffffff;
+            --text: #2b2d42;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
 
-body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 25px 20px; text-align: center; }
-nav { display: flex; justify-content: center; gap: 10px; background: #fff; padding: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-nav button { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 8px 18px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-nav button.active { background: var(--primary); color: white; }
-.container { max-width: 800px; margin: 25px auto; padding: 0 20px; }
-.card { background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
 
-/* Selection Grid */
-.subject-selection { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-@media (max-width: 600px) { .subject-selection { grid-template-columns: 1fr; } }
-.subject-btn { background: white; border: 2px solid #e2e8f0; border-radius: 15px; padding: 20px; text-align: left; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
-.subject-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(67, 97, 238, 0.15); }
-.start-badge { background: var(--primary); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; align-self: flex-start; margin-top: 10px; }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
 
-/* Quiz Styles */
-.answers-grid { display: grid; gap: 10px; margin-top: 15px; }
-.btn-choice { width: 100%; padding: 14px; border: 2px solid #edf2f7; border-radius: 10px; background: white; text-align: left; cursor: pointer; transition: 0.2s; font-size: 15px; }
-.btn-choice:hover:not(:disabled) { border-color: var(--primary); background: #f8faff; }
-.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; font-weight: bold; }
-.wrong { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; }
-.multi-info { background: #e0e7ff; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; color: var(--secondary); font-weight: bold; border-left: 4px solid var(--primary); }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: #fff;
+            padding: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
 
-#progressBar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
-#progress { height: 100%; width: 0%; background: var(--primary); transition: 0.4s; }
-.btn-main { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        nav button {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
 
-/* Flashcards */
-.flashcard-container { perspective: 1000px; width: 100%; height: 320px; cursor: pointer; margin-bottom: 20px; }
-.flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-.flipped .flashcard-inner { transform: rotateY(180deg); }
-.flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 16px; padding: 30px; text-align: center; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); box-sizing: border-box; }
-.flashcard-front { background: white; color: var(--primary); border: 2px solid var(--primary); font-weight: bold; }
-.flashcard-back { background: var(--primary); color: white; transform: rotateY(180deg); }
-</style>
+        nav button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+        }
+
+        /* Selection Grid */
+        .subject-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .subject-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .subject-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .subject-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.15);
+        }
+
+        .start-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+
+        /* Quiz Styles */
+        .answers-grid {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-choice {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            background: white;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 15px;
+        }
+
+        .btn-choice:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #f8faff;
+        }
+
+        .correct {
+            background: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46;
+            font-weight: bold;
+        }
+
+        .wrong {
+            background: #fee2e2 !important;
+            border-color: var(--danger) !important;
+            color: #991b1b;
+        }
+
+        .multi-info {
+            background: #e0e7ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: bold;
+            border-left: 4px solid var(--primary);
+        }
+
+        #progressBar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: 0.4s;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 320px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .flashcard-front {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            font-weight: bold;
+        }
+
+        .flashcard-back {
+            background: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
-    <h1 id="subjectTitle">FDS Reviewer Hub</h1>
-    <p>Fundamentals of Database Systems</p>
-</header>
+    <header>
+        <h1 id="subjectTitle">Reviewer Hub</h1>
+        <p>Reviewer for All subs Currently IAS and FDS</p>
+    </header>
 
-<nav>
-    <button onclick="showPage('home')" id="btn-home">Home</button>
-    <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
-    <button onclick="showPage('flashcards')" id="btn-flashcards">Cards</button>
-</nav>
+    <nav>
+        <button onclick="showPage('home')" id="btn-home">Home</button>
+        <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
+        <button onclick="showPage('flashcards')" id="btn-flashcards">Cards</button>
+    </nav>
 
-<div class="container" id="home">
-    <div class="card" style="text-align: center;">
-        <h2>Select Study Material</h2>
-        <div class="subject-selection" id="subjectGrid"></div>
-    </div>
-</div>
-
-<div class="container" id="quiz" style="display:none">
-    <div id="progressBar"><div id="progress"></div></div>
-    <div id="quizContainer"></div>
-    <div id="scoreBox" style="display:none" class="card" style="text-align:center">
-        <h2>Results</h2>
-        <p id="score" style="font-size: 48px; font-weight: bold; color: var(--primary); margin: 10px 0;"></p>
-        <button class="btn-main" style="width:100%" onclick="showPage('home')">Back to Menu</button>
-    </div>
-</div>
-
-<div class="container" id="flashcards" style="display:none">
-    <div class="flashcard-container" id="flashcardBox" onclick="flipCard()">
-        <div class="flashcard-inner">
-            <div class="flashcard-front" id="cardFront"></div>
-            <div class="flashcard-back" id="cardBack"></div>
+    <div class="container" id="home">
+        <div class="card" style="text-align: center;">
+            <h2>Select Study Material</h2>
+            <div class="subject-selection" id="subjectGrid"></div>
         </div>
     </div>
-    <div style="display:flex; justify-content: space-between; align-items: center;">
-        <button class="btn-main" style="background:#64748b" onclick="prevCard()">←</button>
-        <span id="cardProgress" style="font-weight:bold; color: var(--secondary)"></span>
-        <button class="btn-main" onclick="nextCard()">→</button>
+
+    <div class="container" id="quiz" style="display:none">
+        <div id="progressBar">
+            <div id="progress"></div>
+        </div>
+        <div id="quizContainer"></div>
+        <div id="scoreBox" style="display:none" class="card" style="text-align:center">
+            <h2>Results</h2>
+            <p id="score" style="font-size: 48px; font-weight: bold; color: var(--primary); margin: 10px 0;"></p>
+            <button class="btn-main" style="width:100%" onclick="showPage('home')">Back to Menu</button>
+        </div>
     </div>
-</div>
 
-<script>
-const STUDY_CONTENT = {
-    fds_p1: {
-        title: "Part 1: DBMS Fundamentals",
-        icon: "📘",
-        questions: [
-            { q: "It is the process of using specific commands to request, retrieve, manipulate, or analyze data stored within a relational database:", choices: ["Querying", "Abstraction", "Schema", "Instance"], correct: 0 },
-            { q: "Managing complexity by hiding intricate implementation details and focusing on essential features:", choices: ["Data Model", "Abstraction", "Physical Level", "Transaction"], correct: 1 },
-            { q: "These are computer professionals who write application programs that interact with the database and design user interfaces:", choices: ["Database Administrators", "Naive Users", "Application Programmers", "System Analysts"], correct: 2 },
-            { q: "A collection of tools for describing data, data relationships, data semantics, and data constraints:", choices: ["Storage Manager", "Data Model", "Data Dictionary", "Metadata"], correct: 1 },
-            { q: "These are used to manage collections of data that are highly valuable, relatively large, and accessed by multiple users and applications, often at the same time:", choices: ["Database", "Database Systems", "Data Dictionary", "File System"], correct: 1 },
-            { q: "The ability to modify the physical schema without changing the logical schema:", choices: ["Logical Independence", "Physical Data Independence", "Data Security", "Concurrency"], correct: 1 },
-            { q: "The overall physical structure of the database:", choices: ["Physical Schema", "Logical Schema", "View Level", "Instance"], correct: 0 },
-            { q: "A person with central control over the database system and its operations:", choices: ["Application Programmer", "Database Administrator", "End User", "Data Scientist"], correct: 1 },
-            { q: "These are programs that are used to interact with the database in this fashion:", choices: ["Application Programs", "End User", "Instance", "Database Administrator"], correct: 0 },
-            { q: "The actual content of the database at a particular point in time:", choices: ["Schema", "Metadata", "Instance", "Snapshot"], correct: 2 },
-            { q: "It is a collection of operations that performs a single logical function in a database application:", choices: ["Query", "Transaction", "Script", "Procedure"], correct: 1 },
-            { q: "The software system consists of a collection of interrelated data and a collection of programs to access those data:", choices: ["DBMS", "DML", "DDL", "SQL"], correct: 0 },
-            { q: "The language that enables users to access, update, and manipulate the data in a database according to its structure:", choices: ["DDL", "DML", "Relational Algebra", "Java"], correct: 1 },
-            { q: "It provides the interface between the low-level data stored in the database and the application programs and queries:", choices: ["Buffer Manager", "Transaction Manager", "Storage Manager", "Query Processor"], correct: 2 },
-            { q: "In late 1960s and 1970s, he introduced the relational data model:", choices: ["Alan Turing", "Charles Babbage", "Ted Codd", "James Gosling"], correct: 2 },
-            { q: "It ensures that the database remains in a consistent (correct) state despite system failures:", choices: ["Storage Management", "Transaction Management", "Query Optimization", "Data Modeling"], correct: 1 },
-            { q: "Require a user to specify what data are needed without specifying how to get those data:", choices: ["Procedural DML", "Declarative DML", "Structural DML", "Navigational DML"], correct: 1 },
-            { q: "The language used to define the structure of a database, like creating tables and rules:", choices: ["DML", "SQL", "DDL", "XML"], correct: 2 },
-            { q: "The highest level of abstraction describing only part of the database:", choices: ["View Level", "Logical Level", "Physical Level", "Conceptual Level"], correct: 0 },
-            { q: "This model uses a collection of tables, with rows and columns, to represent data and relationships:", choices: ["Network Model", "Hierarchical Model", "Relational Model", "Object-Oriented Model"], correct: 2 },
-            { type: "multi", q: "Give 3 Features of Database-Management System:", choices: ["Data Security", "Data Redundancy", "Concurrency Control", "Data Integrity", "Manual Sorting"], correct: [0, 2, 3], points: 3 },
-            { type: "multi", q: "Give 2 Database Applications Partition:", choices: ["Single-tier", "Two-tier Architecture", "Three-tier Architecture", "Mesh Architecture"], correct: [1, 2], points: 2 },
-            { type: "multi", q: "Give 3 Levels of Abstraction:", choices: ["Physical Level", "Logical Level", "View Level", "Application Level", "User Level"], correct: [0, 1, 2], points: 3 },
-            { type: "multi", q: "Give 2 Types of Data Manipulation Language:", choices: ["Procedural DML", "Structural DML", "Declarative DML", "Functional DML"], correct: [0, 2], points: 2 }
-        ]
-    },
-    fds_p2: {
-        title: "Part 2: Relational & SQL",
-        icon: "💻",
-        questions: [
-            { q: "A procedural language consisting of six basic operations: select, project, union, set difference, Cartesian product, and rename:", choices: ["SQL", "Relational Algebra", "DML", "DDL"], correct: 1 },
-            { q: "A named column of a relation that represents a specific property of the data stored:", choices: ["Tuple", "Row", "Attribute", "Relation"], correct: 2 },
-            { q: "The set of allowed values for a column in a relation:", choices: ["Schema", "Domain", "Metadata", "Instance"], correct: 1 },
-            { q: "The current values within a single relation at a particular point in time:", choices: ["Relation Schema", "Relation Instance", "Database State", "Snapshot"], correct: 1 },
-            { q: "The key chosen from among the candidate keys to serve as the main unique identifier:", choices: ["Superkey", "Candidate Key", "Primary Key", "Foreign Key"], correct: 2 },
-            { q: "Attributes whose combined values are sufficient to uniquely identify every tuple:", choices: ["Superkey", "Foreign Key", "Attribute", "Domain"], correct: 0 },
-            { q: "A superkey where no proper subset can still uniquely identify a tuple (Minimal form):", choices: ["Primary Key", "Candidate Key", "Secondary Key", "Minimal Key"], correct: 1 },
-            { q: "Referential integrity constraint requiring a value appear as a primary key in another relation:", choices: ["Domain Constraint", "Foreign Key", "Unique Constraint", "Entity Integrity"], correct: 1 },
-            { q: "The logical structure of a database — the name of a relation and its list of attributes:", choices: ["Database Instance", "Database Schema", "Physical Level", "Metadata"], correct: 1 },
-            { q: "A special marker used in SQL that indicates an unknown or missing value:", choices: ["Void", "Null", "Empty", "Zero"], correct: 1 },
-            { q: "This is the only DQL command used to retrieve data from tables:", choices: ["GET", "SELECT", "RETRIEVE", "SEARCH"], correct: 1 },
-            { q: "This DML command is used to modify existing data based on a condition:", choices: ["ALTER", "UPDATE", "CHANGE", "SET"], correct: 1 },
-            { q: "This DML command is used to add new rows of data into a table:", choices: ["ADD", "CREATE", "INSERT", "APPEND"], correct: 2 },
-            { q: "DDL command to define a new table structure:", choices: ["NEW", "BUILD", "CREATE", "DEFINE"], correct: 2 },
-            { q: "DML command that removes rows that satisfy a given condition:", choices: ["DROP", "DELETE", "REMOVE", "TRUNCATE"], correct: 1 },
-            { q: "DQL clause filters rows before any grouping or aggregation:", choices: ["HAVING", "GROUP BY", "WHERE", "ORDER BY"], correct: 2 },
-            { q: "DDL command modifies an existing table structure (e.g. adding columns):", choices: ["UPDATE", "ALTER", "CHANGE", "MODIFY"], correct: 1 },
-            { q: "DQL clause sorts the result set by one or more columns:", choices: ["ORDER BY", "SORT BY", "GROUP BY", "ARRANGE BY"], correct: 0 },
-            { q: "DDL command removes all rows without deleting the table structure:", choices: ["DELETE", "TRUNCATE", "CLEAR", "DROP"], correct: 1 },
-            { q: "DDL command permanently removes a table and all its data:", choices: ["DELETE", "DROP", "TRUNCATE", "REMOVE"], correct: 1 },
-            { q: "Create a table named courses with columns: course_id, title, and units:", choices: ["CREATE TABLE", "ALTER TABLE", "INSERT INTO", "DROP TABLE"], correct: 0 },
-            { q: "Add a new column 'email' to the existing students table:", choices: ["UPDATE", "MODIFY", "ALTER TABLE", "ADD COLUMN"], correct: 2 },
-            { q: "Insert a new record into the instructor table for 'Dr. Juan Cruz' in 'History':", choices: ["INSERT INTO", "VALUES", "UPDATE", "ADD RECORD"], correct: 0 },
-            { q: "Retrieve names and salaries, sorted by salary from highest to lowest:", choices: ["ORDER BY salary DESC", "ORDER BY salary ASC", "SORT BY salary", "GROUP BY salary"], correct: 0 },
-            { q: "Update the salary of instructor 'I004' to 80000:", choices: ["SET salary = 80000", "VALUES 80000", "UPDATE salary", "CHANGE salary"], correct: 0 },
-            { q: "Delete all students who have less than 50 total_credits:", choices: ["DELETE FROM", "REMOVE FROM", "DROP FROM", "TRUNCATE"], correct: 0 },
-            { q: "Retrieve the distinct department names from the student table:", choices: ["SELECT DISTINCT", "SELECT UNIQUE", "SELECT ALL", "SELECT ONLY"], correct: 0 },
-            { q: "Get all instructors whose salary is between 78000 and 92000:", choices: ["WHERE salary BETWEEN", "WHERE salary IN", "WHERE salary LIKE", "WHERE salary IS"], correct: 0 },
-            { q: "Drop the table named archive_records from the database:", choices: ["DROP TABLE", "DELETE TABLE", "REMOVE TABLE", "TRUNCATE TABLE"], correct: 0 },
-            { type: "multi", q: "SQL: Retrieve student_id and name of CS students, sorted by name.", choices: ["SELECT student_id, name", "FROM student", "WHERE dept_name = 'Computer Science'", "ORDER BY name ASC", "ORDER BY student_id"], correct: [0, 1, 2, 3], points: 4 },
-            { type: "multi", q: "SQL: Retrieve dept_name and budget where budget > 380,000, highest to lowest.", choices: ["SELECT dept_name, budget", "FROM department", "WHERE budget > 380000", "ORDER BY budget DESC", "ORDER BY budget ASC"], correct: [0, 1, 2, 3], points: 4 },
-            { type: "multi", q: "SQL: Retrieve name and salary of instructors with salary >= 82,000.", choices: ["SELECT name, salary", "FROM instructor", "WHERE salary >= 82000", "WHERE salary > 82000", "ORDER BY name"], correct: [0, 1, 2], points: 3 },
-            { type: "multi", q: "SQL: Retrieve name and dept_name of students with total_credits >= 90.", choices: ["SELECT name, total_credits", "FROM student", "WHERE total_credits >= 90", "WHERE total_credits > 90", "ORDER BY name"], correct: [0, 1, 2], points: 3 }
-        ]
-    },
-    fds_p3: {
-        title: "Part 3: ER Modeling",
-        icon: "📐",
-        questions: [
-            { q: "Which symbol represents a Relationship Type in an ER diagram?", choices: ["Oval", "Rectangle", "Double oval", "Diamond"], correct: 3 },
-            { q: "What does 'ERD' stand for?", choices: ["Entity Retrieval Diagram", "Entity Relationship Diagram", "Enterprise Relational Diagram", "Entity Record Design"], correct: 1 },
-            { q: "How is a Key Attribute indicated in an ER diagram?", choices: ["Underlined name inside an oval", "Dashed oval border", "Double rectangle", "Branching ovals"], correct: 0 },
-            { q: "A dashed oval in an ER diagram represents a:", choices: ["Key attribute", "Multi-valued attribute", "Derived attribute", "Composite attribute"], correct: 2 },
-            { q: "Which ER symbol represents a Weak Entity Type?", choices: ["Single rectangle", "Regular diamond", "Dashed oval", "Double rectangle"], correct: 3 },
-            { q: "A relationship involving exactly three entity types is called:", choices: ["Unary", "Binary", "Ternary", "Recursive"], correct: 2 },
-            { q: "Which attribute type can hold more than one value per entity?", choices: ["Multi-valued", "Derived", "Composite", "Key"], correct: 0 },
-            { q: "In ER notation, a Composite Attribute is represented by:", choices: ["Double oval", "Dashed oval", "Branching ovals from a main oval", "Underlined oval"], correct: 2 },
-            { q: "An entity type identifiable solely by its own attributes is called:", choices: ["Weak entity", "Strong entity", "Derived entity", "Partial entity"], correct: 1 },
-            { q: "Which database design phase outputs the ER diagram?", choices: ["Logical Design", "Physical Design", "Requirements Analysis", "Conceptual Design"], correct: 3 },
-            { q: "The Name attribute of EMPLOYEE (Fname, Minit, Lname) is classified as:", choices: ["Composite", "Multi-valued", "Derived", "Key"], correct: 0 },
-            { q: "A double line from an entity to a relationship diamond indicates:", choices: ["Partial participation", "Recursive relationship", "Total participation", "1:1 cardinality"], correct: 2 },
-            { q: "A relationship where the same entity type participates more than once is:", choices: ["Binary", "Recursive (unary)", "Ternary", "Identifying"], correct: 1 },
-            { q: "What is a derived attribute?", choices: ["Holds multiple values", "Computed from another stored attribute (dashed oval)", "Has sub-parts", "Uniquely identifies an entity"], correct: 1 },
-            { q: "What distinguishes an Entity Type from an Entity Set?", choices: ["Entity Type is the blueprint; Set is the actual collection", "Type is the data; Set is the design", "They are interchangeable", "Type is for weak entities only"], correct: 0 },
-            { q: "In an ER diagram, total participation (double line) means:", choices: ["The relationship is M:N", "The entity is a weak entity type", "Only some entities participate", "Every entity instance MUST participate"], correct: 3 },
-            { q: "Why are M:N relationships typically resolved into two 1:N relationships?", choices: ["Invalid in ER", "Reduces entities", "RDBMS cannot directly represent M:N without junction tables", "Attributes not allowed in M:N"], correct: 2 },
-            { q: "Purpose of role names in recursive relationships?", choices: ["Define cardinality", "Clarify roles the same entity plays", "Mark participation", "Identify weak entities"], correct: 1 },
-            { q: "Why is a Weak Entity shown with a double rectangle?", choices: ["Cannot be uniquely identified without owner", "More attributes", "Multiple relationships", "Derived entity type"], correct: 0 },
-            { q: "What does the (min, max) notation express?", choices: ["Attribute count", "Entity count", "Key attributes", "Min/Max participation in relationship"], correct: 3 },
-            { q: "Difference between Partial and Total Participation?", choices: ["Partial is double line", "Partial means all must participate", "Partial means some may not participate; Total means all must", "No difference"], correct: 2 },
-            { q: "A double diamond in an ER diagram indicates:", choices: ["Strong entity relationship", "Identifying relationship for weak entities", "Ternary type", "Recursive"], correct: 1 },
-            { q: "Conceptual Design being 'DBMS-independent' means:", choices: ["Not tied to specific software", "Cannot be implemented", "Only for open-source", "DBMS handles design"], correct: 0 },
-            { q: "Storing multiple emails for a STUDENT. How to model?", choices: ["Atomic attribute", "Derived", "Multi-valued", "Composite"], correct: 2 },
-            { q: "EMPLOYEE: Ssn, BirthDate, Fname, Age. Which is derived?", choices: ["Ssn", "Salary", "Fname", "Age"], correct: 3 },
-            { q: "DEPENDENT cannot be identified without EMPLOYEE. Model as:", choices: ["Strong entity", "Weak entity (double rect)", "Derived attribute", "Multi-valued"], correct: 1 },
-            { q: "M:N relationship between SUPPLIER and COMPONENT. Resolution:", choices: ["Create junction entity with foreign keys", "FK in Supplier", "FK in Component", "Merge tables"], correct: 0 },
-            { q: "Each CLASS is taught by 1 TEACHER; TEACHER can teach many CLASSES.", choices: ["M:N", "1:1", "1:N", "N:1"], correct: 2 },
-            { q: "EMPLOYEE's Address: Street, City, Prov, Zip. Classification:", choices: ["Key", "Multi-valued", "Derived", "Composite"], correct: 3 },
-            { q: "STUDENT must be enrolled in at least one COURSE. Constraint:", choices: ["Partial", "Total participation", "Min cardinality zero", "Derived"], correct: 1 },
-            { q: "PROJECT uses project_code (Unique). ER representation:", choices: ["Underlined oval", "Double oval", "Dashed oval", "Double rectangle"], correct: 0 },
-            { q: "EMPLOYEE supervises EMPLOYEE. Relationship type:", choices: ["Binary", "Ternary", "Recursive (unary)", "Identifying"], correct: 2 },
-            { q: "EMPLOYEE (0,1) manages DEPARTMENT (1,1). Optional participation for:", choices: ["EMPLOYEE", "DEPARTMENT", "Neither", "Both"], correct: 0 },
-            { q: "WORKS_ON (EMPLOYEE-PROJECT) has attribute 'Hours'.", choices: ["Key of Project", "Derived of Employee", "Composite attribute", "Relationship attribute of WORKS_ON"], correct: 3 },
-            { q: "Classify: Name (F+L), Age (from Birth), Phone (many), SSN (unique).", choices: ["Composite, Stored, Multi, Derived", "Composite, Derived, Multi, Key", "Multi, Derived, Comp, Key", "Simple, Derived, Stored, Comp"], correct: 1 },
-            { q: "STUDENT must enroll (min 1); COURSE can have zero students.", choices: ["Partial for both", "Total for Course", "Total for Student; Partial for Course", "Total for both"], correct: 2 },
-            { q: "Doctor–Patient (M:N) treatment sessions have Date and Diagnosis location:", choices: ["Doctor", "Relationship TREATS", "Patient", "Weak entity"], correct: 1 },
-            { q: "Storing both BirthDate and Age. Evaluation:", choices: ["Correct", "Age is key", "Acceptable", "Incorrect - causes update anomalies"], correct: 3 },
-            { q: "Total participation requires Department_FK to be:", choices: ["NULLable", "Standard", "Optional", "NOT NULL"], correct: 3 },
-            { q: "Store design: CUSTOMER, ORDERS, PRODUCTS (M:N). Best structure:", choices: ["CUSTOMER(1:N)→ORDER(M:N)→PRODUCT", "M:N for all", "Single entity", "1:1 structures"], correct: 0 },
-            { q: "BONUS: 'I connect two worlds, but I belong to neither...'", choices: ["Associative/Junction Entity", "Strong Entity", "Multi-valued", "Derived"], correct: 0 }
-        ]
-    },
-    fds_mock: {
-        title: "Part 4: Mock Examination",
-        icon: "📝",
-        questions: [
-            { q: "What is the primary goal of a Database Management System (DBMS)?", choices: ["To replace all file systems with a single unified platform", "To provide a convenient and efficient environment for storing and retrieving data", "To automate data entry tasks for end users", "To generate backup copies of all organizational data automatically"], correct: 1 },
-            { q: "Which type of database user interacts with the system through predefined web or mobile application interfaces without writing programs?", choices: ["Application programmers", "Sophisticated users", "Naive users", "Database administrators"], correct: 2 },
-            { q: "What is a data dictionary in a database system?", choices: ["A repository that stores metadata about the structure of the database", "A glossary of technical SQL terms for developers", "A file containing all data records in the database", "A visual diagram representing the database schema"], correct: 0 },
-            { q: "What does DML stand for in the context of database systems?", choices: ["Data Management Language", "Document Modeling Language", "Database Markup Language", "Data Manipulation Language"], correct: 3 },
-            { q: "Which component of the storage manager handles the transfer of data between disk storage and main memory?", choices: ["File manager", "Authorization and integrity manager", "Buffer manager", "Transaction manager"], correct: 2 },
-            { q: "In the relational model, what is the term for the set of allowed values for each attribute?", choices: ["A set of unique tuples in the relation", "The domain of the attribute", "A constraint that prevents null values", "The collection of all attributes in a table"], correct: 1 },
-            { q: "Which symbol is used to denote the SELECT operation in relational algebra?", choices: ["σ (sigma)", "π (pi)", "p (rho)", "U (union)"], correct: 0 },
-            { q: "What does the PROJECT operation in relational algebra do?", choices: ["Selects rows based on a given predicate", "Combines tuples from two different relations", "Returns a relation with specified attributes, removing unspecified columns", "Renames a relation or its attributes"], correct: 2 },
-            { q: "What does the special value NULL represent in a relational database attribute?", choices: ["An empty string value", "Zero", "A placeholder for missing numeric data", "An unknown or inapplicable attribute value"], correct: 3 },
-            { q: "How many basic operations does relational algebra consist of?", choices: ["4", "6", "8", "10"], correct: 1 },
-            { q: "What does SQL stand for?", choices: ["Standard Query Language", "Sequential Query Language", "Structured Query Language", "System Query Language"], correct: 2 },
-            { q: "Which SQL command category is used to create, alter, or drop database tables?", choices: ["DDL (Data Definition Language)", "DML (Data Manipulation Language)", "DCL (Data Control Language)", "TCL (Transaction Control Language)"], correct: 0 },
-            { q: "Which SQL domain type stores variable-length character strings up to a specified maximum length?", choices: ["char(n)", "int", "numeric(p,d)", "varchar(n)"], correct: 3 },
-            { q: "Which SQL keyword eliminates duplicate rows from the result of a query?", choices: ["Sorts results in ascending order", "DISTINCT", "Filters results based on a condition", "Returns only the top row in a query result"], correct: 1 },
-            { q: "Which SQL command is used to give users specific access rights to a database object?", choices: ["GRANT", "COMMIT", "REVOKE", "ALTER"], correct: 0 },
-            { q: "In Chen ER notation, which shape represents a relationship type between entities?", choices: ["Rectangle", "Oval", "Diamond (rhombus)", "Double rectangle"], correct: 2 },
-            { q: "How is an entity defined in the ER model?", choices: ["A program module that accesses database records", "A thing or object in the real world with an independent existence", "A table in a relational database", "A set of constraints describing a collection of data"], correct: 1 },
-            { q: "Which type of attribute can be divided into smaller, independently meaningful sub-parts?", choices: ["Multi-valued attribute", "Derived attribute", "Key attribute", "Composite attribute"], correct: 3 },
-            { q: "In an ER diagram (Chen notation), how is a derived attribute represented?", choices: ["A dashed oval", "A double oval", "An underlined name inside an oval", "A rectangle attached to the entity"], correct: 0 },
-            { q: "In ER modeling, what does 'cardinality' describe?", choices: ["The number of attributes an entity type possesses", "The degree of a relationship (number of participating entity types)", "The number of entity instances that can be associated with another entity through a relationship", "The level of data abstraction used in conceptual design"], correct: 2 },
-            { q: "What does physical data independence mean in a database system?", choices: ["The ability to add new tables without changing any application program", "The ability to modify the physical schema without affecting the logical schema or applications", "The ability to change the view level without updating the physical level", "The ability to migrate data between different DBMS platforms"], correct: 1 },
-            { q: "Which level of data abstraction describes how data records are physically stored in the system?", choices: ["Describes what data is stored and relationships among the data", "Hides irrelevant details from end-user application programs", "Defines views tailored for different user groups", "Physical level"], correct: 3 },
-            { q: "What is the correct distinction between a database schema and a database instance?", choices: ["Schema is the logical structure of the database; instance is the actual data content at a specific point in time", "Schema and instance are the same concept described differently", "Instance is the static blueprint; schema changes over time", "Schema is stored on disk; instance exists only in memory"], correct: 0 },
-            { q: "Why is a declarative (non-procedural) DML considered easier to learn than a procedural DML?", choices: ["Declarative DML compiles faster than procedural DML", "Declarative DML allows users to modify data directly without restrictions", "Declarative DML only requires users to specify what data is needed, not how to retrieve it", "Declarative DML is always automatically converted to procedural DML before execution"], correct: 2 },
-            { q: "What is the primary role of the buffer manager in a database storage system?", choices: ["Prevents unauthorized users from accessing protected data", "Manages the allocation of disk space for new data files", "Compiles and optimizes query evaluation plans", "Manages the transfer of data between disk storage and main memory"], correct: 3 },
-            { q: "Why are duplicate rows removed from the result of the PROJECT operation in relational algebra?", choices: ["To improve query performance by reducing the table size", "Because relations are defined as sets, which do not contain duplicate elements", "Because SQL automatically enforces primary key constraints", "To conform to the domain constraints of each attribute"], correct: 1 },
-            { q: "What does it mean to say a relation is 'unordered' in the relational model?", choices: ["Relations must be sorted by primary key for efficient retrieval", "Tuples are automatically arranged alphabetically by the first attribute", "Tuples in a relation have no inherent order; they may be stored in any sequence", "The order of tuples changes every time a query is executed"], correct: 2 },
-            { q: "What distinguishes a candidate key from a superkey in the relational model?", choices: ["A candidate key is a minimal superkey no proper subset can still uniquely identify tuples", "A candidate key is any set of attributes that forms a unique index", "A superkey must always have fewer attributes than a candidate key", "A candidate key and a superkey always contain the same number of attributes"], correct: 0 },
-            { q: "How does the JOIN operation differ from the Cartesian product in relational algebra?", choices: ["Join combines all possible tuple pairs; Cartesian product only matches equal tuples", "Cartesian product filters tuples; join creates new attributes", "Join and Cartesian product are equivalent operations with the same result", "Cartesian product pairs every tuple from two relations; join filters those pairs based on a matching condition"], correct: 3 },
-            { q: "What condition must two relations satisfy to be 'compatible' for the UNION or SET DIFFERENCE operations?", choices: ["Both relations must have the same primary key", "Both relations must have the same number of attributes with compatible attribute domains", "Both relations must have identical column names", "Both relations must belong to the same database schema"], correct: 1 },
-            { q: "What is the key functional difference between DDL and DML in SQL?", choices: ["DDL queries data from the database; DML defines the database schema", "DDL and DML serve the same purpose but apply to different data types", "DDL is used to define and modify the database structure; DML is used to query and manipulate data", "DDL is restricted to database administrators only; DML is available to all users"], correct: 2 },
-            { q: "What does TCL stand for in SQL, and what is its primary purpose?", choices: ["TCL stands for Transaction Control Language; it manages database transactions using commands such as COMMIT, ROLLBACK, and SAVEPOINT", "TCL stands for Table Control Language; it manages table creation and deletion", "TCL stands for Type Control Language; it validates attribute data types", "TCL stands for Transaction Command Language; it grants user permissions"], correct: 0 },
-            { q: "What is the fundamental difference between char(n) and varchar(n) in SQL?", choices: ["char stores numeric values; varchar stores text values", "char allows longer strings than varchar for the same declared size", "char and varchar behave identically in storage and retrieval", "char stores a fixed-length string, padding shorter values; varchar stores variable-length strings without padding"], correct: 3 },
-            { q: "What is the purpose of the WHERE clause in an SQL SELECT statement?", choices: ["Sorts the result set in a specified order", "Filters which rows are included in the result based on a specified condition", "Groups rows with identical values into summary rows", "Selects specific columns to display in the query result"], correct: 1 },
-            { q: "What does the SQL GRANT command do in the context of Data Control Language (DCL)?", choices: ["GRANT provides specified privileges on a database object to a specified user or role", "GRANT inserts a new record into a specified table", "GRANT permanently removes a table from the database", "GRANT modifies the data type of an existing column"], correct: 0 },
-            { q: "What distinguishes a weak entity from a regular (strong) entity in ER modeling?", choices: ["A weak entity always has more attributes than a strong entity", "A weak entity stores only numerical data; a strong entity stores any data type", "A weak entity cannot be uniquely identified by its own attributes alone and depends on an owner entity for its existence", "A strong entity must always have a foreign key; a weak entity does not"], correct: 2 },
-            { q: "What is the difference between total participation and partial participation in ER modeling?", choices: ["Total participation means only one entity is involved in the relationship; partial means many", "Total participation applies only to strong entities; partial applies to weak entities", "Total and partial participation differ only in cardinality notation", "Total participation means every entity in the set must participate in the relationship; partial participation means some entities may not participate"], correct: 3 },
-            { q: "What is a recursive relationship in the ER model?", choices: ["A relationship between two different entity types sharing common attributes", "A relationship where the same entity type participates more than once in different roles", "A relationship that connects three or more entity types simultaneously", "A relationship where the cardinality ratio is always 1:1"], correct: 1 },
-            { q: "Why is a multi-valued attribute represented by a double oval in Chen ER notation?", choices: ["It visually signals that the attribute can hold more than one value for a single entity instance", "The double oval indicates the attribute is the primary identifier of the entity", "The double oval indicates the attribute is derived from another stored attribute", "It shows the attribute is shared between two different entity types"], correct: 0 },
-            { q: "What is an associative entity (also called a junction entity) used for in ER modeling?", choices: ["An entity type used to represent a weak entity that has no unique key", "An entity that stores redundant data for performance optimization", "An entity used to resolve a many-to-many relationship by creating an intermediate table with foreign keys to both participating entities", "An entity that serves as the owner for a weak entity's identifying relationship"], correct: 2 },
-            { q: "A developer wants to retrieve all customer records from a database without modifying any data. Which type of language component should be used?", choices: ["DDL", "TCL", "DCL", "DML"], correct: 3 },
-            { q: "A university needs to allow a faculty member to read course records but prevent them from modifying salary information. Which DBA function addresses this requirement?", choices: ["Schema definition", "Granting authorization for data access", "Routine maintenance", "Storage structure definition"], correct: 1 },
-            { q: "In a two-tier database architecture, where does the application reside?", choices: ["At the client machine", "At the application server", "At the database server", "At the physical storage layer"], correct: 0 },
-            { q: "A hospital database allows doctors, nurses, and administrators to access patient records simultaneously during their shifts. This feature directly addresses which problem that existed in early file-based systems?", choices: ["Data redundancy and inconsistency", "Integrity problems", "Concurrent access by multiple users", "Data isolation"], correct: 2 },
-            { q: "Which database architecture has one server machine that executes work on behalf of multiple client machines?", choices: ["Parallel database", "Distributed database", "Centralized database", "Client-server database"], correct: 3 },
-            { q: "Given the relation instructor(ID, name, dept_name, salary), which relational algebra expression correctly retrieves the names of all instructors in the 'Music' department?", choices: ["σ name(instructor) WHERE dept_name = 'Music'", "π name(σ dept_name='Music' (instructor))", "dept_name='Music' (π name(instructor))", "π dept_name='Music'(name(instructor))"], correct: 1 },
-            { q: "Relations r and s each contain 5 tuples. What is the maximum number of tuples in the Cartesian product r x s?", choices: ["10", "5", "25", "50"], correct: 2 },
-            { q: "You need to find all courses taught in Spring 2025 but NOT in Fall 2024. Which relational algebra operation should you apply?", choices: ["Set difference", "Set intersection", "Union", "Natural join"], correct: 0 },
-            { q: "Which relational algebra expression correctly retrieves only the ID and name columns from the instructor relation?", choices: ["σ ID,name(instructor)", "p ID,name(instructor)", "U ID,name(instructor)", "π ID,name(instructor)"], correct: 3 },
-            { q: "The rename operation p x (instructor) is applied to the instructor relation. What does this return?", choices: ["Creates a new instructor relation as a Cartesian product with an attribute x", "Returns the instructor relation with the name x assigned to it, without changing its structure", "Projects only the column named x from the instructor relation", "Selects all tuples where the name attribute equals x"], correct: 1 },
-            { q: "Which SQL statement correctly creates a table named 'students' with a student_id (INT) as primary key and a name field (VARCHAR 50)?", choices: ["CREATE TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));", "INSERT TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));", "CREATE students WITH (student_id INT PRIMARY KEY, name VARCHAR(50));", "MAKE TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));"], correct: 0 },
-            { q: "A manager wants to remove all records of terminated employees from the employees table but keep the table structure intact. Which SQL command is appropriate?", choices: ["DROP TABLE employees", "TRUNCATE TABLE employees", "DELETE FROM employees WHERE status = 'terminated'", "REMOVE FROM employees WHERE status = 'terminated'"], correct: 2 },
-            { q: "Which SQL query correctly retrieves unique department names from the instructor table?", choices: ["SELECT dept_name FROM instructor GROUP BY dept_name HAVING COUNT(*) > 0;", "SELECT dept_name FROM instructor ORDER BY dept_name;", "SELECT dept_name FROM instructor WHERE dept_name IS UNIQUE;", "SELECT DISTINCT dept_name FROM instructor;"], correct: 3 },
-            { q: "Which SQL statement correctly inserts a new employee record with employee_id id=101. name = 'Jose', and department = 'IT'?", choices: ["ADD INTO employees VALUES (101, 'Jose', 'IT');", "INSERT INTO employees (employee_id, name, department) VALUES (101, 'Jose', 'IT');", "INSERT employees SET employee_id id=101, name='Jose', department='IT';", "CREATE RECORD employees (101, 'Jose', 'IT');"], correct: 1 },
-            { q: "Which SQL statement correctly changes the salary of the instructor with ID 'I005' to 95,000?", choices: ["UPDATE instructor SET salary = 95000 WHERE ID = 'I005';", "MODIFY instructor SET salary = 95000 WHERE ID = 'I005';", "ALTER instructor SET salary = 95000 WHERE ID = 'I005';", "CHANGE instructor salary TO 95000 WHERE ID = 'I005';"], correct: 0 },
-            { q: "A STUDENT entity has attributes: student_id, full_name (composed of first, middle, and last name), birthdate, age, and email. Which attribute is derived?", choices: ["student id", "email", "full name", "age"], correct: 3 },
-            { q: "In a university system, one course can be offered as many sections, but each section belongs to only one course. What is the cardinality of the COURSE-SECTION relationship?", choices: ["M:N", "1:N", "1:1", "N:1"], correct: 1 },
-            { q: "In an ER diagram, a PATIENT entity cannot exist in the database without being associated with a DOCTOR. What type of participation does PATIENT have in the TREATS relationship?", choices: ["Partial participation", "Recursive participation", "Total participation", "Identifying participation"], correct: 2 },
-            { q: "A library allows a BOOK to be checked out by many MEMBERS, and a MEMBER can check out many BOOKS. What is the cardinality of the BOOK-MEMBER relationship?", choices: ["M:N (many-to-many)", "1:N (one-to-many)", "1:1 (one-to-one)", "N:1 (many-to-one)"], correct: 0 },
-            { q: "In an ER diagram, the SSN attribute of the EMPLOYEE entity uniquely identifies each employee instance. What type of attribute is SSN?", choices: ["Multi-valued attribute", "Composite attribute", "Derived attribute", "Key attribute"], correct: 3 },
-            { q: "A large hospital stores patient data in separate systems for billing, medical records, and pharmacy - each maintaining a slightly different version of the same patient information. Which two problems of early file-based systems are most clearly demonstrated?", choices: ["Atomicity failure and security problems", "Concurrent access problems and integrity problems", "Data redundancy/inconsistency and data isolation", "Difficulty accessing data and security problems"], correct: 2 },
-            { q: "Comparing three-tier and two-tier database architectures, what is the primary advantage of the three-tier approach?", choices: ["Three-tier separates business logic from the client, enabling better scalability and easier maintenance", "Three-tier stores all data at the client machine for faster local access", "Two-tier is more scalable because it reduces network traffic between layers", "Two-tier and three-tier are equivalent in design and performance"], correct: 0 },
-            { q: "In a banking application, a fund transfer deducts from Account A but the system crashes before crediting Account B. Which ACID property is violated?", choices: ["Consistency", "Atomicity", "Isolation", "Durability"], correct: 1 },
-            { q: "A DML compiler translates user queries and selects the lowest-cost evaluation plan from among multiple alternatives before execution. What is this specific process called?", choices: ["Transaction management", "Physical design", "Schema definition", "Query optimization"], correct: 3 },
-            { q: "A DBA changes how employee records are stored on disk (from sequential to indexed storage). All existing application programs continue to function normally without any changes. Which database system property makes this possible?", choices: ["Logical data independence", "Data abstraction", "Physical data independence", "Schema migration"], correct: 2 },
-            { q: "Relations r(A, B) and s(B, C) need to be combined so that only tuples with matching B values are returned, producing a result with attributes (A, B, C). Which operation achieves this?", choices: ["Cartesian product", "Join operation (natural join)", "Set intersection", "Union"], correct: 1 },
-            { q: "Consider two expressions: (1) π name( dept_name='CS'(instructor)) and (2) σ dept_name='CS'(π name(instructor)). Which is valid and which is not?", choices: ["Only expression (1) is valid; expression (2) is incorrect because dept_name is eliminated after projection, making the subsequent filter impossible", "Both expressions are equivalent and produce the same result", "Only expression (2) is correct; expression (1) cannot be evaluated in standard relational algebra", "Neither expression is valid in standard relational algebra"], correct: 0 },
-            { q: "Compare set intersection (r ∩ s) and set difference (r - s) when applied to the same two compatible relations. What does each operation return?", choices: ["Intersection returns all tuples from both relations; difference only returns tuples common to both", "Both operations return identical results when applied to the same relations", "Set difference returns tuples in both relations; intersection returns tuples in only one relation", "Set intersection returns tuples appearing in both relations; set difference returns tuples in r that are not in s"], correct: 3 },
-            { q: "The set {ID, name} is known to be a superkey of instructor. Is {ID} alone also a superkey? If yes, which is the candidate key and why?", choices: ["{ID} is not a superkey because it contains fewer attributes than {ID, name}", "Both {ID} and {ID, name} qualify as candidate keys", "Yes, {ID} is also a superkey; {ID} is the candidate key because it is minimal uniquely identify tuples", "Neither {ID} nor {ID, name} qualifies as a candidate key for the instructor relation"], correct: 2 },
-            { q: "A foreign key dept_name in the instructor table references the department table. What happens if an INSERT attempts to add an instructor with a dept_name value that does not exist in department?", choices: ["A primary key constraint is violated because the instructor ID already exists", "The insertion violates the referential integrity (foreign key) constraint", "A domain constraint is violated because dept_name is not a numeric value", "The insertion succeeds and automatically creates a new department entry"], correct: 1 },
-            { q: "How do the DELETE and TRUNCATE commands differ in SQL?", choices: ["DELETE is a DML command that removes specific rows based on a condition; TRUNCATE is a DDL command that removes all rows from a table quickly", "TRUNCATE is a DML command and removes only selected rows; DELETE is DDL and drops the entire table", "Both DELETE and TRUNCATE are DML commands with identical behavior", "DELETE and TRUNCATE both preserve table structure but differ only in execution speed"], correct: 0 },
-            { q: "Break down what each clause does in the query: SELECT * FROM employees WHERE salary > 50000 ORDER BY name ASC.", choices: ["SELECT * retrieves columns; WHERE groups rows; ORDER BY removes duplicates", "SELECT * renames columns; WHERE sorts results; ORDER BY applies conditions", "WHERE and ORDER BY perform the same function in different clauses", "SELECT * retrieves all columns; WHERE filters rows with salary above 50,000; ORDER BY sorts the result alphabetically by name in ascending order"], correct: 3 },
-            { q: "Distinguish between DCL and TCL in SQL, citing one example command from each.", choices: ["DCL manages transactions (COMMIT, ROLLBACK); TCL controls user access (GRANT, REVOKE)", "DCL and TCL both manage access rights, differing only in whether they apply to tables or views", "DCL (e.g., GRANT, REVOKE) controls access rights to database objects; TCL (e.g., COMMIT, ROLLBACK) manages database transactions", "DCL creates tables and relationships; TCL inserts and updates data"], correct: 2 },
-            { q: "Compare char(10) and varchar(10) in terms of storage. In what scenario does char(10) waste storage?", choices: ["char(10) and varchar(10) use the same storage regardless of actual string length", "char(10) wastes storage when stored strings are shorter than 10 characters, because it pads the unused space; varchar(10) uses only the actual length needed", "varchar(10) wastes more storage than char(10) for strings of variable length", "char(10) is always more storage-efficient than varchar(10) for all string lengths"], correct: 1 },
-            { q: "A query uses GROUP BY department and HAVING COUNT(*) > 5. What does HAVING filter, and how is it different from WHERE?", choices: ["HAVING filters groups based on aggregate conditions after grouping; WHERE filters individual rows before grouping occurs", "HAVING and WHERE perform identical filtering and are interchangeable in any query", "WHERE filters aggregate results; HAVING filters individual rows before aggregation", "GROUP BY and HAVING are interchangeable with ORDER BY and WHERE in all SQL queries"], correct: 0 },
-            { q: "An ER diagram shows DEPENDENT as a double-lined rectangle connected to EMPLOYEE through a double-lined diamond. What does this combination indicate?", choices: ["DEPENDENT is a strong entity with total participation in the relationship with EMPLOYEE", "DEPENDENT is an associative entity resolving an M:N relationship between two strong entities", "DEPENDENT has partial participation and can exist independently without EMPLOYEE", "DEPENDENT is a weak entity that relies on EMPLOYEE for identification, connected through an identifying relationship"], correct: 3 },
-            { q: "Compare the Chen notation and Crow's Foot notation for representing cardinality in ER diagrams.", choices: ["Chen notation uses arrows at relationship ends; Crow's Foot uses numbers placed beside entities", "Chen notation uses numbers (1, N, M) placed at relationship ends; Crow's Foot notation uses graphical line endings (such as crow's feet symbols) to represent cardinality and optionality", "Both notations are visually identical and differ only in DBMS platform support", "Crow's Foot notation is older than Chen notation and only supports 1:N relationships"], correct: 1 },
-            { q: "Differentiate between a key attribute and a partial key attribute (discriminator). In which type of entity does each appear?", choices: ["Both key attributes and partial key attributes appear only in strong entity types", "A key attribute appears in weak entities; a partial key appears only in strong entities", "A key attribute uniquely identifies each instance of a strong entity; a partial key (discriminator) partially identifies a weak entity and must be combined with the owner entity's key for full identification", "A partial key attribute is simply an alternate name for a candidate key"], correct: 2 },
-            { q: "An ER diagram shows STUDENT with an M:N relationship to CLASS. When converting this to a relational schema, how many tables are typically produced?", choices: ["Three tables: STUDENT, CLASS, and a junction (associative) table to resolve the M:N relationship", "Two tables: one for STUDENT and one for CLASS, with foreign keys on both sides", "One combined table merging all attributes of STUDENT and CLASS", "Four tables: two for entities, one for the relationship, and one for relationship attributes"], correct: 0 },
-            { q: "An EMPLOYEE entity has a self-referencing relationship where one employee can supervise other employees. What is this relationship called, and what roles are involved?", choices: ["Identifying relationship; roles are owner and dependent", "Binary relationship; roles are employer and employee", "Ternary relationship; roles are manager, supervisor, and supervisee", "Recursive (unary) relationship; roles are supervisor and supervisee"], correct: 3 },
-            { q: "A school's database runs on a single server accessed simultaneously by 200 students during registration. The system is slow. A colleague suggests switching to a parallel database. Is this recommendation justified?", choices: ["Not justified; a client-server architecture upgrade would be sufficient for 200 concurrent users", "Not justified; the performance issue is caused by poor SQL query design, not server architecture", "Justified; parallel databases with multiple cores can distribute the workload, reduce processing bottlenecks, and handle more concurrent transactions", "Not justified; only distributed databases can solve concurrent access performance problems"], correct: 2 },
-            { q: "A developer argues that a procedural DML gives users more control over data retrieval than a declarative DML. Is this argument valid?", choices: ["Not valid; procedural DML cannot access data stored in relational databases", "Valid in the sense that procedural DML allows users to specify how data is retrieved, but this added complexity also makes it harder to use compared to declarative DML", "Not valid; both procedural and declarative DML provide identical levels of user control", "Valid; procedural DML is always preferred in modern commercial DBMS implementations"], correct: 1 },
-            { q: "Two database designs are proposed: Design A stores metadata in a centralized data dictionary; Design B embeds all schema information directly in application code. Which design is better and why?", choices: ["Design A is better because a centralized data dictionary makes schema management consistent, enables metadata reuse, and decouples application code from database structure", "Design B is better because embedding schema in code makes it faster to access at runtime", "Both designs are equally valid as long as data integrity constraints are maintained", "Design B is better because it eliminates the overhead of querying a separate data dictionary"], correct: 0 },
-            { q: "A database designer proposes using the combination {name, dept_name} as the primary key for the instructor relation. Evaluate whether this is a good choice.", choices: ["Good choice because both name and dept_name are meaningful and descriptive attributes", "Good choice because composite keys are always more reliable than single-attribute keys", "Acceptable only if the table stores fewer than 100 instructor records", "Poor choice; two instructors could share the same name and department, making this combination non-unique and thus unsuitable as a primary key"], correct: 3 },
-            { q: "A student claims that the Cartesian product operation alone is sufficient to retrieve all related information between two tables. Evaluate this claim.", choices: ["Correct; Cartesian product always produces the minimal set of meaningfully related tuples", "Incorrect; Cartesian product pairs every tuple from both relations, producing many irrelevant combinations — a selection condition is needed to extract only related pairs", "Correct; Cartesian product is equivalent to the join operation in all practical scenarios", "Incorrect; Cartesian product cannot be used with more than two relations at a time"], correct: 1 },
-            { q: "A developer performs r ∪ s where relation r has attributes (A, B) and relation s has attributes (A, C). Is this union valid? Justify your answer.", choices: ["Valid; as long as both relations contain the same number of tuples", "Valid; the shared attribute A allows the union to proceed despite different second attributes", "Not valid; for union to be valid, both relations must have the same arity (number of attributes) and compatible attribute domains for each position", "Valid; SQL automatically handles schema mismatches in union operations"], correct: 2 },
-            { q: "A developer uses float(5) to store monetary values in a financial system. A reviewer recommends using numeric(10,2) instead. Who is correct and why?", choices: ["float(5) is better because floating-point types are always more precise than fixed-point numeric", "Both are equally appropriate; the choice depends only on personal preference", "float(5) is better because it uses less storage space than numeric(10,2)", "The reviewer is correct; numeric(10,2) stores exact decimal values with defined precision, whereas float is approximate and can introduce rounding errors in financial calculations"], correct: 3 },
-            { q: "A student argues that ORDER BY and GROUP BY perform similar tasks because both 'organize data.' Evaluate this claim.", choices: ["Not valid; ORDER BY sorts result rows in a specified sequence, while GROUP BY aggregates rows sharing the same values into summary groups — they serve entirely different purposes", "Valid; both clauses organize data and produce the same output when applied to the same column", "Valid; ORDER BY is a subset of GROUP BY functionality in most SQL implementations", "Not valid; GROUP BY is a DDL command while ORDER BY is a DML command"], correct: 0 },
-            { q: "A designer places the attribute ENROLL_DATE directly on the STUDENT entity in a Student-Course enrollment system. Is this a good design decision? Justify.", choices: ["Good design; placing ENROLL_DATE on STUDENT keeps all student-related data together in one entity", "Poor design; ENROLL_DATE describes the enrollment event (a relationship between STUDENT and COURSE), not the student alone — it should be an attribute of the enrollment relationship or junction entity", "Good design, as long as each student enrolls in only one course at a time", "Acceptable; placing relationship attributes on entities is considered standard ER practice"], correct: 1 },
-            { q: "An ER diagram shows DEPENDENT connected to EMPLOYEE through a single-line (regular) diamond. A reviewer argues this should be a double-line diamond (identifying relationship). Is the reviewer correct?", choices: ["The reviewer is incorrect; a single diamond is appropriate for all types of entity relationships", "The reviewer is incorrect; double diamonds are only used for ternary relationships involving three entities", "The reviewer is correct; because DEPENDENT is a weak entity that relies on EMPLOYEE for identification, the connecting relationship must be an identifying relationship represented by a double diamond in Chen notation", "The reviewer is incorrect; the double diamond notation applies only to M:N relationships"], correct: 2 },
-            { q: "A new e-commerce startup anticipates scaling to millions of users with complex business logic and a large product catalog. Based on database architecture concepts, which architecture is most appropriate?", choices: ["Two-tier architecture, because it directly connects clients to the database for speed", "Centralized database, because all data is stored in one location for easy management", "Parallel database only, because it offers the most processing cores", "Three-tier architecture, because it separates business logic from the client, supports scalability through application servers, and can integrate with parallel or backend databases"], correct: 3 },
-            { q: "You are designing a DBMS for a hospital with 50 departments and thousands of patients. It must support high concurrent access and prevent unauthorized users from viewing patient records. Which two components of the database engine will be most critical?", choices: ["DDL interpreter and DML compiler", "Concurrency-control manager (to handle simultaneous access) and authorization and integrity manager (to restrict unauthorized access to patient records)", "Buffer manager and file manager", "Query evaluation engine and transaction manager"], correct: 1 },
-            { q: "A university wants to retrieve the IDs of all students enrolled in BOTH the 'Fall 2025' and 'Spring 2026' semesters. Formulate the correct relational algebra expression.", choices: ["π student_id(σ semester='Fall' ∧ year=2025(enrollment)) ∩ π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(σ semester='Fall' ∧ year=2025(enrollment)) ∪ π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(σ semester='Fall' ∧ year=2025(enrollment)) − π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(enrollment) × π semester(enrollment)"], correct: 0 },
-            { q: "Design a relational algebra query to find the names of all instructors whose salary exceeds 80,000 AND who belong to the 'CS' department.", choices: ["σ name(π dept_name='CS' ∧ salary>80000(instructor))", "π dept_name='CS'(σ salary>80000(instructor))", "π name(σ dept_name='CS' ∧ salary>80000(instructor))", "ρ name(σ dept_name='CS' ∧ salary>80000(instructor))"], correct: 2 },
-            { q: "A company wants to create a table for products with: product_id (INT, primary key), product_name (VARCHAR 100), unit_price (NUMERIC with 8 total digits and 2 decimal places), and quantity (INT). Which SQL CREATE TABLE statement is correct?", choices: ["CREATE TABLE products (product_id INT, product_name VARCHAR(100), unit_price FLOAT(2), quantity INT, PRIMARY KEY(product_name));", "CREATE TABLE products AS (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price DECIMAL(2), quantity INT);", "MAKE TABLE products (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price NUMERIC(8,2), quantity INT);", "CREATE TABLE products (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price NUMERIC(8,2), quantity INT);"], correct: 3 },
-            { q: "A database administrator wants to find department names and their average salaries, but only for departments where the average salary exceeds 80,000, and only counting instructors individually earning more than 70,000. Which SQL query achieves this?", choices: ["SELECT name, salary FROM instructor WHERE salary > 70000 GROUP BY dept_name HAVING MAX(salary) > 80000;", "SELECT dept_name, AVG(salary) FROM instructor WHERE salary > 70000 GROUP BY dept_name HAVING AVG(salary) > 80000;", "SELECT dept_name, AVG(salary) FROM instructor GROUP BY dept_name WHERE AVG(salary) > 80000 AND salary > 70000;", "SELECT dept_name FROM instructor HAVING AVG(salary) > 80000 WHERE salary > 70000;"], correct: 1 },
-            { q: "A database administrator wants to revoke a user's UPDATE privilege on the employees table. Predict the correct SQL DCL command to accomplish this.", choices: ["DENY UPDATE ON employees FROM user_name;", "DROP PRIVILEGE UPDATE ON employees FROM user_name;", "REVOKE UPDATE ON employees FROM user_name;", "DELETE GRANT UPDATE ON employees FROM user_name;"], correct: 2 },
-            { q: "A hospital needs to model the following: a Doctor treats many Patients, a Patient is treated by many Doctors, and each treatment session has a specific date and diagnosis. What is the most appropriate ER design for storing treatment date and diagnosis?", choices: ["Create an associative (junction) entity TREATMENT with attributes date and diagnosis, connected to both DOCTOR and PATIENT through two separate 1:M relationships", "Add date and diagnosis as attributes directly on the DOCTOR entity", "Add date and diagnosis as attributes directly on the PATIENT entity", "Create a separate weak entity DIAGNOSIS that is existence-dependent on DOCTOR only"], correct: 0 },
-            { q: "A manufacturing company's ER design has PRODUCT and COMPONENT connected by an M:N relationship. A consultant proposes converting this to two 1:M relationships. What new element must be created?", choices: ["A new derived attribute would be added to the PRODUCT entity", "An associative (junction) entity — such as PRODUCT_COMPONENT — would be created between PRODUCT and COMPONENT, holding foreign keys to both", "The COMPONENT entity would be merged into the PRODUCT entity to simplify the schema", "A new weak entity COMPONENT_USAGE dependent solely on PRODUCT would be created"], correct: 1 },
-            { q: "You are designing an ER diagram for an online bookstore where a Book can have multiple Authors and an Author can write multiple Books. Propose the correct cardinality between Book and Author and determine whether a junction entity is needed.", choices: ["1:N cardinality; no junction entity is needed since one author simply writes many books", "1:1 cardinality; a junction entity is needed because each author–book pairing must be tracked", "1:N cardinality with a junction entity, since each book has many authors but each author writes only one book", "M:N cardinality; a junction entity (e.g., BOOK_AUTHOR) is needed because a book can have multiple authors and an author can write multiple books"], correct: 3 }
-        ]
-    }
-};
+    <div class="container" id="flashcards" style="display:none">
+        <div class="flashcard-container" id="flashcardBox" onclick="flipCard()">
+            <div class="flashcard-inner">
+                <div class="flashcard-front" id="cardFront"></div>
+                <div class="flashcard-back" id="cardBack"></div>
+            </div>
+        </div>
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+            <button class="btn-main" style="background:#64748b" onclick="prevCard()">←</button>
+            <span id="cardProgress" style="font-weight:bold; color: var(--secondary)"></span>
+            <button class="btn-main" onclick="nextCard()">→</button>
+        </div>
 
-STUDY_CONTENT.fds_all = {
-    title: "All Quizzes: Master Deck",
-    icon: "🔥",
-    questions: [...STUDY_CONTENT.fds_p1.questions, ...STUDY_CONTENT.fds_p2.questions, ...STUDY_CONTENT.fds_p3.questions, ...STUDY_CONTENT.fds_mock.questions]
-};
+    </div>
 
-let activeQuiz = [], activeCards = [];
-let quizIdx = 0, cardIdx = 0, userScore = 0, totalPts = 0, multiFound = 0;
-let shuffledChoices = []; // Track randomized positions
+    <script>
+        let userId = localStorage.getItem('reviewer_user_id');
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('reviewer_user_id', userId);
+        }
 
-function renderHome() {
-    const grid = document.getElementById('subjectGrid');
-    grid.innerHTML = Object.keys(STUDY_CONTENT).map(key => `
+        // 2. Handle Player Name
+        let playerName = localStorage.getItem('player_name');
+
+        function checkPlayerName() {
+            if (!playerName) {
+                playerName = prompt("Enter your Name/Alias for the leaderboard:", "Anonymous");
+                if (!playerName) playerName = "Anonymous";
+                localStorage.setItem('player_name', playerName);
+            }
+        }
+
+        const STUDY_CONTENT = {
+            fds_p1: {
+                title: "Part 1: DBMS Fundamentals",
+                icon: "📘",
+                questions: [
+                    { q: "It is the process of using specific commands to request, retrieve, manipulate, or analyze data stored within a relational database:", choices: ["Querying", "Abstraction", "Schema", "Instance"], correct: 0 },
+                    { q: "Managing complexity by hiding intricate implementation details and focusing on essential features:", choices: ["Data Model", "Abstraction", "Physical Level", "Transaction"], correct: 1 },
+                    { q: "These are computer professionals who write application programs that interact with the database and design user interfaces:", choices: ["Database Administrators", "Naive Users", "Application Programmers", "System Analysts"], correct: 2 },
+                    { q: "A collection of tools for describing data, data relationships, data semantics, and data constraints:", choices: ["Storage Manager", "Data Model", "Data Dictionary", "Metadata"], correct: 1 },
+                    { q: "These are used to manage collections of data that are highly valuable, relatively large, and accessed by multiple users and applications, often at the same time:", choices: ["Database", "Database Systems", "Data Dictionary", "File System"], correct: 1 },
+                    { q: "The ability to modify the physical schema without changing the logical schema:", choices: ["Logical Independence", "Physical Data Independence", "Data Security", "Concurrency"], correct: 1 },
+                    { q: "The overall physical structure of the database:", choices: ["Physical Schema", "Logical Schema", "View Level", "Instance"], correct: 0 },
+                    { q: "A person with central control over the database system and its operations:", choices: ["Application Programmer", "Database Administrator", "End User", "Data Scientist"], correct: 1 },
+                    { q: "These are programs that are used to interact with the database in this fashion:", choices: ["Application Programs", "End User", "Instance", "Database Administrator"], correct: 0 },
+                    { q: "The actual content of the database at a particular point in time:", choices: ["Schema", "Metadata", "Instance", "Snapshot"], correct: 2 },
+                    { q: "It is a collection of operations that performs a single logical function in a database application:", choices: ["Query", "Transaction", "Script", "Procedure"], correct: 1 },
+                    { q: "The software system consists of a collection of interrelated data and a collection of programs to access those data:", choices: ["DBMS", "DML", "DDL", "SQL"], correct: 0 },
+                    { q: "The language that enables users to access, update, and manipulate the data in a database according to its structure:", choices: ["DDL", "DML", "Relational Algebra", "Java"], correct: 1 },
+                    { q: "It provides the interface between the low-level data stored in the database and the application programs and queries:", choices: ["Buffer Manager", "Transaction Manager", "Storage Manager", "Query Processor"], correct: 2 },
+                    { q: "In late 1960s and 1970s, he introduced the relational data model:", choices: ["Alan Turing", "Charles Babbage", "Ted Codd", "James Gosling"], correct: 2 },
+                    { q: "It ensures that the database remains in a consistent (correct) state despite system failures:", choices: ["Storage Management", "Transaction Management", "Query Optimization", "Data Modeling"], correct: 1 },
+                    { q: "Require a user to specify what data are needed without specifying how to get those data:", choices: ["Procedural DML", "Declarative DML", "Structural DML", "Navigational DML"], correct: 1 },
+                    { q: "The language used to define the structure of a database, like creating tables and rules:", choices: ["DML", "SQL", "DDL", "XML"], correct: 2 },
+                    { q: "The highest level of abstraction describing only part of the database:", choices: ["View Level", "Logical Level", "Physical Level", "Conceptual Level"], correct: 0 },
+                    { q: "This model uses a collection of tables, with rows and columns, to represent data and relationships:", choices: ["Network Model", "Hierarchical Model", "Relational Model", "Object-Oriented Model"], correct: 2 },
+                    { type: "multi", q: "Give 3 Features of Database-Management System:", choices: ["Data Security", "Data Redundancy", "Concurrency Control", "Data Integrity", "Manual Sorting"], correct: [0, 2, 3], points: 3 },
+                    { type: "multi", q: "Give 2 Database Applications Partition:", choices: ["Single-tier", "Two-tier Architecture", "Three-tier Architecture", "Mesh Architecture"], correct: [1, 2], points: 2 },
+                    { type: "multi", q: "Give 3 Levels of Abstraction:", choices: ["Physical Level", "Logical Level", "View Level", "Application Level", "User Level"], correct: [0, 1, 2], points: 3 },
+                    { type: "multi", q: "Give 2 Types of Data Manipulation Language:", choices: ["Procedural DML", "Structural DML", "Declarative DML", "Functional DML"], correct: [0, 2], points: 2 }
+                ]
+            },
+            fds_p2: {
+                title: "Part 2: Relational & SQL",
+                icon: "💻",
+                questions: [
+                    { q: "A procedural language consisting of six basic operations: select, project, union, set difference, Cartesian product, and rename:", choices: ["SQL", "Relational Algebra", "DML", "DDL"], correct: 1 },
+                    { q: "A named column of a relation that represents a specific property of the data stored:", choices: ["Tuple", "Row", "Attribute", "Relation"], correct: 2 },
+                    { q: "The set of allowed values for a column in a relation:", choices: ["Schema", "Domain", "Metadata", "Instance"], correct: 1 },
+                    { q: "The current values within a single relation at a particular point in time:", choices: ["Relation Schema", "Relation Instance", "Database State", "Snapshot"], correct: 1 },
+                    { q: "The key chosen from among the candidate keys to serve as the main unique identifier:", choices: ["Superkey", "Candidate Key", "Primary Key", "Foreign Key"], correct: 2 },
+                    { q: "Attributes whose combined values are sufficient to uniquely identify every tuple:", choices: ["Superkey", "Foreign Key", "Attribute", "Domain"], correct: 0 },
+                    { q: "A superkey where no proper subset can still uniquely identify a tuple (Minimal form):", choices: ["Primary Key", "Candidate Key", "Secondary Key", "Minimal Key"], correct: 1 },
+                    { q: "Referential integrity constraint requiring a value appear as a primary key in another relation:", choices: ["Domain Constraint", "Foreign Key", "Unique Constraint", "Entity Integrity"], correct: 1 },
+                    { q: "The logical structure of a database — the name of a relation and its list of attributes:", choices: ["Database Instance", "Database Schema", "Physical Level", "Metadata"], correct: 1 },
+                    { q: "A special marker used in SQL that indicates an unknown or missing value:", choices: ["Void", "Null", "Empty", "Zero"], correct: 1 },
+                    { q: "This is the only DQL command used to retrieve data from tables:", choices: ["GET", "SELECT", "RETRIEVE", "SEARCH"], correct: 1 },
+                    { q: "This DML command is used to modify existing data based on a condition:", choices: ["ALTER", "UPDATE", "CHANGE", "SET"], correct: 1 },
+                    { q: "This DML command is used to add new rows of data into a table:", choices: ["ADD", "CREATE", "INSERT", "APPEND"], correct: 2 },
+                    { q: "DDL command to define a new table structure:", choices: ["NEW", "BUILD", "CREATE", "DEFINE"], correct: 2 },
+                    { q: "DML command that removes rows that satisfy a given condition:", choices: ["DROP", "DELETE", "REMOVE", "TRUNCATE"], correct: 1 },
+                    { q: "DQL clause filters rows before any grouping or aggregation:", choices: ["HAVING", "GROUP BY", "WHERE", "ORDER BY"], correct: 2 },
+                    { q: "DDL command modifies an existing table structure (e.g. adding columns):", choices: ["UPDATE", "ALTER", "CHANGE", "MODIFY"], correct: 1 },
+                    { q: "DQL clause sorts the result set by one or more columns:", choices: ["ORDER BY", "SORT BY", "GROUP BY", "ARRANGE BY"], correct: 0 },
+                    { q: "DDL command removes all rows without deleting the table structure:", choices: ["DELETE", "TRUNCATE", "CLEAR", "DROP"], correct: 1 },
+                    { q: "DDL command permanently removes a table and all its data:", choices: ["DELETE", "DROP", "TRUNCATE", "REMOVE"], correct: 1 },
+                    { q: "Create a table named courses with columns: course_id, title, and units:", choices: ["CREATE TABLE", "ALTER TABLE", "INSERT INTO", "DROP TABLE"], correct: 0 },
+                    { q: "Add a new column 'email' to the existing students table:", choices: ["UPDATE", "MODIFY", "ALTER TABLE", "ADD COLUMN"], correct: 2 },
+                    { q: "Insert a new record into the instructor table for 'Dr. Juan Cruz' in 'History':", choices: ["INSERT INTO", "VALUES", "UPDATE", "ADD RECORD"], correct: 0 },
+                    { q: "Retrieve names and salaries, sorted by salary from highest to lowest:", choices: ["ORDER BY salary DESC", "ORDER BY salary ASC", "SORT BY salary", "GROUP BY salary"], correct: 0 },
+                    { q: "Update the salary of instructor 'I004' to 80000:", choices: ["SET salary = 80000", "VALUES 80000", "UPDATE salary", "CHANGE salary"], correct: 0 },
+                    { q: "Delete all students who have less than 50 total_credits:", choices: ["DELETE FROM", "REMOVE FROM", "DROP FROM", "TRUNCATE"], correct: 0 },
+                    { q: "Retrieve the distinct department names from the student table:", choices: ["SELECT DISTINCT", "SELECT UNIQUE", "SELECT ALL", "SELECT ONLY"], correct: 0 },
+                    { q: "Get all instructors whose salary is between 78000 and 92000:", choices: ["WHERE salary BETWEEN", "WHERE salary IN", "WHERE salary LIKE", "WHERE salary IS"], correct: 0 },
+                    { q: "Drop the table named archive_records from the database:", choices: ["DROP TABLE", "DELETE TABLE", "REMOVE TABLE", "TRUNCATE TABLE"], correct: 0 },
+                    { type: "multi", q: "SQL: Retrieve student_id and name of CS students, sorted by name.", choices: ["SELECT student_id, name", "FROM student", "WHERE dept_name = 'Computer Science'", "ORDER BY name ASC", "ORDER BY student_id"], correct: [0, 1, 2, 3], points: 4 },
+                    { type: "multi", q: "SQL: Retrieve dept_name and budget where budget > 380,000, highest to lowest.", choices: ["SELECT dept_name, budget", "FROM department", "WHERE budget > 380000", "ORDER BY budget DESC", "ORDER BY budget ASC"], correct: [0, 1, 2, 3], points: 4 },
+                    { type: "multi", q: "SQL: Retrieve name and salary of instructors with salary >= 82,000.", choices: ["SELECT name, salary", "FROM instructor", "WHERE salary >= 82000", "WHERE salary > 82000", "ORDER BY name"], correct: [0, 1, 2], points: 3 },
+                    { type: "multi", q: "SQL: Retrieve name and dept_name of students with total_credits >= 90.", choices: ["SELECT name, total_credits", "FROM student", "WHERE total_credits >= 90", "WHERE total_credits > 90", "ORDER BY name"], correct: [0, 1, 2], points: 3 }
+                ]
+            },
+            fds_p3: {
+                title: "Part 3: ER Modeling",
+                icon: "📐",
+                questions: [
+                    { q: "Which symbol represents a Relationship Type in an ER diagram?", choices: ["Oval", "Rectangle", "Double oval", "Diamond"], correct: 3 },
+                    { q: "What does 'ERD' stand for?", choices: ["Entity Retrieval Diagram", "Entity Relationship Diagram", "Enterprise Relational Diagram", "Entity Record Design"], correct: 1 },
+                    { q: "How is a Key Attribute indicated in an ER diagram?", choices: ["Underlined name inside an oval", "Dashed oval border", "Double rectangle", "Branching ovals"], correct: 0 },
+                    { q: "A dashed oval in an ER diagram represents a:", choices: ["Key attribute", "Multi-valued attribute", "Derived attribute", "Composite attribute"], correct: 2 },
+                    { q: "Which ER symbol represents a Weak Entity Type?", choices: ["Single rectangle", "Regular diamond", "Dashed oval", "Double rectangle"], correct: 3 },
+                    { q: "A relationship involving exactly three entity types is called:", choices: ["Unary", "Binary", "Ternary", "Recursive"], correct: 2 },
+                    { q: "Which attribute type can hold more than one value per entity?", choices: ["Multi-valued", "Derived", "Composite", "Key"], correct: 0 },
+                    { q: "In ER notation, a Composite Attribute is represented by:", choices: ["Double oval", "Dashed oval", "Branching ovals from a main oval", "Underlined oval"], correct: 2 },
+                    { q: "An entity type identifiable solely by its own attributes is called:", choices: ["Weak entity", "Strong entity", "Derived entity", "Partial entity"], correct: 1 },
+                    { q: "Which database design phase outputs the ER diagram?", choices: ["Logical Design", "Physical Design", "Requirements Analysis", "Conceptual Design"], correct: 3 },
+                    { q: "The Name attribute of EMPLOYEE (Fname, Minit, Lname) is classified as:", choices: ["Composite", "Multi-valued", "Derived", "Key"], correct: 0 },
+                    { q: "A double line from an entity to a relationship diamond indicates:", choices: ["Partial participation", "Recursive relationship", "Total participation", "1:1 cardinality"], correct: 2 },
+                    { q: "A relationship where the same entity type participates more than once is:", choices: ["Binary", "Recursive (unary)", "Ternary", "Identifying"], correct: 1 },
+                    { q: "What is a derived attribute?", choices: ["Holds multiple values", "Computed from another stored attribute (dashed oval)", "Has sub-parts", "Uniquely identifies an entity"], correct: 1 },
+                    { q: "What distinguishes an Entity Type from an Entity Set?", choices: ["Entity Type is the blueprint; Set is the actual collection", "Type is the data; Set is the design", "They are interchangeable", "Type is for weak entities only"], correct: 0 },
+                    { q: "In an ER diagram, total participation (double line) means:", choices: ["The relationship is M:N", "The entity is a weak entity type", "Only some entities participate", "Every entity instance MUST participate"], correct: 3 },
+                    { q: "Why are M:N relationships typically resolved into two 1:N relationships?", choices: ["Invalid in ER", "Reduces entities", "RDBMS cannot directly represent M:N without junction tables", "Attributes not allowed in M:N"], correct: 2 },
+                    { q: "Purpose of role names in recursive relationships?", choices: ["Define cardinality", "Clarify roles the same entity plays", "Mark participation", "Identify weak entities"], correct: 1 },
+                    { q: "Why is a Weak Entity shown with a double rectangle?", choices: ["Cannot be uniquely identified without owner", "More attributes", "Multiple relationships", "Derived entity type"], correct: 0 },
+                    { q: "What does the (min, max) notation express?", choices: ["Attribute count", "Entity count", "Key attributes", "Min/Max participation in relationship"], correct: 3 },
+                    { q: "Difference between Partial and Total Participation?", choices: ["Partial is double line", "Partial means all must participate", "Partial means some may not participate; Total means all must", "No difference"], correct: 2 },
+                    { q: "A double diamond in an ER diagram indicates:", choices: ["Strong entity relationship", "Identifying relationship for weak entities", "Ternary type", "Recursive"], correct: 1 },
+                    { q: "Conceptual Design being 'DBMS-independent' means:", choices: ["Not tied to specific software", "Cannot be implemented", "Only for open-source", "DBMS handles design"], correct: 0 },
+                    { q: "Storing multiple emails for a STUDENT. How to model?", choices: ["Atomic attribute", "Derived", "Multi-valued", "Composite"], correct: 2 },
+                    { q: "EMPLOYEE: Ssn, BirthDate, Fname, Age. Which is derived?", choices: ["Ssn", "Salary", "Fname", "Age"], correct: 3 },
+                    { q: "DEPENDENT cannot be identified without EMPLOYEE. Model as:", choices: ["Strong entity", "Weak entity (double rect)", "Derived attribute", "Multi-valued"], correct: 1 },
+                    { q: "M:N relationship between SUPPLIER and COMPONENT. Resolution:", choices: ["Create junction entity with foreign keys", "FK in Supplier", "FK in Component", "Merge tables"], correct: 0 },
+                    { q: "Each CLASS is taught by 1 TEACHER; TEACHER can teach many CLASSES.", choices: ["M:N", "1:1", "1:N", "N:1"], correct: 2 },
+                    { q: "EMPLOYEE's Address: Street, City, Prov, Zip. Classification:", choices: ["Key", "Multi-valued", "Derived", "Composite"], correct: 3 },
+                    { q: "STUDENT must be enrolled in at least one COURSE. Constraint:", choices: ["Partial", "Total participation", "Min cardinality zero", "Derived"], correct: 1 },
+                    { q: "PROJECT uses project_code (Unique). ER representation:", choices: ["Underlined oval", "Double oval", "Dashed oval", "Double rectangle"], correct: 0 },
+                    { q: "EMPLOYEE supervises EMPLOYEE. Relationship type:", choices: ["Binary", "Ternary", "Recursive (unary)", "Identifying"], correct: 2 },
+                    { q: "EMPLOYEE (0,1) manages DEPARTMENT (1,1). Optional participation for:", choices: ["EMPLOYEE", "DEPARTMENT", "Neither", "Both"], correct: 0 },
+                    { q: "WORKS_ON (EMPLOYEE-PROJECT) has attribute 'Hours'.", choices: ["Key of Project", "Derived of Employee", "Composite attribute", "Relationship attribute of WORKS_ON"], correct: 3 },
+                    { q: "Classify: Name (F+L), Age (from Birth), Phone (many), SSN (unique).", choices: ["Composite, Stored, Multi, Derived", "Composite, Derived, Multi, Key", "Multi, Derived, Comp, Key", "Simple, Derived, Stored, Comp"], correct: 1 },
+                    { q: "STUDENT must enroll (min 1); COURSE can have zero students.", choices: ["Partial for both", "Total for Course", "Total for Student; Partial for Course", "Total for both"], correct: 2 },
+                    { q: "Doctor–Patient (M:N) treatment sessions have Date and Diagnosis location:", choices: ["Doctor", "Relationship TREATS", "Patient", "Weak entity"], correct: 1 },
+                    { q: "Storing both BirthDate and Age. Evaluation:", choices: ["Correct", "Age is key", "Acceptable", "Incorrect - causes update anomalies"], correct: 3 },
+                    { q: "Total participation requires Department_FK to be:", choices: ["NULLable", "Standard", "Optional", "NOT NULL"], correct: 3 },
+                    { q: "Store design: CUSTOMER, ORDERS, PRODUCTS (M:N). Best structure:", choices: ["CUSTOMER(1:N)→ORDER(M:N)→PRODUCT", "M:N for all", "Single entity", "1:1 structures"], correct: 0 },
+                    { q: "BONUS: 'I connect two worlds, but I belong to neither...'", choices: ["Associative/Junction Entity", "Strong Entity", "Multi-valued", "Derived"], correct: 0 }
+                ]
+            },
+            fds_mock: {
+                title: "Part 4: Mock Examination",
+                icon: "📝",
+                questions: [
+                    { q: "What is the primary goal of a Database Management System (DBMS)?", choices: ["To replace all file systems with a single unified platform", "To provide a convenient and efficient environment for storing and retrieving data", "To automate data entry tasks for end users", "To generate backup copies of all organizational data automatically"], correct: 1 },
+                    { q: "Which type of database user interacts with the system through predefined web or mobile application interfaces without writing programs?", choices: ["Application programmers", "Sophisticated users", "Naive users", "Database administrators"], correct: 2 },
+                    { q: "What is a data dictionary in a database system?", choices: ["A repository that stores metadata about the structure of the database", "A glossary of technical SQL terms for developers", "A file containing all data records in the database", "A visual diagram representing the database schema"], correct: 0 },
+                    { q: "What does DML stand for in the context of database systems?", choices: ["Data Management Language", "Document Modeling Language", "Database Markup Language", "Data Manipulation Language"], correct: 3 },
+                    { q: "Which component of the storage manager handles the transfer of data between disk storage and main memory?", choices: ["File manager", "Authorization and integrity manager", "Buffer manager", "Transaction manager"], correct: 2 },
+                    { q: "In the relational model, what is the term for the set of allowed values for each attribute?", choices: ["A set of unique tuples in the relation", "The domain of the attribute", "A constraint that prevents null values", "The collection of all attributes in a table"], correct: 1 },
+                    { q: "Which symbol is used to denote the SELECT operation in relational algebra?", choices: ["σ (sigma)", "π (pi)", "p (rho)", "U (union)"], correct: 0 },
+                    { q: "What does the PROJECT operation in relational algebra do?", choices: ["Selects rows based on a given predicate", "Combines tuples from two different relations", "Returns a relation with specified attributes, removing unspecified columns", "Renames a relation or its attributes"], correct: 2 },
+                    { q: "What does the special value NULL represent in a relational database attribute?", choices: ["An empty string value", "Zero", "A placeholder for missing numeric data", "An unknown or inapplicable attribute value"], correct: 3 },
+                    { q: "How many basic operations does relational algebra consist of?", choices: ["4", "6", "8", "10"], correct: 1 },
+                    { q: "What does SQL stand for?", choices: ["Standard Query Language", "Sequential Query Language", "Structured Query Language", "System Query Language"], correct: 2 },
+                    { q: "Which SQL command category is used to create, alter, or drop database tables?", choices: ["DDL (Data Definition Language)", "DML (Data Manipulation Language)", "DCL (Data Control Language)", "TCL (Transaction Control Language)"], correct: 0 },
+                    { q: "Which SQL domain type stores variable-length character strings up to a specified maximum length?", choices: ["char(n)", "int", "numeric(p,d)", "varchar(n)"], correct: 3 },
+                    { q: "Which SQL keyword eliminates duplicate rows from the result of a query?", choices: ["Sorts results in ascending order", "DISTINCT", "Filters results based on a condition", "Returns only the top row in a query result"], correct: 1 },
+                    { q: "Which SQL command is used to give users specific access rights to a database object?", choices: ["GRANT", "COMMIT", "REVOKE", "ALTER"], correct: 0 },
+                    { q: "In Chen ER notation, which shape represents a relationship type between entities?", choices: ["Rectangle", "Oval", "Diamond (rhombus)", "Double rectangle"], correct: 2 },
+                    { q: "How is an entity defined in the ER model?", choices: ["A program module that accesses database records", "A thing or object in the real world with an independent existence", "A table in a relational database", "A set of constraints describing a collection of data"], correct: 1 },
+                    { q: "Which type of attribute can be divided into smaller, independently meaningful sub-parts?", choices: ["Multi-valued attribute", "Derived attribute", "Key attribute", "Composite attribute"], correct: 3 },
+                    { q: "In an ER diagram (Chen notation), how is a derived attribute represented?", choices: ["A dashed oval", "A double oval", "An underlined name inside an oval", "A rectangle attached to the entity"], correct: 0 },
+                    { q: "In ER modeling, what does 'cardinality' describe?", choices: ["The number of attributes an entity type possesses", "The degree of a relationship (number of participating entity types)", "The number of entity instances that can be associated with another entity through a relationship", "The level of data abstraction used in conceptual design"], correct: 2 },
+                    { q: "What does physical data independence mean in a database system?", choices: ["The ability to add new tables without changing any application program", "The ability to modify the physical schema without affecting the logical schema or applications", "The ability to change the view level without updating the physical level", "The ability to migrate data between different DBMS platforms"], correct: 1 },
+                    { q: "Which level of data abstraction describes how data records are physically stored in the system?", choices: ["Describes what data is stored and relationships among the data", "Hides irrelevant details from end-user application programs", "Defines views tailored for different user groups", "Physical level"], correct: 3 },
+                    { q: "What is the correct distinction between a database schema and a database instance?", choices: ["Schema is the logical structure of the database; instance is the actual data content at a specific point in time", "Schema and instance are the same concept described differently", "Instance is the static blueprint; schema changes over time", "Schema is stored on disk; instance exists only in memory"], correct: 0 },
+                    { q: "Why is a declarative (non-procedural) DML considered easier to learn than a procedural DML?", choices: ["Declarative DML compiles faster than procedural DML", "Declarative DML allows users to modify data directly without restrictions", "Declarative DML only requires users to specify what data is needed, not how to retrieve it", "Declarative DML is always automatically converted to procedural DML before execution"], correct: 2 },
+                    { q: "What is the primary role of the buffer manager in a database storage system?", choices: ["Prevents unauthorized users from accessing protected data", "Manages the allocation of disk space for new data files", "Compiles and optimizes query evaluation plans", "Manages the transfer of data between disk storage and main memory"], correct: 3 },
+                    { q: "Why are duplicate rows removed from the result of the PROJECT operation in relational algebra?", choices: ["To improve query performance by reducing the table size", "Because relations are defined as sets, which do not contain duplicate elements", "Because SQL automatically enforces primary key constraints", "To conform to the domain constraints of each attribute"], correct: 1 },
+                    { q: "What does it mean to say a relation is 'unordered' in the relational model?", choices: ["Relations must be sorted by primary key for efficient retrieval", "Tuples are automatically arranged alphabetically by the first attribute", "Tuples in a relation have no inherent order; they may be stored in any sequence", "The order of tuples changes every time a query is executed"], correct: 2 },
+                    { q: "What distinguishes a candidate key from a superkey in the relational model?", choices: ["A candidate key is a minimal superkey no proper subset can still uniquely identify tuples", "A candidate key is any set of attributes that forms a unique index", "A superkey must always have fewer attributes than a candidate key", "A candidate key and a superkey always contain the same number of attributes"], correct: 0 },
+                    { q: "How does the JOIN operation differ from the Cartesian product in relational algebra?", choices: ["Join combines all possible tuple pairs; Cartesian product only matches equal tuples", "Cartesian product filters tuples; join creates new attributes", "Join and Cartesian product are equivalent operations with the same result", "Cartesian product pairs every tuple from two relations; join filters those pairs based on a matching condition"], correct: 3 },
+                    { q: "What condition must two relations satisfy to be 'compatible' for the UNION or SET DIFFERENCE operations?", choices: ["Both relations must have the same primary key", "Both relations must have the same number of attributes with compatible attribute domains", "Both relations must have identical column names", "Both relations must belong to the same database schema"], correct: 1 },
+                    { q: "What is the key functional difference between DDL and DML in SQL?", choices: ["DDL queries data from the database; DML defines the database schema", "DDL and DML serve the same purpose but apply to different data types", "DDL is used to define and modify the database structure; DML is used to query and manipulate data", "DDL is restricted to database administrators only; DML is available to all users"], correct: 2 },
+                    { q: "What does TCL stand for in SQL, and what is its primary purpose?", choices: ["TCL stands for Transaction Control Language; it manages database transactions using commands such as COMMIT, ROLLBACK, and SAVEPOINT", "TCL stands for Table Control Language; it manages table creation and deletion", "TCL stands for Type Control Language; it validates attribute data types", "TCL stands for Transaction Command Language; it grants user permissions"], correct: 0 },
+                    { q: "What is the fundamental difference between char(n) and varchar(n) in SQL?", choices: ["char stores numeric values; varchar stores text values", "char allows longer strings than varchar for the same declared size", "char and varchar behave identically in storage and retrieval", "char stores a fixed-length string, padding shorter values; varchar stores variable-length strings without padding"], correct: 3 },
+                    { q: "What is the purpose of the WHERE clause in an SQL SELECT statement?", choices: ["Sorts the result set in a specified order", "Filters which rows are included in the result based on a specified condition", "Groups rows with identical values into summary rows", "Selects specific columns to display in the query result"], correct: 1 },
+                    { q: "What does the SQL GRANT command do in the context of Data Control Language (DCL)?", choices: ["GRANT provides specified privileges on a database object to a specified user or role", "GRANT inserts a new record into a specified table", "GRANT permanently removes a table from the database", "GRANT modifies the data type of an existing column"], correct: 0 },
+                    { q: "What distinguishes a weak entity from a regular (strong) entity in ER modeling?", choices: ["A weak entity always has more attributes than a strong entity", "A weak entity stores only numerical data; a strong entity stores any data type", "A weak entity cannot be uniquely identified by its own attributes alone and depends on an owner entity for its existence", "A strong entity must always have a foreign key; a weak entity does not"], correct: 2 },
+                    { q: "What is the difference between total participation and partial participation in ER modeling?", choices: ["Total participation means only one entity is involved in the relationship; partial means many", "Total participation applies only to strong entities; partial applies to weak entities", "Total and partial participation differ only in cardinality notation", "Total participation means every entity in the set must participate in the relationship; partial participation means some entities may not participate"], correct: 3 },
+                    { q: "What is a recursive relationship in the ER model?", choices: ["A relationship between two different entity types sharing common attributes", "A relationship where the same entity type participates more than once in different roles", "A relationship that connects three or more entity types simultaneously", "A relationship where the cardinality ratio is always 1:1"], correct: 1 },
+                    { q: "Why is a multi-valued attribute represented by a double oval in Chen ER notation?", choices: ["It visually signals that the attribute can hold more than one value for a single entity instance", "The double oval indicates the attribute is the primary identifier of the entity", "The double oval indicates the attribute is derived from another stored attribute", "It shows the attribute is shared between two different entity types"], correct: 0 },
+                    { q: "What is an associative entity (also called a junction entity) used for in ER modeling?", choices: ["An entity type used to represent a weak entity that has no unique key", "An entity that stores redundant data for performance optimization", "An entity used to resolve a many-to-many relationship by creating an intermediate table with foreign keys to both participating entities", "An entity that serves as the owner for a weak entity's identifying relationship"], correct: 2 },
+                    { q: "A developer wants to retrieve all customer records from a database without modifying any data. Which type of language component should be used?", choices: ["DDL", "TCL", "DCL", "DML"], correct: 3 },
+                    { q: "A university needs to allow a faculty member to read course records but prevent them from modifying salary information. Which DBA function addresses this requirement?", choices: ["Schema definition", "Granting authorization for data access", "Routine maintenance", "Storage structure definition"], correct: 1 },
+                    { q: "In a two-tier database architecture, where does the application reside?", choices: ["At the client machine", "At the application server", "At the database server", "At the physical storage layer"], correct: 0 },
+                    { q: "A hospital database allows doctors, nurses, and administrators to access patient records simultaneously during their shifts. This feature directly addresses which problem that existed in early file-based systems?", choices: ["Data redundancy and inconsistency", "Integrity problems", "Concurrent access by multiple users", "Data isolation"], correct: 2 },
+                    { q: "Which database architecture has one server machine that executes work on behalf of multiple client machines?", choices: ["Parallel database", "Distributed database", "Centralized database", "Client-server database"], correct: 3 },
+                    { q: "Given the relation instructor(ID, name, dept_name, salary), which relational algebra expression correctly retrieves the names of all instructors in the 'Music' department?", choices: ["σ name(instructor) WHERE dept_name = 'Music'", "π name(σ dept_name='Music' (instructor))", "dept_name='Music' (π name(instructor))", "π dept_name='Music'(name(instructor))"], correct: 1 },
+                    { q: "Relations r and s each contain 5 tuples. What is the maximum number of tuples in the Cartesian product r x s?", choices: ["10", "5", "25", "50"], correct: 2 },
+                    { q: "You need to find all courses taught in Spring 2025 but NOT in Fall 2024. Which relational algebra operation should you apply?", choices: ["Set difference", "Set intersection", "Union", "Natural join"], correct: 0 },
+                    { q: "Which relational algebra expression correctly retrieves only the ID and name columns from the instructor relation?", choices: ["σ ID,name(instructor)", "p ID,name(instructor)", "U ID,name(instructor)", "π ID,name(instructor)"], correct: 3 },
+                    { q: "The rename operation p x (instructor) is applied to the instructor relation. What does this return?", choices: ["Creates a new instructor relation as a Cartesian product with an attribute x", "Returns the instructor relation with the name x assigned to it, without changing its structure", "Projects only the column named x from the instructor relation", "Selects all tuples where the name attribute equals x"], correct: 1 },
+                    { q: "Which SQL statement correctly creates a table named 'students' with a student_id (INT) as primary key and a name field (VARCHAR 50)?", choices: ["CREATE TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));", "INSERT TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));", "CREATE students WITH (student_id INT PRIMARY KEY, name VARCHAR(50));", "MAKE TABLE students (student_id INT PRIMARY KEY, name VARCHAR(50));"], correct: 0 },
+                    { q: "A manager wants to remove all records of terminated employees from the employees table but keep the table structure intact. Which SQL command is appropriate?", choices: ["DROP TABLE employees", "TRUNCATE TABLE employees", "DELETE FROM employees WHERE status = 'terminated'", "REMOVE FROM employees WHERE status = 'terminated'"], correct: 2 },
+                    { q: "Which SQL query correctly retrieves unique department names from the instructor table?", choices: ["SELECT dept_name FROM instructor GROUP BY dept_name HAVING COUNT(*) > 0;", "SELECT dept_name FROM instructor ORDER BY dept_name;", "SELECT dept_name FROM instructor WHERE dept_name IS UNIQUE;", "SELECT DISTINCT dept_name FROM instructor;"], correct: 3 },
+                    { q: "Which SQL statement correctly inserts a new employee record with employee_id id=101. name = 'Jose', and department = 'IT'?", choices: ["ADD INTO employees VALUES (101, 'Jose', 'IT');", "INSERT INTO employees (employee_id, name, department) VALUES (101, 'Jose', 'IT');", "INSERT employees SET employee_id id=101, name='Jose', department='IT';", "CREATE RECORD employees (101, 'Jose', 'IT');"], correct: 1 },
+                    { q: "Which SQL statement correctly changes the salary of the instructor with ID 'I005' to 95,000?", choices: ["UPDATE instructor SET salary = 95000 WHERE ID = 'I005';", "MODIFY instructor SET salary = 95000 WHERE ID = 'I005';", "ALTER instructor SET salary = 95000 WHERE ID = 'I005';", "CHANGE instructor salary TO 95000 WHERE ID = 'I005';"], correct: 0 },
+                    { q: "A STUDENT entity has attributes: student_id, full_name (composed of first, middle, and last name), birthdate, age, and email. Which attribute is derived?", choices: ["student id", "email", "full name", "age"], correct: 3 },
+                    { q: "In a university system, one course can be offered as many sections, but each section belongs to only one course. What is the cardinality of the COURSE-SECTION relationship?", choices: ["M:N", "1:N", "1:1", "N:1"], correct: 1 },
+                    { q: "In an ER diagram, a PATIENT entity cannot exist in the database without being associated with a DOCTOR. What type of participation does PATIENT have in the TREATS relationship?", choices: ["Partial participation", "Recursive participation", "Total participation", "Identifying participation"], correct: 2 },
+                    { q: "A library allows a BOOK to be checked out by many MEMBERS, and a MEMBER can check out many BOOKS. What is the cardinality of the BOOK-MEMBER relationship?", choices: ["M:N (many-to-many)", "1:N (one-to-many)", "1:1 (one-to-one)", "N:1 (many-to-one)"], correct: 0 },
+                    { q: "In an ER diagram, the SSN attribute of the EMPLOYEE entity uniquely identifies each employee instance. What type of attribute is SSN?", choices: ["Multi-valued attribute", "Composite attribute", "Derived attribute", "Key attribute"], correct: 3 },
+                    { q: "A large hospital stores patient data in separate systems for billing, medical records, and pharmacy - each maintaining a slightly different version of the same patient information. Which two problems of early file-based systems are most clearly demonstrated?", choices: ["Atomicity failure and security problems", "Concurrent access problems and integrity problems", "Data redundancy/inconsistency and data isolation", "Difficulty accessing data and security problems"], correct: 2 },
+                    { q: "Comparing three-tier and two-tier database architectures, what is the primary advantage of the three-tier approach?", choices: ["Three-tier separates business logic from the client, enabling better scalability and easier maintenance", "Three-tier stores all data at the client machine for faster local access", "Two-tier is more scalable because it reduces network traffic between layers", "Two-tier and three-tier are equivalent in design and performance"], correct: 0 },
+                    { q: "In a banking application, a fund transfer deducts from Account A but the system crashes before crediting Account B. Which ACID property is violated?", choices: ["Consistency", "Atomicity", "Isolation", "Durability"], correct: 1 },
+                    { q: "A DML compiler translates user queries and selects the lowest-cost evaluation plan from among multiple alternatives before execution. What is this specific process called?", choices: ["Transaction management", "Physical design", "Schema definition", "Query optimization"], correct: 3 },
+                    { q: "A DBA changes how employee records are stored on disk (from sequential to indexed storage). All existing application programs continue to function normally without any changes. Which database system property makes this possible?", choices: ["Logical data independence", "Data abstraction", "Physical data independence", "Schema migration"], correct: 2 },
+                    { q: "Relations r(A, B) and s(B, C) need to be combined so that only tuples with matching B values are returned, producing a result with attributes (A, B, C). Which operation achieves this?", choices: ["Cartesian product", "Join operation (natural join)", "Set intersection", "Union"], correct: 1 },
+                    { q: "Consider two expressions: (1) π name( dept_name='CS'(instructor)) and (2) σ dept_name='CS'(π name(instructor)). Which is valid and which is not?", choices: ["Only expression (1) is valid; expression (2) is incorrect because dept_name is eliminated after projection, making the subsequent filter impossible", "Both expressions are equivalent and produce the same result", "Only expression (2) is correct; expression (1) cannot be evaluated in standard relational algebra", "Neither expression is valid in standard relational algebra"], correct: 0 },
+                    { q: "Compare set intersection (r ∩ s) and set difference (r - s) when applied to the same two compatible relations. What does each operation return?", choices: ["Intersection returns all tuples from both relations; difference only returns tuples common to both", "Both operations return identical results when applied to the same relations", "Set difference returns tuples in both relations; intersection returns tuples in only one relation", "Set intersection returns tuples appearing in both relations; set difference returns tuples in r that are not in s"], correct: 3 },
+                    { q: "The set {ID, name} is known to be a superkey of instructor. Is {ID} alone also a superkey? If yes, which is the candidate key and why?", choices: ["{ID} is not a superkey because it contains fewer attributes than {ID, name}", "Both {ID} and {ID, name} qualify as candidate keys", "Yes, {ID} is also a superkey; {ID} is the candidate key because it is minimal uniquely identify tuples", "Neither {ID} nor {ID, name} qualifies as a candidate key for the instructor relation"], correct: 2 },
+                    { q: "A foreign key dept_name in the instructor table references the department table. What happens if an INSERT attempts to add an instructor with a dept_name value that does not exist in department?", choices: ["A primary key constraint is violated because the instructor ID already exists", "The insertion violates the referential integrity (foreign key) constraint", "A domain constraint is violated because dept_name is not a numeric value", "The insertion succeeds and automatically creates a new department entry"], correct: 1 },
+                    { q: "How do the DELETE and TRUNCATE commands differ in SQL?", choices: ["DELETE is a DML command that removes specific rows based on a condition; TRUNCATE is a DDL command that removes all rows from a table quickly", "TRUNCATE is a DML command and removes only selected rows; DELETE is DDL and drops the entire table", "Both DELETE and TRUNCATE are DML commands with identical behavior", "DELETE and TRUNCATE both preserve table structure but differ only in execution speed"], correct: 0 },
+                    { q: "Break down what each clause does in the query: SELECT * FROM employees WHERE salary > 50000 ORDER BY name ASC.", choices: ["SELECT * retrieves columns; WHERE groups rows; ORDER BY removes duplicates", "SELECT * renames columns; WHERE sorts results; ORDER BY applies conditions", "WHERE and ORDER BY perform the same function in different clauses", "SELECT * retrieves all columns; WHERE filters rows with salary above 50,000; ORDER BY sorts the result alphabetically by name in ascending order"], correct: 3 },
+                    { q: "Distinguish between DCL and TCL in SQL, citing one example command from each.", choices: ["DCL manages transactions (COMMIT, ROLLBACK); TCL controls user access (GRANT, REVOKE)", "DCL and TCL both manage access rights, differing only in whether they apply to tables or views", "DCL (e.g., GRANT, REVOKE) controls access rights to database objects; TCL (e.g., COMMIT, ROLLBACK) manages database transactions", "DCL creates tables and relationships; TCL inserts and updates data"], correct: 2 },
+                    { q: "Compare char(10) and varchar(10) in terms of storage. In what scenario does char(10) waste storage?", choices: ["char(10) and varchar(10) use the same storage regardless of actual string length", "char(10) wastes storage when stored strings are shorter than 10 characters, because it pads the unused space; varchar(10) uses only the actual length needed", "varchar(10) wastes more storage than char(10) for strings of variable length", "char(10) is always more storage-efficient than varchar(10) for all string lengths"], correct: 1 },
+                    { q: "A query uses GROUP BY department and HAVING COUNT(*) > 5. What does HAVING filter, and how is it different from WHERE?", choices: ["HAVING filters groups based on aggregate conditions after grouping; WHERE filters individual rows before grouping occurs", "HAVING and WHERE perform identical filtering and are interchangeable in any query", "WHERE filters aggregate results; HAVING filters individual rows before aggregation", "GROUP BY and HAVING are interchangeable with ORDER BY and WHERE in all SQL queries"], correct: 0 },
+                    { q: "An ER diagram shows DEPENDENT as a double-lined rectangle connected to EMPLOYEE through a double-lined diamond. What does this combination indicate?", choices: ["DEPENDENT is a strong entity with total participation in the relationship with EMPLOYEE", "DEPENDENT is an associative entity resolving an M:N relationship between two strong entities", "DEPENDENT has partial participation and can exist independently without EMPLOYEE", "DEPENDENT is a weak entity that relies on EMPLOYEE for identification, connected through an identifying relationship"], correct: 3 },
+                    { q: "Compare the Chen notation and Crow's Foot notation for representing cardinality in ER diagrams.", choices: ["Chen notation uses arrows at relationship ends; Crow's Foot uses numbers placed beside entities", "Chen notation uses numbers (1, N, M) placed at relationship ends; Crow's Foot notation uses graphical line endings (such as crow's feet symbols) to represent cardinality and optionality", "Both notations are visually identical and differ only in DBMS platform support", "Crow's Foot notation is older than Chen notation and only supports 1:N relationships"], correct: 1 },
+                    { q: "Differentiate between a key attribute and a partial key attribute (discriminator). In which type of entity does each appear?", choices: ["Both key attributes and partial key attributes appear only in strong entity types", "A key attribute appears in weak entities; a partial key appears only in strong entities", "A key attribute uniquely identifies each instance of a strong entity; a partial key (discriminator) partially identifies a weak entity and must be combined with the owner entity's key for full identification", "A partial key attribute is simply an alternate name for a candidate key"], correct: 2 },
+                    { q: "An ER diagram shows STUDENT with an M:N relationship to CLASS. When converting this to a relational schema, how many tables are typically produced?", choices: ["Three tables: STUDENT, CLASS, and a junction (associative) table to resolve the M:N relationship", "Two tables: one for STUDENT and one for CLASS, with foreign keys on both sides", "One combined table merging all attributes of STUDENT and CLASS", "Four tables: two for entities, one for the relationship, and one for relationship attributes"], correct: 0 },
+                    { q: "An EMPLOYEE entity has a self-referencing relationship where one employee can supervise other employees. What is this relationship called, and what roles are involved?", choices: ["Identifying relationship; roles are owner and dependent", "Binary relationship; roles are employer and employee", "Ternary relationship; roles are manager, supervisor, and supervisee", "Recursive (unary) relationship; roles are supervisor and supervisee"], correct: 3 },
+                    { q: "A school's database runs on a single server accessed simultaneously by 200 students during registration. The system is slow. A colleague suggests switching to a parallel database. Is this recommendation justified?", choices: ["Not justified; a client-server architecture upgrade would be sufficient for 200 concurrent users", "Not justified; the performance issue is caused by poor SQL query design, not server architecture", "Justified; parallel databases with multiple cores can distribute the workload, reduce processing bottlenecks, and handle more concurrent transactions", "Not justified; only distributed databases can solve concurrent access performance problems"], correct: 2 },
+                    { q: "A developer argues that a procedural DML gives users more control over data retrieval than a declarative DML. Is this argument valid?", choices: ["Not valid; procedural DML cannot access data stored in relational databases", "Valid in the sense that procedural DML allows users to specify how data is retrieved, but this added complexity also makes it harder to use compared to declarative DML", "Not valid; both procedural and declarative DML provide identical levels of user control", "Valid; procedural DML is always preferred in modern commercial DBMS implementations"], correct: 1 },
+                    { q: "Two database designs are proposed: Design A stores metadata in a centralized data dictionary; Design B embeds all schema information directly in application code. Which design is better and why?", choices: ["Design A is better because a centralized data dictionary makes schema management consistent, enables metadata reuse, and decouples application code from database structure", "Design B is better because embedding schema in code makes it faster to access at runtime", "Both designs are equally valid as long as data integrity constraints are maintained", "Design B is better because it eliminates the overhead of querying a separate data dictionary"], correct: 0 },
+                    { q: "A database designer proposes using the combination {name, dept_name} as the primary key for the instructor relation. Evaluate whether this is a good choice.", choices: ["Good choice because both name and dept_name are meaningful and descriptive attributes", "Good choice because composite keys are always more reliable than single-attribute keys", "Acceptable only if the table stores fewer than 100 instructor records", "Poor choice; two instructors could share the same name and department, making this combination non-unique and thus unsuitable as a primary key"], correct: 3 },
+                    { q: "A student claims that the Cartesian product operation alone is sufficient to retrieve all related information between two tables. Evaluate this claim.", choices: ["Correct; Cartesian product always produces the minimal set of meaningfully related tuples", "Incorrect; Cartesian product pairs every tuple from both relations, producing many irrelevant combinations — a selection condition is needed to extract only related pairs", "Correct; Cartesian product is equivalent to the join operation in all practical scenarios", "Incorrect; Cartesian product cannot be used with more than two relations at a time"], correct: 1 },
+                    { q: "A developer performs r ∪ s where relation r has attributes (A, B) and relation s has attributes (A, C). Is this union valid? Justify your answer.", choices: ["Valid; as long as both relations contain the same number of tuples", "Valid; the shared attribute A allows the union to proceed despite different second attributes", "Not valid; for union to be valid, both relations must have the same arity (number of attributes) and compatible attribute domains for each position", "Valid; SQL automatically handles schema mismatches in union operations"], correct: 2 },
+                    { q: "A developer uses float(5) to store monetary values in a financial system. A reviewer recommends using numeric(10,2) instead. Who is correct and why?", choices: ["float(5) is better because floating-point types are always more precise than fixed-point numeric", "Both are equally appropriate; the choice depends only on personal preference", "float(5) is better because it uses less storage space than numeric(10,2)", "The reviewer is correct; numeric(10,2) stores exact decimal values with defined precision, whereas float is approximate and can introduce rounding errors in financial calculations"], correct: 3 },
+                    { q: "A student argues that ORDER BY and GROUP BY perform similar tasks because both 'organize data.' Evaluate this claim.", choices: ["Not valid; ORDER BY sorts result rows in a specified sequence, while GROUP BY aggregates rows sharing the same values into summary groups — they serve entirely different purposes", "Valid; both clauses organize data and produce the same output when applied to the same column", "Valid; ORDER BY is a subset of GROUP BY functionality in most SQL implementations", "Not valid; GROUP BY is a DDL command while ORDER BY is a DML command"], correct: 0 },
+                    { q: "A designer places the attribute ENROLL_DATE directly on the STUDENT entity in a Student-Course enrollment system. Is this a good design decision? Justify.", choices: ["Good design; placing ENROLL_DATE on STUDENT keeps all student-related data together in one entity", "Poor design; ENROLL_DATE describes the enrollment event (a relationship between STUDENT and COURSE), not the student alone — it should be an attribute of the enrollment relationship or junction entity", "Good design, as long as each student enrolls in only one course at a time", "Acceptable; placing relationship attributes on entities is considered standard ER practice"], correct: 1 },
+                    { q: "An ER diagram shows DEPENDENT connected to EMPLOYEE through a single-line (regular) diamond. A reviewer argues this should be a double-line diamond (identifying relationship). Is the reviewer correct?", choices: ["The reviewer is incorrect; a single diamond is appropriate for all types of entity relationships", "The reviewer is incorrect; double diamonds are only used for ternary relationships involving three entities", "The reviewer is correct; because DEPENDENT is a weak entity that relies on EMPLOYEE for identification, the connecting relationship must be an identifying relationship represented by a double diamond in Chen notation", "The reviewer is incorrect; the double diamond notation applies only to M:N relationships"], correct: 2 },
+                    { q: "A new e-commerce startup anticipates scaling to millions of users with complex business logic and a large product catalog. Based on database architecture concepts, which architecture is most appropriate?", choices: ["Two-tier architecture, because it directly connects clients to the database for speed", "Centralized database, because all data is stored in one location for easy management", "Parallel database only, because it offers the most processing cores", "Three-tier architecture, because it separates business logic from the client, supports scalability through application servers, and can integrate with parallel or backend databases"], correct: 3 },
+                    { q: "You are designing a DBMS for a hospital with 50 departments and thousands of patients. It must support high concurrent access and prevent unauthorized users from viewing patient records. Which two components of the database engine will be most critical?", choices: ["DDL interpreter and DML compiler", "Concurrency-control manager (to handle simultaneous access) and authorization and integrity manager (to restrict unauthorized access to patient records)", "Buffer manager and file manager", "Query evaluation engine and transaction manager"], correct: 1 },
+                    { q: "A university wants to retrieve the IDs of all students enrolled in BOTH the 'Fall 2025' and 'Spring 2026' semesters. Formulate the correct relational algebra expression.", choices: ["π student_id(σ semester='Fall' ∧ year=2025(enrollment)) ∩ π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(σ semester='Fall' ∧ year=2025(enrollment)) ∪ π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(σ semester='Fall' ∧ year=2025(enrollment)) − π student_id(σ semester='Spring' ∧ year=2026(enrollment))", "π student_id(enrollment) × π semester(enrollment)"], correct: 0 },
+                    { q: "Design a relational algebra query to find the names of all instructors whose salary exceeds 80,000 AND who belong to the 'CS' department.", choices: ["σ name(π dept_name='CS' ∧ salary>80000(instructor))", "π dept_name='CS'(σ salary>80000(instructor))", "π name(σ dept_name='CS' ∧ salary>80000(instructor))", "ρ name(σ dept_name='CS' ∧ salary>80000(instructor))"], correct: 2 },
+                    { q: "A company wants to create a table for products with: product_id (INT, primary key), product_name (VARCHAR 100), unit_price (NUMERIC with 8 total digits and 2 decimal places), and quantity (INT). Which SQL CREATE TABLE statement is correct?", choices: ["CREATE TABLE products (product_id INT, product_name VARCHAR(100), unit_price FLOAT(2), quantity INT, PRIMARY KEY(product_name));", "CREATE TABLE products AS (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price DECIMAL(2), quantity INT);", "MAKE TABLE products (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price NUMERIC(8,2), quantity INT);", "CREATE TABLE products (product_id INT PRIMARY KEY, product_name VARCHAR(100), unit_price NUMERIC(8,2), quantity INT);"], correct: 3 },
+                    { q: "A database administrator wants to find department names and their average salaries, but only for departments where the average salary exceeds 80,000, and only counting instructors individually earning more than 70,000. Which SQL query achieves this?", choices: ["SELECT name, salary FROM instructor WHERE salary > 70000 GROUP BY dept_name HAVING MAX(salary) > 80000;", "SELECT dept_name, AVG(salary) FROM instructor WHERE salary > 70000 GROUP BY dept_name HAVING AVG(salary) > 80000;", "SELECT dept_name, AVG(salary) FROM instructor GROUP BY dept_name WHERE AVG(salary) > 80000 AND salary > 70000;", "SELECT dept_name FROM instructor HAVING AVG(salary) > 80000 WHERE salary > 70000;"], correct: 1 },
+                    { q: "A database administrator wants to revoke a user's UPDATE privilege on the employees table. Predict the correct SQL DCL command to accomplish this.", choices: ["DENY UPDATE ON employees FROM user_name;", "DROP PRIVILEGE UPDATE ON employees FROM user_name;", "REVOKE UPDATE ON employees FROM user_name;", "DELETE GRANT UPDATE ON employees FROM user_name;"], correct: 2 },
+                    { q: "A hospital needs to model the following: a Doctor treats many Patients, a Patient is treated by many Doctors, and each treatment session has a specific date and diagnosis. What is the most appropriate ER design for storing treatment date and diagnosis?", choices: ["Create an associative (junction) entity TREATMENT with attributes date and diagnosis, connected to both DOCTOR and PATIENT through two separate 1:M relationships", "Add date and diagnosis as attributes directly on the DOCTOR entity", "Add date and diagnosis as attributes directly on the PATIENT entity", "Create a separate weak entity DIAGNOSIS that is existence-dependent on DOCTOR only"], correct: 0 },
+                    { q: "A manufacturing company's ER design has PRODUCT and COMPONENT connected by an M:N relationship. A consultant proposes converting this to two 1:M relationships. What new element must be created?", choices: ["A new derived attribute would be added to the PRODUCT entity", "An associative (junction) entity — such as PRODUCT_COMPONENT — would be created between PRODUCT and COMPONENT, holding foreign keys to both", "The COMPONENT entity would be merged into the PRODUCT entity to simplify the schema", "A new weak entity COMPONENT_USAGE dependent solely on PRODUCT would be created"], correct: 1 },
+                    { q: "You are designing an ER diagram for an online bookstore where a Book can have multiple Authors and an Author can write multiple Books. Propose the correct cardinality between Book and Author and determine whether a junction entity is needed.", choices: ["1:N cardinality; no junction entity is needed since one author simply writes many books", "1:1 cardinality; a junction entity is needed because each author–book pairing must be tracked", "1:N cardinality with a junction entity, since each book has many authors but each author writes only one book", "M:N cardinality; a junction entity (e.g., BOOK_AUTHOR) is needed because a book can have multiple authors and an author can write multiple books"], correct: 3 }
+                ]
+            }, ias_mock: {
+                title: "IAS: Mock Examination",
+                icon: "🛡️",
+                questions: [
+                    { q: "According to the NIST.IR.7298r2 definitions in the material, which of the following BEST defines 'Information Assurance'?", choices: ["The ability to protect or defend the use of cyberspace from cyber attacks.", "The protection of information systems from unauthorized digital access and network intrusion only.", "Measures that protect and defend information systems by ensuring availability, integrity, authentication, confidentiality, and non-repudiation, including restoration capabilities.", "An administrative framework that governs how an organization handles and classifies its data assets."], correct: 2 },
+                    { q: "Which focus area of Cybersecurity is specifically concerned with protecting systems essential to society such as power grids and water treatment facilities?", choices: ["Critical Infrastructure Security", "Endpoint Security", "Application Security", "Network Security"], correct: 0 },
+                    { q: "The CIA Triad element defined as 'Preserving authorized restrictions on information access and disclosure, including means for protecting personal privacy and proprietary information' is:", choices: ["Integrity", "Confidentiality", "Authentication", "Availability"], correct: 1 },
+                    { q: "Which access control model uses security labels such as 'Top Secret' or 'Confidential' and enforces access rights based on user clearance rather than owner discretion?", choices: ["Discretionary Access Control (DAC)", "Mandatory Access Control (MAC)", "Role-Based Access Control (RBAC)", "Attribute-Based Access Control (ABAC)"], correct: 1 },
+                    { q: "The security principle stating that users should only be granted the minimum access necessary to perform their specific function is called:", choices: ["The Principle of Least Privilege", "Separation of Duties", "Defense in Depth", "The Need-to-Know Rule"], correct: 0 },
+                    { q: "Which of the following is listed as an Integrity concern in the material, NOT a Confidentiality concern?", choices: ["Eavesdropping", "Social Engineering", "Replay Attack", "Dumpster Diving"], correct: 2 },
+                    { q: "According to the material, Integrity is defined across two dimensions. Which pair correctly names those two dimensions?", choices: ["Physical Security and Network Security", "Data Integrity and System Integrity", "Prevention and Detection", "Encryption and Hashing"], correct: 1 },
+                    { q: "The DAD Triad - the adversarial counterpart to the CIA Triad - stands for:", choices: ["Detection, Authentication, and Defense", "Disruption, Access, and Damage", "Data, Availability, and Denial", "Disclosure, Alteration, and Denial/Destruction"], correct: 3 },
+                    { q: "In the DAD Triad, which element represents the direct breach of Confidentiality?", choices: ["Disclosure", "Denial", "Destruction", "Alteration"], correct: 0 },
+                    { q: "The technique described in the material as 'changing data before or during entry into a computer system' - such as an insider altering a spreadsheet before uploading it is called:", choices: ["Salami Slicing", "Data Diddling", "Replay Attack", "Eavesdropping"], correct: 1 },
+                    { q: "According to the material, which malware type is designed solely to destroy data by overwriting the Master Boot Record (MBR) or file headers with zeros?", choices: ["Ransomware", "Rootkit", "Wiper Malware", "Spyware"], correct: 2 },
+                    { q: "The material describes a 2017 attack that appeared to be ransomware but code analysis revealed it was actually a wiper with no working decryption mechanism. Which attack is this?", choices: ["Stuxnet", "WannaCry", "Code Spaces Attack", "NotPetya"], correct: 3 },
+                    { q: "Which of the following NIST definitions describes a 'flaw or weakness in an information system, security procedures, internal controls, or implementation that could be exercised by a threat source'?", choices: ["Vulnerability", "Threat", "Risk", "Impact"], correct: 0 },
+                    { q: "The formal Risk equation presented in Module 1 is:", choices: ["Risk = Threat + Vulnerability + Asset Value", "Risk = Threat × Vulnerability × Impact", "Risk = Vulnerability / Threat", "Risk = (Asset Value - Control Effectiveness) × Threat"], correct: 1 },
+                    { q: "Which international standard provides the four primary risk response paths: Mitigation, Transference, Avoidance, and Acceptance?", choices: ["ISO 9001", "ISO 27001", "ISO 31000", "ISO 15408"], correct: 2 },
+                    { q: "According to the Typical Risk Management Framework in Module 2, which is the FIRST step an organization should perform?", choices: ["Select Controls", "Assess Risks", "Monitor and Review", "Identify Risks"], correct: 3 },
+                    { q: "Which type of risk analysis relies on expert judgment and descriptive rankings such as 'High Likelihood, Medium Impact'?", choices: ["Qualitative Risk Analysis", "Quantitative Risk Analysis", "Residual Risk Analysis", "Inherent Risk Assessment"], correct: 0 },
+                    { q: "In quantitative risk analysis, 'SLE' stands for:", choices: ["System Loss Evaluation", "Single Loss Expectancy", "Security Level Estimate", "Software Liability Exposure"], correct: 1 },
+                    { q: "In Business Continuity Planning, the 'maximum acceptable amount of data loss measured in time' is defined as:", choices: ["Recovery Time Objective (RTO)", "Business Impact Analysis (BIA)", "Recovery Point Objective (RPO)", "Mean Time to Recovery (MTTR)"], correct: 2 },
+                    { q: "The Advanced Encryption Standard (AES) uses which block size for processing data?", choices: ["56 bits", "64 bits", "256 bits", "128 bits"], correct: 3 },
+                    { q: "What is the most accurate description of how Information Security differs in scope from Cybersecurity, based on the Module 1 material?", choices: ["Information Security has a broader scope encompassing analog data, physical security, human intelligence, and governance frameworks; Cybersecurity focuses specifically on protecting digital systems from electronic attacks.", "Cybersecurity is broader, including physical facility protection, while Information Security is limited to network and software defenses.", "They are identical disciplines with different names used in different professional contexts.", "Information Security is exclusively concerned with classified government data; Cybersecurity applies to commercial organizations."], correct: 0 },
+                    { q: "According to the material, why is AES considered the current industry standard replacing DES?", choices: ["AES is a stream cipher, making it inherently more flexible than DES's block cipher architecture.", "AES was patented earlier and therefore has more legal protection against reverse engineering.", "AES supports key sizes of 128, 192, or 256 bits in a 128-bit block structure, making it far more resistant to modern brute-force attacks than DES's obsolete 56-bit key.", "AES operates exclusively on data at rest while DES was designed only for data in transit."], correct: 2 },
+                    { q: "Which statement best describes the 'Principle of Least Privilege' as explained in the material?", choices: ["Only the most senior employees should hold administrative access to critical systems.", "Users should be granted the minimum access necessary to perform their function, limiting the blast radius if credentials are compromised.", "Access rights should rotate among team members every 90 days to prevent insider threats.", "Privileged accounts should require the most complex passwords in the organization."], correct: 1 },
+                    { q: "How does Mandatory Access Control (MAC) fundamentally differ from Discretionary Access Control (DAC)?", choices: ["MAC gives data owners full control over access decisions; DAC relies entirely on system-imposed labels.", "MAC and DAC use identical mechanisms but operate at different network layers.", "MAC applies only to web applications while DAC is restricted to operating system file permissions.", "In DAC the data owner decides who has access; in MAC the system enforces access based on security labels and user clearance the owner has no discretion."], correct: 3 },
+                    { q: "What does the 'Avalanche Effect' mean in the context of hash functions, as described in the material?", choices: ["A tiny change in the input (even flipping one bit) produces a drastically different hash output, allowing receivers to detect any tampering.", "Multiple different inputs produce the same hash output, creating a cryptographic collision.", "The hash function grows exponentially larger as input data size increases.", "Cascading hash verifications across multiple servers create computational overload."], correct: 0 },
+                    { q: "Why does the material specifically describe Alteration attacks as creating a 'trust deficit' that is more damaging than outright Destruction?", choices: ["Alteration is always more financially costly because it requires complete system rebuilds.", "Unlike Destruction which is immediately obvious, Alteration is often subtle - when one record is found altered, the integrity of ALL records becomes suspect, causing massive operational paralysis.", "Alteration attacks always target physical hardware, while Destruction only affects software.", "Alteration requires government approval to be legally prosecuted, unlike Destruction."], correct: 1 },
+                    { q: "How is 'Salami Slicing' described in Module 1?", choices: ["A social engineering technique where an attacker gradually builds trust before stealing credentials.", "A fragmentation attack used in DDoS campaigns to bypass network packet inspection.", "A financial alteration attack where tiny fractions of currency are skimmed from thousands of transactions - too small to notice individually but significant in aggregate.", "A method of segmenting stolen data into small pieces to evade detection during exfiltration."], correct: 2 },
+                    { q: "What property makes Disclosure events uniquely irreversible compared to other DAD elements?", choices: ["Disclosure events always destroy the original file, preventing any recovery.", "Disclosure attacks can only be performed by nation-state actors with advanced tools.", "Disclosure requires physical access, making it immune to technical countermeasures.", "Once sensitive information is publicly disclosed, it can never truly be made secret again - the knowledge cannot be 'un-known'."], correct: 3 },
+                    { q: "The Stuxnet worm case study from Module 1 primarily targeted which element of the CIA Triad?", choices: ["Availability - by repeatedly crashing and restarting the centrifuge control systems.", "Integrity - by subtly modifying PLC code to physically damage centrifuges while simultaneously feeding operators false 'normal' sensor data.", "Confidentiality - by exfiltrating nuclear weapon design blueprints to foreign intelligence.", "Authentication - by bypassing biometric access controls at the Natanz facility."], correct: 1 },
+                    { q: "What does the existence of 'Zero-Day' threats reveal about the limits of the risk equation Risk = Threat × Vulnerability × Impact?", choices: ["Even perfectly patched systems carry residual risk because zero-day threats exploit unknown vulnerabilities for which no patch or control yet exists.", "Zero-day threats automatically reduce the Vulnerability factor to zero because they are unpatchable.", "Zero-day threats only affect systems with no security controls in place.", "The risk equation is invalid for zero-day threats and requires a separate calculation method."], correct: 0 },
+                    { q: "In the Risk equation Risk = Threat × Vulnerability × Impact, if an organization eliminates all known software vulnerabilities (Vulnerability → 0), what is the analytical result?", choices: ["Risk becomes maximum because unpatched systems create higher threat attraction.", "Impact must be calculated independently as a separate variable.", "Risk approaches zero because even if a threat exists, it has no exploitable weakness to leverage.", "Threat automatically increases to compensate for the reduction in Vulnerability."], correct: 2 },
+                    { q: "What is the purpose of the 'Communicate and Document' step in the Risk Management Framework?", choices: ["To notify law enforcement of identified threats and ongoing incidents.", "To submit annual compliance reports to regulatory bodies and auditors.", "To record technical vulnerabilities in an encrypted database accessible only to IT staff.", "To ensure all stakeholders understand the identified risks and their assigned responsibilities through clear documentation."], correct: 3 },
+                    { q: "What is the primary advantage of Quantitative Risk Analysis over Qualitative Risk Analysis according to the material?", choices: ["Qualitative is faster and better for early-stage analysis.", "Quantitative uses numerical values, making it more accurate and better suited for budgeting and financial decision-making.", "Qualitative uses expert opinions, which are inherently more reliable than numerical models.", "Quantitative analysis requires no historical data and can be completed immediately."], correct: 1 },
+                    { q: "In quantitative risk analysis, 'ALE' (Annual Loss Expectancy) represents:", choices: ["The expected total financial loss from a specific risk per year, calculated as SLE multiplied by ARO.", "The average dollar value of all assets at risk within a given system.", "A one-time estimate of the largest possible loss from a single catastrophic event.", "The aggregate legal liability an organization faces from a data breach."], correct: 0 },
+                    { q: "Which ISO 31000 risk response strategy specifically involves ending the activity that introduces the risk - such as permanently disabling a legacy service that cannot be patched?", choices: ["Risk Mitigation (Treat)", "Risk Acceptance (Tolerate)", "Risk Avoidance (Terminate)", "Risk Transference (Share)"], correct: 2 },
+                    { q: "What is the correct distinction between 'Inherent Risk' and 'Residual Risk'?", choices: ["Inherent Risk is calculated numerically; Residual Risk is always assessed qualitatively.", "Inherent Risk applies only to physical infrastructure; Residual Risk applies to digital systems.", "Residual Risk equals zero whenever controls are fully implemented and tested.", "Inherent Risk is the risk level before any controls are applied; Residual Risk is what remains after controls are implemented."], correct: 3 },
+                    { q: "What is the primary purpose of a Business Impact Analysis (BIA) in Business Continuity Planning?", choices: ["To calculate the exact insurance payout the company will receive after a declared disaster.", "To identify the most critical business processes and determine the consequences of their downtime, including required RTO and RPO values.", "To audit individual employee compliance with security policies and identify insider threats.", "To evaluate the technical configuration of firewalls and intrusion detection systems."], correct: 1 },
+                    { q: "According to Module 2, which backup site type is 'fully operational instantly' and which requires the 'longest recovery' time?", choices: ["Hot Site is fully operational instantly; Cold Site has no equipment and requires the longest recovery time.", "Warm Site is fully operational instantly; Hot Site requires the longest recovery.", "Cold Site is fully operational instantly; Warm Site requires the longest recovery.", "Mirror Site is fully operational instantly; Cold Site is partially operational."], correct: 0 },
+                    { q: "Why does asymmetric cryptography solve the 'key distribution problem' that symmetric cryptography cannot?", choices: ["Asymmetric keys are mathematically shorter, making them easier to securely transmit.", "Asymmetric encryption is faster than symmetric, so keys can be regenerated more frequently.", "The public key can be shared openly without compromising security, eliminating the need to transmit a secret key through a secure channel.", "Asymmetric keys automatically expire after 30 days, reducing the risk of long-term compromise."], correct: 2 },
+                    { q: "What fundamental property of hash functions makes them suitable for storing passwords in databases?", choices: ["Hash functions are reversible, allowing administrators to recover passwords for users who forget them.", "The hash output is always the same length as the original password input.", "Hash functions are bidirectional, enabling fast encryption and decryption.", "Hash functions are one-way (irreversible); the original input cannot be easily derived from the hash output."], correct: 3 },
+                    { q: "A law firm stores confidential client contracts in locked paper filing cabinets. A junior associate accidentally leaves a folder on a public photocopier. Which discipline - Information Security or Cybersecurity - governs the protection of these physical paper documents?", choices: ["Cybersecurity, as all organizational data protection falls under the cyber domain.", "Information Security, because its scope explicitly includes analog data such as physical files and printed documents.", "Both are equally responsible since they are interchangeable in all organizational contexts.", "Neither - physical document security is exclusively a compliance and legal matter."], correct: 1 },
+                    { q: "An IT administrator revokes a departing employee's access credentials to all company databases immediately upon termination. Which CIA Triad principle is being actively enforced?", choices: ["Confidentiality - ensuring only authorized individuals have access to information.", "Availability - maintaining system uptime for remaining employees.", "Integrity - preventing any modifications to the employee's past activity logs.", "Authentication - verifying the identity of current system users."], correct: 0 },
+                    { q: "A hospital wants to ensure that Cardiology nurses can only access cardiology patient records, not oncology or neurology records. Which access control model from the material is most appropriate?", choices: ["Discretionary Access Control (DAC) - because staff can self-manage their specific access needs.", "Full-disk encryption - to prevent unauthorized access to any stored records.", "Role-Based Access Control (RBAC) - access is assigned to roles such as 'Cardiology Nurse', not individuals.", "Mandatory Access Control (MAC) - enforcing classification labels like 'Restricted Patient Data'."], correct: 2 },
+                    { q: "A software publisher posts SHA-256 checksums of its installer files on its website so users can verify downloads. Which element of the CIA Triad is this practice designed to protect?", choices: ["Availability - ensuring the file is downloadable at any time.", "Authentication - confirming the publisher's identity.", "Confidentiality - preventing unauthorized users from reading the software.", "Integrity - allowing users to verify the file has not been corrupted or tampered with."], correct: 3 },
+                    { q: "A cyber criminal compromises a company email account and reads all stored messages over several weeks. The messages are never modified or deleted. Which DAD element has been realized?", choices: ["Disclosure - private communications have been exposed to an unauthorized party.", "Alteration - the attacker's access constitutes unauthorized modification of account state.", "Denial - the attacker occupies a connection resource, slowing email delivery.", "Destruction - the integrity of the email system is permanently compromised."], correct: 0 },
+                    { q: "An attacker intercepts a wire transfer instruction between two banks and changes the destination account number before forwarding it to the recipient bank. Which DAD element has been realized?", choices: ["Denial - the original transfer was temporarily halted during the interception.", "Alteration - the content of the financial instruction was unauthorizedly modified.", "Disclosure - the transfer details were read by an unauthorized party.", "Destruction - the original wire transfer request no longer exists."], correct: 1 },
+                    { q: "A security researcher publishes a working proof-of-concept exploit for a web application vulnerability. In terms of the Risk equation, which variable has most significantly increased for organizations running that software?", choices: ["Asset Value - the software becomes more valuable after being studied by researchers.", "Vulnerability - the flaw is now more widely known and understood.", "Impact - the potential damage per incident automatically increases.", "Threat - the likelihood of exploitation increases sharply when exploit code is publicly available."], correct: 3 },
+                    { q: "An organization purchases a comprehensive cyber insurance policy to cover financial losses from data breaches and ransomware incidents. Which ISO 31000 risk response strategy is being applied?", choices: ["Risk Mitigation - technical controls are being added to reduce the likelihood.", "Risk Avoidance - the risk-causing activity is being discontinued.", "Risk Transference - financial responsibility is being shifted to the insurance provider.", "Risk Acceptance - the organization is acknowledging risk without action."], correct: 2 },
+                    { q: "Compute the ALE for the following scenario: Asset Value = PHP 80,000, Exposure Factor = 25%, Annual Rate of Occurrence = 4 incidents per year. What is the correct ALE?", choices: ["PHP 20,000", "PHP 80,000", "PHP 40,000", "PHP 80,000"], correct: 1 },
+                    { q: "An organization has just installed firewalls, configured multi-factor authentication, conducted staff training, and deployed CCTV cameras at all server room entrances. Which step of the RMF are they performing?", choices: ["Implement Controls - deploying selected security measures across technical, administrative, and physical domains.", "Identify Risks - cataloguing threats and vulnerabilities across the organization.", "Assess Risks - determining likelihood and impact of each identified risk.", "Monitor and Review - ensuring deployed controls remain effective over time."], correct: 0 },
+                    { q: "A security team conducts a quarterly review of their firewall rule sets, comparing them against new threat intelligence reports to identify gaps. Which RMF step are they performing?", choices: ["Select Controls", "Identify Risks", "Monitor and Review - ongoing process of detecting changes and ensuring controls remain effective.", "Communicate and Document"], correct: 2 },
+                    { q: "An IT manager calculates that patching a legacy server vulnerability would cost PHP 600,000 but the maximum possible annual loss from exploiting it is PHP 40,000. Which risk response strategy is most appropriate?", choices: ["Risk Avoidance - shut down the legacy server immediately.", "Risk Acceptance - the cost of mitigation far exceeds the potential loss.", "Risk Transference - purchase insurance to cover the PHP 40,000 risk.", "Risk Mitigation - implement the patch regardless of cost."], correct: 1 },
+                    { q: "A security architect applies the highest-level controls to the company's payment processing database but uses minimal controls for the employee social club announcement board. Which RMF activity does this reflect?", choices: ["Risk Transference", "Control Assessment", "Risk Avoidance", "Risk categorization - applying controls proportional to system sensitivity and asset value."], correct: 3 },
+                    { q: "After a flood destroys a company's primary data center, the IT team activates a remote facility where all servers are pre-configured, data is fully synchronized, and services are restored within 20 minutes. Which type of backup site was activated?", choices: ["Hot Site - fully operational and instantly available.", "Warm Site - partially configured with moderate recovery time.", "Cold Site - basic facility requiring full equipment installation.", "Mirror Site - a theoretical construct not discussed in the material."], correct: 0 },
+                    { q: "A retail chain backs up its point-of-sale database at 2:00 AM every night. A ransomware attack encrypts all data at 1:45 AM the following night. Approximately how much data is at risk of permanent loss based on the RPO?", choices: ["No data - the previous night's backup fully covers the entire day.", "Exactly 12 hours - the backup interval midpoint.", "Up to approximately 23 hours and 45 minutes of transaction data since the last backup.", "All historical data - ransomware always destroys all backups."], correct: 2 },
+                    { q: "A university suffers a cyberattack that takes its learning management system offline. Staff immediately switch to manual attendance sheets and phone communication while the IT team restores the system from off-site backups. Which plans are being simultaneously executed?", choices: ["Risk Assessment Plan and Vulnerability Management Plan", "Incident Response Plan and Change Management Plan", "Security Awareness Plan and Patch Management Plan", "Business Continuity Plan (BCP) - maintaining operations manually - and Disaster Recovery Plan (DRP) - restoring IT systems."], correct: 3 },
+                    { q: "A company's DRP specifies an RTO of 2 hours for its core transaction system. After a server failure, the IT team requires 5 hours to restore full operations. What does this outcome indicate?", choices: ["The RTO was successfully met with a 3-hour safety buffer.", "The RTO was exceeded - critical operations were unavailable longer than the acceptable maximum.", "The RPO was violated because data was lost during the 5-hour window.", "The RTO threshold only applies to catastrophic natural disasters, not technical failures."], correct: 1 },
+                    { q: "In asymmetric cryptography, a sender wants to ensure ONLY the intended recipient can decrypt and read a message. Which key should the sender use to encrypt the message?", choices: ["The recipient's public key - only the recipient's private key can decrypt it.", "The sender's own private key to prove the message came from them.", "A shared symmetric key - negotiated in advance through a secure channel.", "The sender's own public key - because public keys are used for all encryption."], correct: 0 },
+                    { q: "A software vendor creates a digital signature for its software update. Which key is used to CREATE the signature, and which key do users employ to VERIFY it?", choices: ["Public key to sign; symmetric key to verify.", "Symmetric key to sign; private key to verify.", "Private key to create the signature; public key to verify the signature.", "Public key for both creation and verification."], correct: 2 },
+                    { q: "A cloud provider needs to encrypt 10TB of customer data stored on its servers. Based on Module 3, which encryption approach is most appropriate?", choices: ["RSA asymmetric encryption because it is the strongest modern standard.", "Symmetric encryption (AES) - fast, computationally efficient, and ideal for bulk data encryption.", "ECC asymmetric encryption - because its smaller keys are ideal for large data sets.", "DES - the original industry standard for large-scale data storage."], correct: 1 },
+                    { q: "Analyze the NIST definitions provided in Module 1. What is the key distinguishing feature of 'Information Assurance' compared to 'Information Security'?", choices: ["Information Security explicitly includes detection, restoration, and reaction capabilities while IA only focuses on prevention.", "Information Assurance is exclusively concerned with classified military and government data.", "Both are identical in scope with different professional terminology.", "Information Assurance explicitly incorporates protection, detection, AND reaction/restoration capabilities, while Information Security focuses primarily on protection of CIA properties."], correct: 3 },
+                    { q: "A security architect implements the most restrictive possible multi-factor authentication, requiring a physical token, biometric scan, and a 20-character password changed weekly. Analyze the trade-off this creates within the CIA Triad.", choices: ["It significantly strengthens Confidentiality and Integrity but may reduce Availability by creating excessive friction for legitimate users.", "It strengthens all three CIA pillars simultaneously with no measurable trade-off.", "It primarily weakens Integrity by adding unnecessary authentication layers.", "It has no impact on Availability since security security measures always improve all aspects of CIA."], correct: 0 },
+                    { q: "A financial database uses ACID transaction processing, which temporarily locks records while a complex transaction is being committed. Analyze which CIA Triad interaction this illustrates.", choices: ["Confidentiality vs. Availability - encryption of records prevents simultaneous access.", "Authentication vs. Integrity - MFA checks delay transaction processing speed.", "Integrity vs. Availability - ensuring complete, accurate transactions through locks temporarily makes data inaccessible to other users.", "Availability vs. Confidentiality - high availability inherently reduces data confidentiality."], correct: 2 },
+                    { q: "The Bangladesh Bank Heist case study demonstrates a multi-pillar DAD attack. Break down the sequence of DAD violations in the correct order as described in the material.", choices: ["Alteration → Disclosure → Destruction", "Disclosure (SWIFT credential theft) → Alteration (deletion of fraudulent wire transfer records from physical printer logs to cover tracks)", "Denial → Alteration → Disclosure", "Destruction → Disclosure → Denial"], correct: 1 },
+                    { q: "Module 1 describes both Volumetric DDoS attacks and Application Layer DDoS attacks. What is the key technical distinction between them?", choices: ["Volumetric attacks target email systems; Application Layer attacks exclusively target database servers.", "They are mechanically identical, differing only in the geographic origin of traffic.", "Application Layer attacks consume more bandwidth than Volumetric attacks.", "Volumetric attacks flood network bandwidth with junk traffic; Application Layer attacks exploit specific expensive server operations to crash the web server process."], correct: 3 },
+                    { q: "Using the example from Module 2 (weak password policy scenario), correctly distinguish between the Threat, the Vulnerability, and the Asset.", choices: ["Threat = Brute-force Attack; Vulnerability = Weak Authentication; Asset = HR Database with employee data.", "Threat = Weak Authentication; Vulnerability = HR Database; Asset = Brute-force Attack.", "Threat = HR Database; Vulnerability = Brute-force Attack; Asset = Password Policy.", "Threat = Password Policy; Vulnerability = HR Database; Asset = Network Infrastructure."], correct: 0 },
+                    { q: "A company has deployed industry-leading intrusion detection and firewalls but operates in a sector heavily targeted by advanced persistent threats. Using the risk equation, analyze the overall risk posture.", choices: ["Risk is eliminated because the vulnerability factor has been minimized to near-zero.", "Risk is at maximum because the threat level overrides all defensive measures.", "Risk remains non-trivial because Threat × Vulnerability × Impact still produces a significant value.", "Risk cannot be assessed without knowing the exact monetary value of every individual asset."], correct: 2 },
+                    { q: "In which business context does Qualitative Risk Analysis provide more practical value than Quantitative Risk Analysis?", choices: ["When the organization requires precise dollar figures for budgeting and financial risk reporting.", "During early-stage or rapid assessment when detailed statistical data is unavailable and expert judgment can efficiently prioritize risks.", "When regulators specifically require numerical probability calculations for compliance submissions.", "When the organization has a decade of historical incident data for statistical modeling."], correct: 1 },
+                    { q: "Break down the quantitative formula SLE = AV × EF. What does each variable represent?", choices: ["SLE = System Loss Evaluation; AV = Annual Value; EF = Exposure Frequency", "SLE = Security Level Estimate; AV = Attacker Velocity; EF = Exploitation Factor", "SLE = Scheduled Loss Estimate; AV = Average Value; EF = Event Frequency", "SLE = Single Loss Expectancy; AV = Asset Value; EF = Exposure Factor (the percentage of the asset's value lost per incident)"], correct: 3 },
+                    { q: "Analyze the fundamental difference between the 'Assess Risks' step and the 'Monitor and Review' step in the RMF.", choices: ["Assess Risks is a specific point-in-time evaluation of risk severity; Monitor and Review is an ongoing continuous process to ensure controls remain effective.", "Assess Risks uses automated tools exclusively; Monitor and Review uses manual logs.", "They are identical processes performed by different teams.", "Monitor and Review is only performed after a major security breach."], correct: 0 },
+                    { q: "Contrast ISO 31000's 'Risk Mitigation' and 'Risk Transference' based on their impact on a company's internal security posture.", choices: ["Mitigation improves internal posture by reducing vulnerabilities; Transference does not improve posture but reduces financial liability.", "Transference is always superior to Mitigation because it is cheaper.", "Mitigation is only for small risks; Transference is for catastrophic risks.", "They are identical in terms of technical implementation."], correct: 0 },
+                    { q: "Evaluate the scenario: A critical system has an RTO of 4 hours and an RPO of 1 hour. A server crash occurs at 3:00 PM, and the last backup was at 2:30 PM. To meet these objectives, when must the system be restored, and how much data can be lost?", choices: ["Restored by 7:00 PM, lose up to 1 hour of data.", "Restored by 4:00 PM, lose up to 4 hours of data.", "Restored by 3:30 PM, lose up to 30 minutes of data.", "Restored by 12:00 AM, lose no data."], correct: 0 },
+                    { q: "What is the primary technical limitation of Symmetric encryption when scaling to thousands of users?", choices: ["It is too slow for large data sets.", "It requires a unique shared secret key for every pair of users, creating an unmanageable N(N-1)/2 keys.", "It is easily cracked by modern computers.", "It only works on physical hardware, not in the cloud."], correct: 1 },
+                    { q: "In a hybrid encryption scenario (like HTTPS), how are asymmetric and symmetric encryption used together?", choices: ["Asymmetric is used for bulk data; symmetric is for the session key.", "Symmetric is used for both; asymmetric is a backup.", "Asymmetric is used to securely exchange a symmetric session key; the symmetric key is then used for fast bulk data encryption.", "They are used in parallel to double the security."], correct: 2 },
+                    { q: "Why is 'Salting' used when hashing passwords for a database?", choices: ["To make the hash function run faster.", "To make the passwords shorter.", "To prevent 'Rainbow Table' attacks where identical passwords would otherwise result in identical hashes.", "To encrypt the hash so it can be reversed later."], correct: 2 },
+                    { q: "Which of the following describes the 'Authentication' property in the CIA context?", choices: ["Ensuring that the source of a message or the identity of a user is verified and legitimate.", "Keeping data secret from unauthorized eyes.", "Making sure the data is accurate and has not been changed.", "Ensuring the system is always up and running."], correct: 0 },
+                    { q: "Which focus area of Cybersecurity handles the protection of individual devices like laptops and smartphones?", choices: ["Network Security", "Cloud Security", "Endpoint Security", "Application Security"], correct: 2 },
+                    { q: "What is the main goal of Application Security?", choices: ["Protecting the physical building where servers are kept.", "Ensuring software code and web applications are free from vulnerabilities.", "Monitoring employee internet usage.", "Managing company social media accounts."], correct: 1 },
+                    { q: "In the DAD Triad, 'Denial' primarily impacts which part of the CIA Triad?", choices: ["Confidentiality", "Integrity", "Availability", "Authentication"], correct: 2 },
+                    { q: "A 'Brute Force' attack is an example of a threat that targets which vulnerability?", choices: ["Physical locks", "Unpatched software", "Weak or short passwords", "Lack of employee training"], correct: 2 },
+                    { q: "What does 'ARO' stand for in quantitative risk analysis?", choices: ["Annual Risk Objective", "Annual Rate of Occurrence", "Asset Recovery Option", "Accountability and Responsibility Office"], correct: 1 },
+                    { q: "Risk 'Acceptance' is a valid strategy when:", choices: ["The cost of the control is greater than the value of the asset or the risk level.", "The company is too busy to fix the problem.", "The threat is guaranteed to happen.", "The vulnerability is unknown."], correct: 0 },
+                    { q: "Which RMF step involves choosing the specific security measures to address identified risks?", choices: ["Identify Risks", "Select Controls", "Assess Risks", "Implement Controls"], correct: 1 },
+                    { q: "Which type of backup site is the most expensive to maintain?", choices: ["Cold Site", "Warm Site", "Hot Site", "Mirror Site"], correct: 2 },
+                    { q: "The 'Diffie-Hellman' protocol is used for:", choices: ["Bulk data encryption", "Generating digital signatures", "Secure key exchange over an unsecured channel", "Reversing hash functions"], correct: 2 },
+                    { q: "Which of these is a widely used asymmetric encryption algorithm?", choices: ["DES", "AES", "Blowfish", "RSA"], correct: 3 },
+                    { q: "What is a major disadvantage of asymmetric encryption compared to symmetric?", choices: ["It is much slower and more computationally intensive.", "It is less secure.", "It requires a shared secret key.", "It cannot be used for digital signatures."], correct: 0 },
+                    { q: "In a 'Collision' attack on a hash function, what is the goal?", choices: ["To find two different inputs that produce the same hash output.", "To find the original input from a hash.", "To crash the server performing the hash.", "To make the hash output longer."], correct: 0 },
+                    { q: "Which term describes a vulnerability that is known but for which no fix yet exists?", choices: ["Legacy vulnerability", "Patch Tuesday", "Zero-day vulnerability", "Hidden vulnerability"], correct: 2 },
+                    { q: "Which plan is specifically used for recovering the IT infrastructure after a disaster?", choices: ["Business Continuity Plan", "Disaster Recovery Plan", "Incident Response Plan", "Security Awareness Plan"], correct: 1 },
+                    { q: "The 'Principle of Separation of Duties' is used to prevent:", choices: ["External hackers from entering the network.", "A single individual from having enough power to complete a sensitive task alone (reducing insider threat).", "Employees from working too many hours.", "System downtime during maintenance."], correct: 1 },
+                    { q: "What is the primary purpose of 'Non-repudiation'?", choices: ["To ensure a person cannot deny they took a specific action or sent a message.", "To keep messages secret.", "To prevent system crashes.", "To speed up internet connections."], correct: 0 },
+                    { q: "Which type of control is a 'CCTV camera' at a server room entrance?", choices: ["Technical Control", "Administrative Control", "Physical Control", "Logic Control"], correct: 2 },
+                    { q: "In ISO 31000, 'Risk Sharing' is another term for:", choices: ["Avoidance", "Mitigation", "Transference", "Acceptance"], correct: 2 },
+                    { q: "What is 'Residual Risk'?", choices: ["The risk that exists before any controls are used.", "The risk that remains after security controls are implemented.", "The risk of a natural disaster.", "The risk caused by unpatched software."], correct: 1 },
+                    { q: "A 'Trojan Horse' is an example of:", choices: ["Social Engineering", "A Physical Lock", "Malware that hides its true intent", "A type of firewall"], correct: 2 },
+                    { q: "Which algorithm is the current gold standard for symmetric bulk data encryption?", choices: ["RSA", "MD5", "AES", "DES"], correct: 2 },
+                    { q: "What does the 'A' in CIA Triad stand for?", choices: ["Authentication", "Availability", "Accountability", "Accuracy"], correct: 1 },
+                    { q: "Which risk response involves moving part of the operation to a more secure location?", choices: ["Mitigation", "Transference", "Avoidance", "Acceptance"], correct: 0 },
+                    { q: "The 'Public Key' in an asymmetric pair is used by others to:", choices: ["Decrypt messages from the owner", "Encrypt messages intended for the owner", "Sign documents as the owner", "Delete the owner's private key"], correct: 1 }
+                ]
+            }
+        };
+
+        STUDY_CONTENT.fds_all = {
+            title: "All Quizzes: Master Deck",
+            icon: "🔥",
+            questions: [...STUDY_CONTENT.fds_p1.questions, ...STUDY_CONTENT.fds_p2.questions, ...STUDY_CONTENT.fds_p3.questions, ...STUDY_CONTENT.fds_mock.questions]
+        };
+
+        let activeQuiz = [], activeCards = [];
+        let quizIdx = 0, cardIdx = 0, userScore = 0, totalPts = 0, multiFound = 0;
+        let shuffledChoices = []; // Track randomized positions
+
+        function renderHome() {
+            const grid = document.getElementById('subjectGrid');
+            grid.innerHTML = Object.keys(STUDY_CONTENT).map(key => `
         <div class="subject-btn" onclick="loadSubject('${key}')">
             <div>
                 <h3 style="margin:0">${STUDY_CONTENT[key].icon} ${STUDY_CONTENT[key].title}</h3>
@@ -342,121 +661,151 @@ function renderHome() {
             <div class="start-badge">Start</div>
         </div>
     `).join('');
-}
+        }
 
-function loadSubject(key) {
-    const data = STUDY_CONTENT[key];
-    document.getElementById('subjectTitle').innerText = data.title;
-    activeQuiz = [...data.questions].sort(() => Math.random() - 0.5);
-    activeCards = data.questions.map(q => ({
-        q: q.q,
-        a: q.type === 'multi' ? "Multiple Correct Answers" : q.choices[q.correct]
-    })).sort(() => Math.random() - 0.5);
+        function loadSubject(key) {
+            const data = STUDY_CONTENT[key];
+            document.getElementById('subjectTitle').innerText = data.title;
+            activeQuiz = [...data.questions].sort(() => Math.random() - 0.5);
+            activeCards = data.questions.map(q => ({
+                q: q.q,
+                a: q.type === 'multi' ? "Multiple Correct Answers" : q.choices[q.correct]
+            })).sort(() => Math.random() - 0.5);
 
-    totalPts = activeQuiz.reduce((acc, q) => acc + (q.points || 1), 0);
-    userScore = 0; quizIdx = 0; cardIdx = 0;
-    showPage('quiz');
-}
+            totalPts = activeQuiz.reduce((acc, q) => acc + (q.points || 1), 0);
+            userScore = 0; quizIdx = 0; cardIdx = 0;
+            showPage('quiz');
+        }
 
-function showPage(id) {
-    document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).style.display = 'block';
-    if(document.getElementById('btn-'+id)) document.getElementById('btn-'+id).classList.add('active');
-    if(id === 'quiz') startQuiz();
-    if(id === 'flashcards') loadCard();
-}
+        function showPage(id) {
+            document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            if (document.getElementById('btn-' + id)) document.getElementById('btn-' + id).classList.add('active');
+            if (id === 'quiz') startQuiz();
+            if (id === 'flashcards') loadCard();
+        }
 
-function startQuiz() {
-    document.getElementById("scoreBox").style.display = "none";
-    loadQuestion();
-}
+        function startQuiz() {
+            document.getElementById("scoreBox").style.display = "none";
+            loadQuestion();
+        }
 
-function loadQuestion() {
-    const q = activeQuiz[quizIdx];
-    const container = document.getElementById("quizContainer");
-    multiFound = 0;
-    container.style.display = "block";
+        function loadQuestion() {
+            const q = activeQuiz[quizIdx];
+            const container = document.getElementById("quizContainer");
+            multiFound = 0;
+            container.style.display = "block";
 
-    // Randomize choices
-    shuffledChoices = q.choices.map((choice, index) => ({ text: choice, originalIdx: index }));
-    shuffledChoices.sort(() => Math.random() - 0.5);
+            // Randomize choices
+            shuffledChoices = q.choices.map((choice, index) => ({ text: choice, originalIdx: index }));
+            shuffledChoices.sort(() => Math.random() - 0.5);
 
-    let html = `<div class="card">
+            let html = `<div class="card">
         <small style="color:var(--primary); font-weight:bold">Item ${quizIdx + 1} of ${activeQuiz.length}</small>
         <h3 style="margin-top:10px">${q.q}</h3>`;
-    
-    if(q.type === "multi") html += `<div class="multi-info">Select ${q.correct.length} correct items!</div>`;
 
-    html += `<div class="answers-grid">`;
-    shuffledChoices.forEach((choice, i) => {
-        html += `<button class="btn-choice" onclick="${q.type === 'multi' ? 'handleMulti' : 'handleSingle'}(this, ${choice.originalIdx})">${choice.text}</button>`;
-    });
-    container.innerHTML = html + `</div></div>`;
-    document.getElementById("progress").style.width = (quizIdx / activeQuiz.length * 100) + "%";
-}
+            if (q.type === "multi") html += `<div class="multi-info">Select ${q.correct.length} correct items!</div>`;
 
-function handleSingle(btn, originalIdx) {
-    const q = activeQuiz[quizIdx];
-    document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
-    
-    if(originalIdx === q.correct) {
-        btn.classList.add('correct');
-        userScore++;
-    } else {
-        btn.classList.add('wrong');
-        // Find the button that held the correct original index
-        const buttons = document.querySelectorAll('.btn-choice');
-        shuffledChoices.forEach((c, i) => {
-            if(c.originalIdx === q.correct) buttons[i].classList.add('correct');
-        });
-    }
-    next();
-}
+            html += `<div class="answers-grid">`;
+            shuffledChoices.forEach((choice, i) => {
+                html += `<button class="btn-choice" onclick="${q.type === 'multi' ? 'handleMulti' : 'handleSingle'}(this, ${choice.originalIdx})">${choice.text}</button>`;
+            });
+            container.innerHTML = html + `</div></div>`;
+            document.getElementById("progress").style.width = (quizIdx / activeQuiz.length * 100) + "%";
+        }
 
-function handleMulti(btn, originalIdx) {
-    const q = activeQuiz[quizIdx];
-    if(q.correct.includes(originalIdx)) {
-        btn.classList.add('correct'); btn.disabled = true;
-        userScore++; multiFound++;
-        if(multiFound === q.correct.length) next();
-    } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
-        const buttons = document.querySelectorAll('.btn-choice');
-        shuffledChoices.forEach((c, i) => {
-            if(q.correct.includes(c.originalIdx)) buttons[i].classList.add('correct');
-        });
-        next();
-    }
-}
+        function handleSingle(btn, originalIdx) {
+            const q = activeQuiz[quizIdx];
+            document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
 
-function next() {
-    setTimeout(() => {
-        quizIdx++;
-        if(quizIdx < activeQuiz.length) loadQuestion();
-        else {
+            if (originalIdx === q.correct) {
+                btn.classList.add('correct');
+                userScore++;
+            } else {
+                btn.classList.add('wrong');
+                // Find the button that held the correct original index
+                const buttons = document.querySelectorAll('.btn-choice');
+                shuffledChoices.forEach((c, i) => {
+                    if (c.originalIdx === q.correct) buttons[i].classList.add('correct');
+                });
+            }
+            next();
+        }
+
+        function handleMulti(btn, originalIdx) {
+            const q = activeQuiz[quizIdx];
+            if (q.correct.includes(originalIdx)) {
+                btn.classList.add('correct'); btn.disabled = true;
+                userScore++; multiFound++;
+                if (multiFound === q.correct.length) next();
+            } else {
+                btn.classList.add('wrong');
+                document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);
+                const buttons = document.querySelectorAll('.btn-choice');
+                shuffledChoices.forEach((c, i) => {
+                    if (q.correct.includes(c.originalIdx)) buttons[i].classList.add('correct');
+                });
+                next();
+            }
+        }
+
+        function next() {
+            setTimeout(() => {
+                quizIdx++;
+                if (quizIdx < activeQuiz.length) loadQuestion();
+                else {
+                    document.getElementById("quizContainer").style.display = "none";
+                    document.getElementById("scoreBox").style.display = "block";
+                    document.getElementById("score").innerText = `${userScore} / ${totalPts}`;
+                    document.getElementById("progress").style.width = "100%";
+                }
+            }, 1500);
+        }
+
+        function loadCard() {
+            const c = activeCards[cardIdx];
+            document.getElementById("cardFront").innerText = c.q;
+            document.getElementById("cardBack").innerText = c.a;
+            document.getElementById("flashcardBox").classList.remove('flipped');
+            document.getElementById("cardProgress").innerText = `${cardIdx + 1} / ${activeCards.length}`;
+        }
+
+        function flipCard() { document.getElementById("flashcardBox").classList.toggle('flipped'); }
+        function nextCard() { cardIdx = (cardIdx + 1) % activeCards.length; loadCard(); }
+        function prevCard() { cardIdx = (cardIdx - 1 + activeCards.length) % activeCards.length; loadCard(); }
+
+        function finishQuiz() {
             document.getElementById("quizContainer").style.display = "none";
             document.getElementById("scoreBox").style.display = "block";
-            document.getElementById("score").innerText = `${userScore} / ${totalPts}`;
+
+            // Calculate final score
+            const finalScore = userScore;
+            const percentage = ((finalScore / totalPts) * 100).toFixed(1);
+
+            document.getElementById("score").innerText = `${finalScore} / ${totalPts}`;
             document.getElementById("progress").style.width = "100%";
+
+            // LEADERBOARD LOGIC:
+            // This is where you would send the data to a database.
+            // Format: { id: userId, name: playerName, score: finalScore, date: new Date() }
+            console.log(`Saving score for ${playerName} (${userId}): ${finalScore}/${totalPts}`);
+
+            // For now, we save locally as a personal "High Score"
+            let highScores = JSON.parse(localStorage.getItem('fds_high_scores') || "[]");
+            highScores.push({
+                name: playerName,
+                score: finalScore,
+                total: totalPts,
+                date: new Date().toLocaleDateString()
+            });
+
+            // Sort and keep top 5 local scores
+            highScores.sort((a, b) => b.score - a.score);
+            localStorage.setItem('fds_high_scores', JSON.stringify(highScores.slice(0, 5)));
         }
-    }, 1500);
-}
-
-function loadCard() {
-    const c = activeCards[cardIdx];
-    document.getElementById("cardFront").innerText = c.q;
-    document.getElementById("cardBack").innerText = c.a;
-    document.getElementById("flashcardBox").classList.remove('flipped');
-    document.getElementById("cardProgress").innerText = `${cardIdx + 1} / ${activeCards.length}`;
-}
-
-function flipCard() { document.getElementById("flashcardBox").classList.toggle('flipped'); }
-function nextCard() { cardIdx = (cardIdx + 1) % activeCards.length; loadCard(); }
-function prevCard() { cardIdx = (cardIdx - 1 + activeCards.length) % activeCards.length; loadCard(); }
-
-renderHome();
-</script>
+        renderHome();
+    </script>
 </body>
+
 </html>
