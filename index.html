@@ -249,7 +249,8 @@
 
     <header>
         <h1 id="subjectTitle">Reviewer Hub</h1>
-        <p>Reviewer for All subs Currently IAS and FDS</p>
+        <p><s>Reviewer for All subs Currently IAS and FDS</s></p>
+        <p>Now contains CCNA mwehehehe</p>
     </header>
 
     <nav>
@@ -532,7 +533,7 @@
                     { q: "A manufacturing company's ER design has PRODUCT and COMPONENT connected by an M:N relationship. A consultant proposes converting this to two 1:M relationships. What new element must be created?", choices: ["A new derived attribute would be added to the PRODUCT entity", "An associative (junction) entity — such as PRODUCT_COMPONENT — would be created between PRODUCT and COMPONENT, holding foreign keys to both", "The COMPONENT entity would be merged into the PRODUCT entity to simplify the schema", "A new weak entity COMPONENT_USAGE dependent solely on PRODUCT would be created"], correct: 1 },
                     { q: "You are designing an ER diagram for an online bookstore where a Book can have multiple Authors and an Author can write multiple Books. Propose the correct cardinality between Book and Author and determine whether a junction entity is needed.", choices: ["1:N cardinality; no junction entity is needed since one author simply writes many books", "1:1 cardinality; a junction entity is needed because each author–book pairing must be tracked", "1:N cardinality with a junction entity, since each book has many authors but each author writes only one book", "M:N cardinality; a junction entity (e.g., BOOK_AUTHOR) is needed because a book can have multiple authors and an author can write multiple books"], correct: 3 }
                 ]
-            }, ias_mock: {
+            }, ccna_mock: {
                 title: "IAS: Mock Examination",
                 icon: "🛡️",
                 questions: [
@@ -637,11 +638,721 @@
                     { q: "A penetration tester discovers an authentication system stores passwords as plain SHA-256 hashes with no additional security measure. Predict the most likely attack vector and propose the best countermeasure based on Module 3.", choices: ["Vulnerable to Rainbow Table attacks - pre-computed hash lookup tables allow instant password recovery; the countermeasure is adding a unique random salt to each password before hashing, making pre-computed tables ineffective.", "Vulnerable to quantum computing attacks - countermeasure is to replace SHA-256 with SHA-3 immediately.", "Vulnerable to decryption by modern GPU clusters - countermeasure is switching to MD5 for better computational obfuscation.", "Vulnerable only to online brute-force - countermeasure is simply enforcing longer minimum password length."], correct: 0 },
                     { q: "Formulate an explanation of why the Diffie-Hellman key exchange protocol is architecturally essential in systems that ultimately use symmetric encryption for secure communication.", choices: ["Diffie-Hellman creates a digital signature attached to every transmitted packet, authenticating both parties.", "Diffie-Hellman generates a one-time password that is securely emailed to both communicating parties.", "Diffie-Hellman allows two parties to derive a shared secret key over a completely unsecured public channel without ever transmitting the key itself - solving the fundamental symmetric key distribution problem.", "Diffie-Hellman permanently replaces symmetric encryption in all modern secure communication protocols."], correct: 2 }
                 ]
+            }, ias_mock: {
+                title: "CCNA: Mock Examination",
+                icon: "<:",
+                questions: [
+                    {
+                        type: "multi",
+                        q: "Which tasks can be accomplished by using the command history feature? (Choose two.)",
+                        choices: [
+                            "View a list of commands entered in a previous session.",
+                            "Recall up to 15 command lines by default.",
+                            "Set the command history buffer size.",
+                            "Recall previously entered commands.",
+                            "Save command lines in a log file for future reference."
+                        ],
+                        correct: [2, 3],
+                        points: 2
+                    },
+                    {
+                        q: "What is the first action in the boot sequence when a switch is powered on?",
+                        choices: [
+                            "load the default Cisco IOS software",
+                            "load boot loader software",
+                            "low-level CPU initialization",
+                            "load a power-on self-test program"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "What must an administrator have in order to reset a lost password on a router?",
+                        choices: [
+                            "a TFTP server",
+                            "a crossover cable",
+                            "access to another router",
+                            "physical access to the router"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "When configuring a switch for SSH access, what other command that is associated with the login local command is required to be entered on the switch?",
+                        choices: [
+                            "enable secret password",
+                            "password password",
+                            "username username secret secret",
+                            "login block-for seconds attempts number within*seconds*"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command displays information about the auto-MDIX setting for a specific interface?",
+                        choices: [
+                            "show interfaces",
+                            "show controllers",
+                            "show processes",
+                            "show running-config"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "If one end of an Ethernet connection is configured for full duplex and the other end of the connection is configured for half duplex, where would late collisions be observed?",
+                        choices: [
+                            "on both ends of the connection",
+                            "on the full-duplex end of the connection",
+                            "only on serial interfaces",
+                            "on the half-duplex end of the connection"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "Which command is used to set the BOOT environment variable that defines where to find the IOS image file on a switch?",
+                        choices: [
+                            "config-register",
+                            "boot system",
+                            "boot loader",
+                            "confreg"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What does a switch use to locate and load the IOS image?",
+                        choices: [
+                            "BOOT environment variable",
+                            "IOS image file",
+                            "POST",
+                            "startup-config",
+                            "NVRAM"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which protocol adds security to remote connections?",
+                        choices: [
+                            "FTP",
+                            "HTTP",
+                            "NetBEUI",
+                            "POP",
+                            "SSH"
+                        ],
+                        correct: 4
+                    },
+                    {
+                        q: "What is a characteristic of an IPv4 loopback interface on a Cisco IOS router?",
+                        choices: [
+                            "The no shutdown command is required to place this interface in an UP state.",
+                            "It is a logical interface internal to the router.",
+                            "Only one loopback interface can be enabled on a router.",
+                            "It is assigned to a physical port and can be connected to other devices."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What is the minimum Ethernet frame size that will not be discarded by the receiver as a runt frame?",
+                        choices: [
+                            "64 bytes",
+                            "512 bytes",
+                            "1024 bytes",
+                            "1500 bytes"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "After which step of the switch bootup sequence is the boot loader executed?",
+                        choices: [
+                            "after CPU initialization",
+                            "after IOS localization",
+                            "after flash file system initialization",
+                            "after POST execution"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "Which impact does adding a Layer 2 switch have on a network?",
+                        choices: [
+                            "an increase in the number of dropped frames",
+                            "an increase in the size of the broadcast domain",
+                            "an increase in the number of network collisions",
+                            "an increase in the size of the collision domain"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which characteristic describes cut-through switching?",
+                        choices: [
+                            "Error-free fragments are forwarded, so switching occurs with lower latency.",
+                            "Frames are forwarded without any error checking.",
+                            "Only outgoing frames are checked for errors.",
+                            "Buffering is used to support different Ethernet speeds."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What is the significant difference between a hub and a Layer 2 LAN switch?",
+                        choices: [
+                            "A hub extends a collision domain, and a switch divides collision domains.",
+                            "A hub divides collision domains, and a switch divides broadcast domains.",
+                            "Each port of a hub is a collision domain, and each port of a switch is a broadcast domain.",
+                            "A hub forwards frames, and a switch forwards only packets."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which statement is correct about Ethernet switch frame forwarding decisions?",
+                        choices: [
+                            "Frame forwarding decisions are based on MAC address and port mappings in the CAM table.",
+                            "Cut-through frame forwarding ensures that invalid frames are always dropped.",
+                            "Only frames with a broadcast destination address are forwarded out all active switch ports.",
+                            "Unicast frames are always forwarded regardless of the destination MAC address."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "How do switch buffers affect network performance?",
+                        choices: [
+                            "They provide error checking on the data received.",
+                            "They store frames received, thus preventing premature frame discarding when network congestion occurs.",
+                            "They provide extra memory for a particular port if autonegotiation of speed or duplex fails.",
+                            "They hold data temporarily when a collision occurs until normal data transmission resumes."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which switch characteristic helps keep traffic local and alleviates network congestion?",
+                        choices: [
+                            "high port density",
+                            "fast port speed",
+                            "large frame buffers",
+                            "fast internal switching"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which switch component reduces the amount of packet handling time inside the switch?",
+                        choices: [
+                            "ASIC",
+                            "dual processors",
+                            "large buffer size",
+                            "store-and-forward RAM"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What information is added to the switch table from incoming frames?",
+                        choices: [
+                            "source MAC address and incoming port number",
+                            "destination MAC address and incoming port number",
+                            "source IP address and incoming port number",
+                            "destination IP address and incoming port number"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which switching method ensures that the incoming frame is error-free before forwarding?",
+                        choices: [
+                            "cut-through",
+                            "FCS",
+                            "fragment free",
+                            "store-and-forward"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "How many broadcast domains are displayed in a network with 4 links between routers and 4 LANs connected to routers?",
+                        choices: [
+                            "1",
+                            "4",
+                            "8",
+                            "16"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        type: "multi",
+                        q: "Under which two occasions should an administrator disable DTP while managing a local area network? (Choose two.)",
+                        choices: [
+                            "when connecting a Cisco switch to a non-Cisco switch",
+                            "when a neighbor switch uses a DTP mode of dynamic auto",
+                            "when a neighbor switch uses a DTP mode of dynamic desirable",
+                            "on links that should not be trunking",
+                            "on links that should dynamically attempt trunking"
+                        ],
+                        correct: [0, 3],
+                        points: 2
+                    },
+                    {
+                        type: "multi",
+                        q: "Which two characteristics describe the native VLAN? (Choose two.)",
+                        choices: [
+                            "Designed to carry traffic that is generated by users, this type of VLAN is also known as the default VLAN.",
+                            "The native VLAN traffic will be untagged across the trunk link.",
+                            "This VLAN is necessary for remote management of a switch.",
+                            "High priority traffic, such as voice traffic, uses the native VLAN.",
+                            "The native VLAN provides a common identifier to both ends of a trunk."
+                        ],
+                        correct: [1, 4],
+                        points: 2
+                    },
+                    {
+                        q: "On a switch that is configured with multiple VLANs, which command will remove only VLAN 100 from the switch?",
+                        choices: [
+                            "Switch# delete flash:vlan.dat",
+                            "Switch(config-if)# no switchport access vlan 100",
+                            "Switch(config-if)# no switchport trunk allowed vlan 100",
+                            "Switch(config)# no vlan 100"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "A network administrator is reviewing port and VLAN assignments on switch S2 and notices that interfaces Gi0/1 and Gi0/2 are not included in the output of show vlan brief. Why?",
+                        choices: [
+                            "There is a native VLAN mismatch between the switches.",
+                            "There is no media connected to the interfaces.",
+                            "They are administratively shut down.",
+                            "They are configured as trunk interfaces."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "A network contains multiple VLANs spanning multiple switches. What happens when a device in VLAN 20 sends a broadcast Ethernet frame?",
+                        choices: [
+                            "All devices in all VLANs see the frame.",
+                            "Devices in VLAN 20 and the management VLAN see the frame.",
+                            "Only devices in VLAN 20 see the frame.",
+                            "Only devices that are connected to the local switch see the frame."
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "What happens to switch ports after the VLAN to which they are assigned is deleted?",
+                        choices: [
+                            "The ports are disabled.",
+                            "The ports are placed in trunk mode.",
+                            "The ports are assigned to VLAN1, the default VLAN.",
+                            "The ports stop communicating with the attached devices."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "In what switch mode should port G0/1 be assigned if it connects to a router used for inter-VLAN routing (Cisco best practices)?",
+                        choices: [
+                            "access",
+                            "trunk",
+                            "native",
+                            "auto"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Port Fa0/11 on a switch is assigned to VLAN 30. If the command no switchport access vlan 30 is entered on the Fa0/11 interface, what will happen?",
+                        choices: [
+                            "Port Fa0/11 will be shutdown.",
+                            "An error message would be displayed.",
+                            "Port Fa0/11 will be returned to VLAN 1.",
+                            "VLAN 30 will be deleted."
+                        ],
+                        correct: 2
+                    }, {
+                        q: "Which command displays the encapsulation type, the voice VLAN ID, and the access mode VLAN for the Fa0/1 interface?",
+                        choices: [
+                            "show vlan brief",
+                            "show interfaces Fa0/1 switchport",
+                            "show mac address-table interface Fa0/1",
+                            "show interfaces trunk"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Refer to the exhibit. A technician is programming switch SW3 to manage voice and data traffic through port Fa0/20. What, if anything, is wrong with the configuration?",
+                        choices: [
+                            "There is nothing wrong with the configuration.",
+                            "Interface Fa0/20 can only have one VLAN assigned.",
+                            "The mls qos trust cos command should reference VLAN 35.",
+                            "The command used to assign the voice VLAN to the switch port is incorrect."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        type: "multi",
+                        q: "Which four steps are needed to configure a voice VLAN on a switch port? (Choose four).",
+                        choices: [
+                            "Configure the interface as an IEEE 802.1Q trunk.",
+                            "Assign the voice VLAN to the switch port.",
+                            "Activate spanning-tree PortFast on the interface.",
+                            "Ensure that voice traffic is trusted and tagged with a CoS priority value.",
+                            "Add a voice VLAN.",
+                            "Configure the switch port interface with subinterfaces.",
+                            "Assign a data VLAN to the switch port.",
+                            "Configure the switch port in access mode."
+                        ],
+                        correct: [1, 3, 4, 7],
+                        points: 4
+                    },
+                    {
+                        q: "Refer to the exhibit. PC1 is unable to communicate with server 1. The network administrator issues the show interfaces trunk command to begin troubleshooting. What conclusion can be made based on the output of this command?",
+                        choices: [
+                            "Interface G0/2 is not configured as a trunk.",
+                            "VLAN 20 has not been created.",
+                            "The encapsulation on interface G0/1 is incorrect.",
+                            "The DTP mode is incorrectly set to dynamic auto on interface G0/1."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Refer to the exhibit. What is the cause of the error that is displayed in the configuration of inter-VLAN routing on router CiscoVille?",
+                        choices: [
+                            "The gig0/0 interface does not support inter-VLAN routing.",
+                            "The no shutdown command has not been configured.",
+                            "The IP address on CiscoVille is incorrect.",
+                            "The encapsulation dot1Q 20 command has not been configured."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator has configured router CiscoVille with the above commands to provide inter-VLAN routing. What command will be required on a switch that is connected to the Gi0/0 interface on router CiscoVille to allow inter-VLAN routing?",
+                        choices: [
+                            "switchport mode access",
+                            "no switchport",
+                            "switchport mode trunk",
+                            "switchport mode dynamic desirable"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "A high school uses VLAN15 for the laboratory network and VLAN30 for the faculty network. What is required to enable communication between these two VLANs while using the router-on-a-stick approach?",
+                        choices: [
+                            "A multilayer switch is needed.",
+                            "A router with at least two LAN interfaces is needed.",
+                            "Two groups of switches are needed, each with ports that are configured for one VLAN.",
+                            "A switch with a port that is configured as a trunk is needed when connecting to the router."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        type: "multi",
+                        q: "When routing a large number of VLANs, what are two disadvantages of using the router-on-a-stick inter-VLAN routing method rather than the multilayer switch inter-VLAN routing method? (Choose two.)",
+                        choices: [
+                            "Multiple SVIs are needed.",
+                            "A dedicated router is required.",
+                            "Router-on-a-stick requires subinterfaces to be configured on the same subnets.",
+                            "Router-on-a-stick requires multiple physical interfaces on a router.",
+                            "Multiple subinterfaces may impact the traffic flow speed."
+                        ],
+                        correct: [1, 4],
+                        points: 2
+                    },
+                    {
+                        type: "multi",
+                        q: "Refer to the exhibit. A network administrator is verifying the configuration of inter-VLAN routing. Users complain that PCs on different VLANs cannot communicate. Based on the output, what are two configuration errors on switch interface Gi1/1? (Choose two.)",
+                        choices: [
+                            "Gi1/1 is in the default VLAN.",
+                            "Voice VLAN is not assigned to Gi1/1.",
+                            "Gi1/1 is configured as trunk mode.",
+                            "Negotiation of trunking is turned on on Gi1/1.",
+                            "The trunking encapsulation protocol is configured wrong."
+                        ],
+                        correct: [0, 2],
+                        points: 2
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator is verifying the configuration of inter-VLAN routing. Users complain that PC2 cannot communicate with PC1. Based on the output, what is the possible cause of the problem?",
+                        choices: [
+                            "Gi0/0 is not configured as a trunk port.",
+                            "The command interface GigabitEthernet0/0.5 was entered incorrectly.",
+                            "There is no IP address configured on the interface Gi0/0.",
+                            "The no shutdown command is not entered on subinterfaces.",
+                            "The encapsulation dot1Q 5 command contains the wrong VLAN."
+                        ],
+                        correct: 4
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator has configured router CiscoVille with the above commands to provide inter-VLAN routing. What type of port will be required on a switch that is connected to Gi0/0 on router CiscoVille to allow inter-VLAN routing?",
+                        choices: [
+                            "routed port",
+                            "access port",
+                            "trunk port",
+                            "SVI"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator is configuring RT1 for inter-VLAN routing. The switch is configured correctly and is functional. Host1, Host2, and Host3 cannot communicate with each other. Based on the router configuration, what is causing the problem?",
+                        choices: [
+                            "Interface Fa0/0 is missing IP address configuration information.",
+                            "IP addresses on the subinterfaces are incorrectly matched to the VLANs.",
+                            "Each subinterface of Fa0/0 needs separate no shutdown commands.",
+                            "Routers do not support 802.1Q encapsulation on subinterfaces."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Refer to the exhibit. A router-on-a-stick configuration was implemented for VLANs 15, 30, and 45, according to the show running-config command output. PCs on VLAN 45 that are using the 172.16.45.0 /24 network are having trouble connecting to PCs on VLAN 30 in the 172.16.30.0 /24 network. Which error is most likely causing this problem?",
+                        choices: [
+                            "The wrong VLAN has been configured on GigabitEthernet 0/0.45.",
+                            "The command no shutdown is missing on GigabitEthernet 0/0.30.",
+                            "The GigabitEthernet 0/0 interface is missing an IP address.",
+                            "There is an incorrect IP address configured on GigabitEthernet 0/0.30."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "What is a characteristic of a routed port on a Layer 3 switch?",
+                        choices: [
+                            "It supports trunking.",
+                            "It is not assigned to a VLAN.",
+                            "It is commonly used as a WAN link.",
+                            "It cannot have an IP address assigned to it."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator needs to configure router-on-a-stick for the networks that are shown. How many subinterfaces will have to be created on the router if each VLAN that is shown is to be routed and each VLAN has its own subinterface?",
+                        choices: [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# mdix auto command?",
+                        choices: [
+                            "It automatically adjusts the port to allow device connections to use either a straight-through or a crossover cable.",
+                            "It applies an IPv4 address to the virtual interface.",
+                            "It applies an IPv6 address to the virtual interface.",
+                            "It permits an IPv6 address to be configured on a switch physical interface.",
+                            "It updates the MAC address table for the associated port."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# ip address 172.18.33.88 255.255.255.0 command?",
+                        choices: [
+                            "It applies an IPv4 address to the virtual interface.",
+                            "It applies an IPv6 address to the virtual interface.",
+                            "It activates a virtual or physical switch interface.",
+                            "It permits an IPv6 address to be configured on a switch physical interface.",
+                            "It updates the MAC address table for the associated port."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw# configure terminal command?",
+                        choices: [
+                            "It enters the global configuration mode.",
+                            "It enters configuration mode for a switch virtual interface.",
+                            "It applies an IPv4 address to the virtual interface.",
+                            "It updates the MAC address table for the associated port.",
+                            "It permits an IPv6 address to be configured on a switch physical interface."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# shutdown command?",
+                        choices: [
+                            "It disables a virtual or physical switch interface.",
+                            "It saves the running configuration to NVRAM.",
+                            "It activates a virtual or physical switch interface.",
+                            "It updates the MAC address table for the associated port.",
+                            "It saves the startup configuration to the running configuration."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# ipv6 address 2001:db8:a2b4:88::1/64 command?",
+                        choices: [
+                            "It applies an IPv6 address to the virtual interface.",
+                            "It activates a virtual or physical switch interface.",
+                            "It applies an IPv4 address to the virtual interface.",
+                            "It permits an IPv6 address to be configured on a switch physical interface.",
+                            "It updates the MAC address table for the associated port."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# exit command?",
+                        choices: [
+                            "It returns to global configuration mode.",
+                            "It returns to privileged mode.",
+                            "It configures the default gateway for the switch.",
+                            "It enters user mode.",
+                            "It saves the startup configuration to the running configuration."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw> enable command?",
+                        choices: [
+                            "It enters privileged mode.",
+                            "It enters the global configuration mode.",
+                            "It enters configuration mode for a switch virtual interface.",
+                            "It updates the MAC address table for the associated port.",
+                            "It permits an IPv6 address to be configured on a switch physical interface."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# duplex full command?",
+                        choices: [
+                            "It allows data to flow in both directions at the same time on the interface.",
+                            "It allows data to flow in only one direction at a time on the interface",
+                            "It automatically adjusts the port to allow device connections to use either a straight-through or a crossover cable.",
+                            "It configures the switch as the default gateway.",
+                            "It encrypts user-mode passwords when users connect remotely."
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN should not carry voice and network management traffic?",
+                        choices: [
+                            "data VLAN",
+                            "voice VLAN",
+                            "management VLAN",
+                            "security VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN is designed to reserve bandwidth to ensure IP Phone quality?",
+                        choices: [
+                            "voice VLAN",
+                            "trunk VLAN",
+                            "security VLAN",
+                            "management VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN is initially the management VLAN?",
+                        choices: [
+                            "default VLAN",
+                            "native VLAN",
+                            "data VLAN",
+                            "management VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN is designed to have a delay of less than 150 ms across the network?",
+                        choices: [
+                            "voice VLAN",
+                            "desirable VLAN",
+                            "trunk VLAN",
+                            "security VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN is used to separate the network into groups of users or devices?",
+                        choices: [
+                            "data VLAN",
+                            "management VLAN",
+                            "voice VLAN",
+                            "native VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN is configured specifically for network traffic such as SSH, Telnet, HTTPS, HTTP, and SNMP?",
+                        choices: [
+                            "management VLAN",
+                            "security VLAN",
+                            "trunk VLAN",
+                            "voice VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What type of VLAN supports untagged traffic?",
+                        choices: [
+                            "native VLAN",
+                            "voice VLAN",
+                            "security VLAN",
+                            "management VLAN"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Refer to the exhibit. The network administrator wants to configure Switch1 to allow SSH connections and prohibit Telnet connections. How should the network administrator change the displayed configuration to satisfy the requirement?",
+                        choices: [
+                            "Use SSH version 1.",
+                            "Reconfigure the RSA key.",
+                            "Configure SSH on a different line.",
+                            "Modify the transport input command."
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "Which solution would help a college alleviate network congestion due to collisions?",
+                        choices: [
+                            "a firewall that connects to two Internet providers",
+                            "a high port density switch",
+                            "a router with two Ethernet ports",
+                            "a router with three Ethernet ports"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        type: "multi",
+                        q: "Which two statements are correct with respect to SVI inter-VLAN routing? (Choose two.)",
+                        choices: [
+                            "Switching packets is faster with SVI.",
+                            "There is no need for a connection to a router.",
+                            "Virtual interfaces support subinterfaces.",
+                            "SVIs can be bundled into EtherChannels.",
+                            "SVIs eliminate the need for a default gateway in the hosts."
+                        ],
+                        correct: [0, 1],
+                        points: 2
+                    },
+                    {
+                        q: "Refer to the exhibit. A network administrator is configuring inter-VLAN routing on a network. For now, only one VLAN is being used, but more will be added soon. What is the missing parameter that is shown as the highlighted question mark in the graphic?",
+                        choices: [
+                            "It identifies the subinterface.",
+                            "It identifies the VLAN number.",
+                            "It identifies the native VLAN number.",
+                            "It identifies the type of encapsulation that is used.",
+                            "It identifies the number of hosts that are allowed on the interface."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which type of VLAN is used to designate which traffic is untagged when crossing a trunk port?",
+                        choices: [
+                            "data",
+                            "default",
+                            "native",
+                            "management"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "A network administrator issues the show vlan brief command while troubleshooting a user support ticket. What output will be displayed?",
+                        choices: [
+                            "the VLAN assignment and membership for device MAC addresses",
+                            "the VLAN assignment and membership for all switch ports",
+                            "the VLAN assignment and trunking encapsulation",
+                            "the VLAN assignment and native VLAN"
+                        ],
+                        correct: 1
+                    }, {
+                        q: "What type of VLAN is configured specifically for network traffic such as SSH, Telnet, HTTPS, HHTP, and SNMP?",
+                        choices: [
+                            "voice VLAN",
+                            "management VLAN",
+                            "native VLAN",
+                            "security VLAN"
+                        ],
+                        correct: 1
+                    }
+                ]
             }
         };
 
         STUDY_CONTENT.fds_all = {
-            title: "FDS All Quizzes and Mock Exam: Master Deck",
+            title: "All Quizzes: Master Deck",
             icon: "🔥",
             questions: [...STUDY_CONTENT.fds_p1.questions, ...STUDY_CONTENT.fds_p2.questions, ...STUDY_CONTENT.fds_p3.questions, ...STUDY_CONTENT.fds_mock.questions]
         };
