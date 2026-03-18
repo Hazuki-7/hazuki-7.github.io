@@ -16,6 +16,14 @@
             --danger: #ef4444;
         }
 
+        :root[data-theme="dark"] {
+            --bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text: #e0e0e0;
+            --primary: #5a67d8;
+            --secondary: #4c51bf;
+        }
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
@@ -35,12 +43,30 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            background: #fff;
+            background: var(--card-bg);
             padding: 12px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #theme-toggle {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        #theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
         }
 
         nav button {
@@ -257,6 +283,7 @@
         <button onclick="showPage('home')" id="btn-home">Home</button>
         <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
         <button onclick="showPage('flashcards')" id="btn-flashcards">Cards</button>
+        <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
     </nav>
 
     <div class="container" id="home">
@@ -2132,8 +2159,32 @@
             highScores.sort((a, b) => b.score - a.score);
             localStorage.setItem('fds_high_scores', JSON.stringify(highScores.slice(0, 5)));
         }
+        // Dark Mode Theme Toggle Functions
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            document.getElementById('theme-toggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Initialize theme on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTheme);
+        } else {
+            initTheme();
+        }
+
         renderHome();
     </script>
+
 </body>
 
 </html>
