@@ -295,7 +295,7 @@
         <button onclick="showPage('home')" id="btn-home">Home</button>
         <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
         <button onclick="showPage('flashcards')" id="btn-flashcards">Cards</button>
-        <button onclick="showPage('schedule')" id="btn-schedule">Schedule</button> 
+        <button onclick="showPage('schedule')" id="btn-schedule">Schedule</button>
         <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
     </nav>
 
@@ -2333,6 +2333,161 @@
                             "bridge-priority [value]",
                             "spanning-tree priority [value]",
                             "vlan priority [value]"
+                        ],
+                        correct: 0
+                    }
+                ]
+            }, ccna_commands_kurt: {
+                title: "CCNA: Mock Examination | Commands",
+                icon: "|Kurt Commands|",
+                questions:[
+                    {
+                        q: "Which command is used to encrypt all plaintext passwords in the running configuration?",
+                        choices: [
+                            "password-encryption enable",
+                            "service password-encryption",
+                            "encrypt all-passwords",
+                            "security password-encryption"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What is the correct command to generate an RSA key for SSH with a modulus of 1024?",
+                        choices: [
+                            "crypto key generate rsa (then enter 1024)",
+                            "ip ssh key generate 1024",
+                            "ssh key-gen rsa 1024",
+                            "crypto rsa generate 1024"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command is used to remove an existing RSA key from a switch?",
+                        choices: [
+                            "no crypto key rsa",
+                            "crypto key zeroise rsa",
+                            "delete crypto key",
+                            "clear rsa key"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "To prevent a switch port from negotiating a trunk using DTP, which command is used?",
+                        choices: [
+                            "switchport mode access",
+                            "switchport nonegotiate",
+                            "no switchport negotiation",
+                            "switchport mode manual"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What is the command to assign a voice VLAN ID 150 to a fastethernet interface?",
+                        choices: [
+                            "switchport access vlan 150 voice",
+                            "vlan voice 150",
+                            "switchport voice vlan 150",
+                            "voice-vlan 150"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used on a trunk port to change the native VLAN to 99?",
+                        choices: [
+                            "switchport native vlan 99",
+                            "switchport trunk native vlan 99",
+                            "vlan 99 native",
+                            "switchport mode trunk native 99"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "On a router-on-a-stick subinterface, which command enables 802.1Q encapsulation for VLAN 10?",
+                        choices: [
+                            "encapsulation 802.1q 10",
+                            "vlan 10 encapsulation",
+                            "dot1q encapsulation 10",
+                            "encapsulation dot1q 10"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        q: "Which command is required on a multilayer switch to enable its routing capabilities?",
+                        choices: [
+                            "ip routing",
+                            "routing enable",
+                            "switchport routing",
+                            "ip forward"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "To force a switch to become the primary root bridge for VLAN 1, which command is used?",
+                        choices: [
+                            "spanning-tree vlan 1 priority 0",
+                            "spanning-tree vlan 1 root primary",
+                            "spanning-tree root primary vlan 1",
+                            "set spanning-tree root primary"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command assigns a range of interfaces to EtherChannel group 1 using PAgP in 'desirable' mode?",
+                        choices: [
+                            "channel-group 1 mode active",
+                            "channel-group 1 mode desirable",
+                            "channel-protocol pagp desirable",
+                            "port-channel 1 mode desirable"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to configure an interface to actively seek to become a trunk by negotiating with other interfaces?",
+                        choices: [
+                            "switchport mode dynamic auto",
+                            "switchport mode dynamic desirable",
+                            "switchport mode trunk",
+                            "switchport negotiate desirable"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "What command is used to set the trust boundary for a Cisco IP phone on an interface?",
+                        choices: [
+                            "mls qos trust cos",
+                            "switchport priority trust",
+                            "qos trust cos",
+                            "switchport voice trust"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "What is the command to verify the VTY line configurations and see how many lines are available?",
+                        choices: [
+                            "show vty lines",
+                            "show line vty",
+                            "show run",
+                            "show ip vty"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command allows only specific VLANs (10, 20, 30) to cross a trunk link?",
+                        choices: [
+                            "switchport trunk allow vlan 10,20,30",
+                            "switchport trunk allowed vlan 10,20,30",
+                            "switchport mode trunk vlan 10-30",
+                            "vlan trunk allowed 10,20,30"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command displays the detailed switchport configuration, including administrative and operational modes?",
+                        choices: [
+                            "show int f0/1 switchport",
+                            "show switchport int f0/1",
+                            "show running-config interface f0/1",
+                            "show ip interface f0/1"
                         ],
                         correct: 0
                     }
