@@ -1783,7 +1783,7 @@
                             "desirable"
                         ],
                         correct: 3
-                    },  
+                    },
                     {
                         q: "A set of switches is being connected in a LAN topology. Which STP bridge priority value will make it least likely for the switch to be selected as the root?",
                         choices: [
@@ -1988,6 +1988,310 @@
                             "The EtherChannel will remain functional."
                         ],
                         correct: 3
+                    }
+                ]
+            }, ccna_commands: {
+                title: "CCNA: Mock Examination | Commands",
+                icon: "|😆😆😆|",
+                questions: [
+                    {
+                        q: "Which command is used to assign an IPv4 address to the Switch Virtual Interface (SVI)?",
+                        choices: [
+                            "BranchSw# ip address 172.18.33.88 255.255.255.0",
+                            "BranchSw(config)# ip address 172.18.33.88 255.255.255.0",
+                            "BranchSw(config-if)# ip address 172.18.33.88 255.255.255.0",
+                            "BranchSw(config-line)# ip address 172.18.33.88 255.255.255.0"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "A technician needs to ensure the switch configuration is preserved after a reboot. Which command should be used?",
+                        choices: [
+                            "copy startup-config running-config",
+                            "copy running-config startup-config",
+                            "write erase",
+                            "reload"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used on a Layer 2 switch to allow the device to be managed from a remote network?",
+                        choices: [
+                            "ip address [address] [mask]",
+                            "ip route 0.0.0.0 0.0.0.0 [gateway]",
+                            "ip default-gateway [address]",
+                            "switchport mode access"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "To verify the duplex and speed settings of a specific interface, which command is the most effective?",
+                        choices: [
+                            "show ip interface brief",
+                            "show interfaces Fa0/1",
+                            "show vlan brief",
+                            "show running-config"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to prevent an interface from sending out BPDUs while still allowing it to participate in STP?",
+                        choices: [
+                            "spanning-tree portfast",
+                            "spanning-tree bpduguard enable",
+                            "spanning-tree bpdufilter enable",
+                            "no spanning-tree"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "A network administrator wants to see the current STP root bridge and port roles for VLAN 10. Which command is used?",
+                        choices: [
+                            "show spanning-tree summary",
+                            "show spanning-tree vlan 10",
+                            "show cdp neighbors",
+                            "show ip route"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command forces an interface to immediately enter the forwarding state, bypassing listening and learning states?",
+                        choices: [
+                            "spanning-tree port-priority 16",
+                            "spanning-tree mode rapid-pvst",
+                            "spanning-tree portfast",
+                            "switchport mode access"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is required on a physical interface to start the process of creating a Layer 3 routed port on a multilayer switch?",
+                        choices: [
+                            "switchport mode access",
+                            "no switchport",
+                            "ip routing",
+                            "switchport port-security"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which global configuration command is used to enable the routing of IPv4 packets on a multilayer switch?",
+                        choices: [
+                            "ip route 0.0.0.0 0.0.0.0",
+                            "router rip",
+                            "ip routing",
+                            "ipv6 unicast-routing"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "To initiate an EtherChannel using LACP in an active negotiation state, which command is used?",
+                        choices: [
+                            "channel-group 1 mode desirable",
+                            "channel-group 1 mode auto",
+                            "channel-group 1 mode active",
+                            "channel-group 1 mode passive"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used to check the status, protocol, and member interfaces of all configured EtherChannels?",
+                        choices: [
+                            "show interfaces trunk",
+                            "show etherchannel summary",
+                            "show ip interface brief",
+                            "show spanning-tree"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "When configuring PAgP, which mode will wait for the other side to initiate negotiation before participating in the EtherChannel?",
+                        choices: [
+                            "on",
+                            "active",
+                            "auto",
+                            "desirable"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used to create a virtual logical interface for an EtherChannel bundle?",
+                        choices: [
+                            "interface vlan 1",
+                            "interface port-channel 1",
+                            "interface loopback 0",
+                            "interface range fa0/1 - 2"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command would you use to change the STP priority of a switch to 4096 for VLAN 1?",
+                        choices: [
+                            "spanning-tree vlan 1 priority 4096",
+                            "spanning-tree vlan 1 root primary",
+                            "bridge-priority 4096",
+                            "spanning-tree vlan 1 cost 4096"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command displays the MAC address table on a Cisco switch?",
+                        choices: [
+                            "show mac-address-table",
+                            "show ip arp",
+                            "show cam table",
+                            "show interfaces"
+                        ],
+                        correct: 0
+                    }, {
+                        q: "Which command is used to globally enable Link Aggregation Control Protocol (LACP) or PAgP on a group of interfaces?",
+                        choices: [
+                            "interface range fa0/1 - 2",
+                            "channel-group 1 mode [mode]",
+                            "port-channel 1",
+                            "switchport mode trunk"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to set the STP priority for a specific VLAN to ensure a switch becomes the root bridge?",
+                        choices: [
+                            "spanning-tree vlan [vlan-id] root primary",
+                            "spanning-tree priority 4096",
+                            "spanning-tree vlan [vlan-id] priority 4096",
+                            "spanning-tree root primary"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used to configure a specific VLAN as the native VLAN on an 802.1Q trunk link?",
+                        choices: [
+                            "switchport native vlan [vlan-id]",
+                            "switchport trunk native vlan [vlan-id]",
+                            "switchport access vlan [vlan-id]",
+                            "vlan [vlan-id] native"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "To enable inter-VLAN routing on a router-on-a-stick, which command is used to define the encapsulation type and VLAN ID on a subinterface?",
+                        choices: [
+                            "encapsulation 802.1q [vlan-id]",
+                            "switchport trunk encapsulation dot1q",
+                            "encapsulation dot1q [vlan-id]",
+                            "vlan encapsulation dot1q [vlan-id]"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used to configure a Layer 3 switch to support routing between VLANs via an SVI?",
+                        choices: [
+                            "interface vlan [vlan-id]",
+                            "no switchport",
+                            "ip routing",
+                            "switchport mode trunk"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command is used to view the spanning-tree state for a specific interface?",
+                        choices: [
+                            "show spanning-tree summary",
+                            "show spanning-tree interface [type/number]",
+                            "show interfaces [type/number] status",
+                            "show ip interface brief"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to enable BPDU Guard on a PortFast-enabled interface to prevent loops from unauthorized switches?",
+                        choices: [
+                            "spanning-tree bpduguard enable",
+                            "spanning-tree portfast bpduguard",
+                            "spanning-tree bpdufilter enable",
+                            "spanning-tree guard root"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command is used to verify the EtherChannel load-balancing method currently in use?",
+                        choices: [
+                            "show etherchannel summary",
+                            "show etherchannel load-balance",
+                            "show running-config interface port-channel 1",
+                            "show etherchannel port-channel"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to manually set the cost of an interface for STP calculations?",
+                        choices: [
+                            "spanning-tree vlan [vlan-id] priority [value]",
+                            "spanning-tree cost [value]",
+                            "spanning-tree vlan [vlan-id] cost [value]",
+                            "spanning-tree port-priority [value]"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "Which command is used to remove all VLAN information by deleting the VLAN database file in flash?",
+                        choices: [
+                            "erase startup-config",
+                            "delete flash:vlan.dat",
+                            "no vlan database",
+                            "write erase"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command allows an administrator to see which interfaces are currently trunking and their native VLANs?",
+                        choices: [
+                            "show vlan brief",
+                            "show interfaces trunk",
+                            "show ip interface brief",
+                            "show running-config"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to assign a specific interface to a voice VLAN?",
+                        choices: [
+                            "switchport voice vlan [vlan-id]",
+                            "switchport access vlan [vlan-id] voice",
+                            "vlan [vlan-id] type voice",
+                            "mls qos trust cos"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command is used to globally change the spanning-tree mode to Rapid PVST+?",
+                        choices: [
+                            "spanning-tree rapid-pvst",
+                            "spanning-tree mode rapid-pvst",
+                            "spanning-tree mode mst",
+                            "spanning-tree vlan 1 rapid"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        q: "Which command is used to set the PortFast feature globally for all access ports?",
+                        choices: [
+                            "spanning-tree portfast default",
+                            "spanning-tree portfast",
+                            "spanning-tree portfast edge default",
+                            "spanning-tree mode portfast"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        q: "Which command is used to change the bridge priority in increments of 4096?",
+                        choices: [
+                            "spanning-tree vlan [id] priority [0-61440]",
+                            "bridge-priority [value]",
+                            "spanning-tree priority [value]",
+                            "vlan priority [value]"
+                        ],
+                        correct: 0
                     }
                 ]
             }
