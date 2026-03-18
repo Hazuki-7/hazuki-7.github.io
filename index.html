@@ -639,7 +639,7 @@
                     { q: "Formulate an explanation of why the Diffie-Hellman key exchange protocol is architecturally essential in systems that ultimately use symmetric encryption for secure communication.", choices: ["Diffie-Hellman creates a digital signature attached to every transmitted packet, authenticating both parties.", "Diffie-Hellman generates a one-time password that is securely emailed to both communicating parties.", "Diffie-Hellman allows two parties to derive a shared secret key over a completely unsecured public channel without ever transmitting the key itself - solving the fundamental symmetric key distribution problem.", "Diffie-Hellman permanently replaces symmetric encryption in all modern secure communication protocols."], correct: 2 }
                 ]
             }, ias_mock: {
-                title: "CCNA: Mock Examination",
+                title: "CCNA: Mock Examination | Module 1-4",
                 icon: "<:",
                 questions: [
                     {
@@ -838,6 +838,16 @@
                         correct: 0
                     },
                     {
+                        q: "A switch receives a Layer 2 frame. What is the first step the switch does when processing the frame?",
+                        choices: [
+                            "The switch examines the destination MAC address and compares it to the table.",
+                            "The switch forwards the frame to all ports.",
+                            "The switch sees if the source MAC address is in the MAC address table.",
+                            "The switch adds the destination MAC to the table."
+                        ],
+                        correct: 2
+                    },
+                    {
                         q: "What information is added to the switch table from incoming frames?",
                         choices: [
                             "source MAC address and incoming port number",
@@ -858,7 +868,8 @@
                         correct: 3
                     },
                     {
-                        q: "How many broadcast domains are displayed in a network with 4 links between routers and 4 LANs connected to routers?",
+                        q: "Refer to the exhibit. How many broadcast domains are displayed?",
+                        image: "images/exhibit-broadcast-domains.png",
                         choices: [
                             "1",
                             "4",
@@ -904,55 +915,46 @@
                         correct: 3
                     },
                     {
-                        q: "A network administrator is reviewing port and VLAN assignments on switch S2 and notices that interfaces Gi0/1 and Gi0/2 are not included in the output of show vlan brief. Why?",
+                        q: "A network administrator notices that interfaces Gi0/1 and Gi0/2 are missing from the 'show vlan brief' output. Why?",
                         choices: [
-                            "There is a native VLAN mismatch between the switches.",
-                            "There is no media connected to the interfaces.",
+                            "There is a native VLAN mismatch.",
+                            "There is no media connected.",
                             "They are administratively shut down.",
                             "They are configured as trunk interfaces."
                         ],
                         correct: 3
                     },
                     {
-                        q: "A network contains multiple VLANs spanning multiple switches. What happens when a device in VLAN 20 sends a broadcast Ethernet frame?",
+                        q: "A device in VLAN 20 sends a broadcast Ethernet frame. Who sees the frame?",
                         choices: [
-                            "All devices in all VLANs see the frame.",
-                            "Devices in VLAN 20 and the management VLAN see the frame.",
-                            "Only devices in VLAN 20 see the frame.",
-                            "Only devices that are connected to the local switch see the frame."
+                            "All devices in all VLANs.",
+                            "Devices in VLAN 20 and the management VLAN.",
+                            "Only devices in VLAN 20.",
+                            "Only devices connected to the local switch."
                         ],
                         correct: 2
+                    },
+                    {
+                        q: "Workstations on SW1 cannot send traffic to workstations on SW2 in VLAN 20. What could be done to remedy this?",
+                        choices: [
+                            "Allow VLAN 20 on the trunk link.",
+                            "Enable DTP on both ends.",
+                            "Configure all workstations on SW1 to the default VLAN.",
+                            "Configure all workstations on SW2 to the native VLAN."
+                        ],
+                        correct: 0
                     },
                     {
                         q: "What happens to switch ports after the VLAN to which they are assigned is deleted?",
                         choices: [
                             "The ports are disabled.",
                             "The ports are placed in trunk mode.",
-                            "The ports are assigned to VLAN1, the default VLAN.",
+                            "The ports are assigned to VLAN 1.",
                             "The ports stop communicating with the attached devices."
                         ],
                         correct: 3
                     },
                     {
-                        q: "In what switch mode should port G0/1 be assigned if it connects to a router used for inter-VLAN routing (Cisco best practices)?",
-                        choices: [
-                            "access",
-                            "trunk",
-                            "native",
-                            "auto"
-                        ],
-                        correct: 1
-                    },
-                    {
-                        q: "Port Fa0/11 on a switch is assigned to VLAN 30. If the command no switchport access vlan 30 is entered on the Fa0/11 interface, what will happen?",
-                        choices: [
-                            "Port Fa0/11 will be shutdown.",
-                            "An error message would be displayed.",
-                            "Port Fa0/11 will be returned to VLAN 1.",
-                            "VLAN 30 will be deleted."
-                        ],
-                        correct: 2
-                    }, {
                         q: "Which command displays the encapsulation type, the voice VLAN ID, and the access mode VLAN for the Fa0/1 interface?",
                         choices: [
                             "show vlan brief",
@@ -964,6 +966,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A technician is programming switch SW3 to manage voice and data traffic through port Fa0/20. What, if anything, is wrong with the configuration?",
+                        image: "images/exhibit-sw3-voice.png",
                         choices: [
                             "There is nothing wrong with the configuration.",
                             "Interface Fa0/20 can only have one VLAN assigned.",
@@ -990,6 +993,7 @@
                     },
                     {
                         q: "Refer to the exhibit. PC1 is unable to communicate with server 1. The network administrator issues the show interfaces trunk command to begin troubleshooting. What conclusion can be made based on the output of this command?",
+                        image: "images/exhibit-pc1-server1-trunk.png",
                         choices: [
                             "Interface G0/2 is not configured as a trunk.",
                             "VLAN 20 has not been created.",
@@ -1000,6 +1004,7 @@
                     },
                     {
                         q: "Refer to the exhibit. What is the cause of the error that is displayed in the configuration of inter-VLAN routing on router CiscoVille?",
+                        image: "images/exhibit-ciscoville-error.png",
                         choices: [
                             "The gig0/0 interface does not support inter-VLAN routing.",
                             "The no shutdown command has not been configured.",
@@ -1010,6 +1015,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A network administrator has configured router CiscoVille with the above commands to provide inter-VLAN routing. What command will be required on a switch that is connected to the Gi0/0 interface on router CiscoVille to allow inter-VLAN routing?",
+                        image: "images/exhibit-ciscoville-config.png",
                         choices: [
                             "switchport mode access",
                             "no switchport",
@@ -1044,6 +1050,7 @@
                     {
                         type: "multi",
                         q: "Refer to the exhibit. A network administrator is verifying the configuration of inter-VLAN routing. Users complain that PCs on different VLANs cannot communicate. Based on the output, what are two configuration errors on switch interface Gi1/1? (Choose two.)",
+                        image: "images/exhibit-intervlan-verify.png",
                         choices: [
                             "Gi1/1 is in the default VLAN.",
                             "Voice VLAN is not assigned to Gi1/1.",
@@ -1056,6 +1063,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A network administrator is verifying the configuration of inter-VLAN routing. Users complain that PC2 cannot communicate with PC1. Based on the output, what is the possible cause of the problem?",
+                        image: "images/exhibit-pc2-pc1-fail.png",
                         choices: [
                             "Gi0/0 is not configured as a trunk port.",
                             "The command interface GigabitEthernet0/0.5 was entered incorrectly.",
@@ -1064,19 +1072,9 @@
                             "The encapsulation dot1Q 5 command contains the wrong VLAN."
                         ],
                         correct: 4
-                    },
-                    {
-                        q: "Refer to the exhibit. A network administrator has configured router CiscoVille with the above commands to provide inter-VLAN routing. What type of port will be required on a switch that is connected to Gi0/0 on router CiscoVille to allow inter-VLAN routing?",
-                        choices: [
-                            "routed port",
-                            "access port",
-                            "trunk port",
-                            "SVI"
-                        ],
-                        correct: 2
-                    },
-                    {
+                    }, {
                         q: "Refer to the exhibit. A network administrator is configuring RT1 for inter-VLAN routing. The switch is configured correctly and is functional. Host1, Host2, and Host3 cannot communicate with each other. Based on the router configuration, what is causing the problem?",
+                        image: "images/exhibit-rt1-config.png",
                         choices: [
                             "Interface Fa0/0 is missing IP address configuration information.",
                             "IP addresses on the subinterfaces are incorrectly matched to the VLANs.",
@@ -1087,6 +1085,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A router-on-a-stick configuration was implemented for VLANs 15, 30, and 45, according to the show running-config command output. PCs on VLAN 45 that are using the 172.16.45.0 /24 network are having trouble connecting to PCs on VLAN 30 in the 172.16.30.0 /24 network. Which error is most likely causing this problem?",
+                        image: "images/exhibit-stick-config.png",
                         choices: [
                             "The wrong VLAN has been configured on GigabitEthernet 0/0.45.",
                             "The command no shutdown is missing on GigabitEthernet 0/0.30.",
@@ -1107,6 +1106,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A network administrator needs to configure router-on-a-stick for the networks that are shown. How many subinterfaces will have to be created on the router if each VLAN that is shown is to be routed and each VLAN has its own subinterface?",
+                        image: "images/exhibit-router-on-stick-count.png",
                         choices: [
                             "1",
                             "2",
@@ -1148,6 +1148,17 @@
                             "It permits an IPv6 address to be configured on a switch physical interface."
                         ],
                         correct: 0
+                    },
+                    {
+                        q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw# copy running-config startup-config command?",
+                        choices: [
+                            "It enters the global configuration mode.",
+                            "It saves the running configuration to NVRAM.",
+                            "It disables a virtual or physical switch interface.",
+                            "It updates the MAC address table for the associated port.",
+                            "It saves the startup configuration to the running configuration."
+                        ],
+                        correct: 1
                     },
                     {
                         q: "A technician is configuring a new Cisco 2960 switch. What is the effect of issuing the BranchSw(config-if)# shutdown command?",
@@ -1275,7 +1286,19 @@
                         correct: 0
                     },
                     {
+                        q: "Refer to the exhibit. A network administrator has configured R1 as shown. When the administrator checks the status of the serial interface, the interface is shown as being administratively down. What additional command must be entered on the serial interface of R1 to bring the interface up?",
+                        image: "images/exhibit-r1-serial-down.png",
+                        choices: [
+                            "IPv6 enable",
+                            "clockrate 128000",
+                            "end",
+                            "no shutdown"
+                        ],
+                        correct: 3
+                    },
+                    {
                         q: "Refer to the exhibit. The network administrator wants to configure Switch1 to allow SSH connections and prohibit Telnet connections. How should the network administrator change the displayed configuration to satisfy the requirement?",
+                        image: "images/exhibit-switch1-ssh.png",
                         choices: [
                             "Use SSH version 1.",
                             "Reconfigure the RSA key.",
@@ -1309,6 +1332,7 @@
                     },
                     {
                         q: "Refer to the exhibit. A network administrator is configuring inter-VLAN routing on a network. For now, only one VLAN is being used, but more will be added soon. What is the missing parameter that is shown as the highlighted question mark in the graphic?",
+                        image: "images/exhibit-intervlan-param.png",
                         choices: [
                             "It identifies the subinterface.",
                             "It identifies the VLAN number.",
@@ -1337,8 +1361,19 @@
                             "the VLAN assignment and native VLAN"
                         ],
                         correct: 1
-                    }, {
-                        q: "What type of VLAN is configured specifically for network traffic such as SSH, Telnet, HTTPS, HHTP, and SNMP?",
+                    },
+                    {
+                        q: "Which message is displayed when 10.10.10.1 is entered into the PC1 Web Browser address bar?",
+                        choices: [
+                            "Local Server",
+                            "Test Server",
+                            "File Server",
+                            "Cisco Server"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        q: "What type of VLAN is configured specifically for network traffic such as SSH, Telnet, HTTPS, HTTP, and SNMP?",
                         choices: [
                             "voice VLAN",
                             "management VLAN",
@@ -1415,7 +1450,9 @@
             let html = `<div class="card">
         <small style="color:var(--primary); font-weight:bold">Item ${quizIdx + 1} of ${activeQuiz.length}</small>
         <h3 style="margin-top:10px">${q.q}</h3>`;
-
+            if (q.image) {
+                html += `<img src="${q.image}" alt="Exhibit" style="max-width: 100%; height: auto; margin-bottom: 10px;">`;
+            }
             if (q.type === "multi") html += `<div class="multi-info">Select ${q.correct.length} correct items!</div>`;
 
             html += `<div class="answers-grid">`;
