@@ -295,6 +295,8 @@
         <button onclick="showPage('home')" id="btn-home">Home</button>
         <button onclick="showPage('quiz')" id="btn-quiz">Quiz</button>
         <button onclick="showPage('flashcards')" id="btn-flashcards">Cards</button>
+        <button onclick="showPage('schedule')" id="btn-schedule">Schedule</button> <button id="darkModeToggle"
+            class="toggle-btn">☾</button>
         <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
     </nav>
 
@@ -332,6 +334,14 @@
 
     </div>
 
+    <div class="container" id="schedule" style="display:none">
+        <div class="card" style="text-align: center;">
+            <h2>Class Schedule & Rooms</h2>
+            <div class="subject-selection" id="scheduleGrid">
+            </div>
+        </div>
+    </div>
+
     <script>
         let userId = localStorage.getItem('reviewer_user_id');
         if (!userId) {
@@ -350,6 +360,28 @@
             }
         }
 
+        const SCHEDULE_DATA = [
+            {
+                subject: "Information Assurance & Security",
+                room: "Lab 402",
+                time: "07:30 AM - 10:30 AM",
+                days: "Mon/Wed",
+                icon: "🛡️"
+            },]
+
+        function renderSchedule() {
+            const grid = document.getElementById('scheduleGrid');
+            grid.innerHTML = SCHEDULE_DATA.map(item => `
+        <div class="subject-btn" style="cursor: default; transform: none; box-shadow: none;">
+            <div>
+                <h3 style="margin:0">${item.icon} ${item.subject}</h3>
+                <p style="margin: 10px 0 5px 0; font-weight: bold; color: var(--primary);">${item.time}</p>
+                <small style="color: var(--text-light)">${item.days}</small>
+            </div>
+            <div class="start-badge" style="background: var(--secondary)">${item.room}</div>
+        </div>
+    `).join('');
+        }
         const STUDY_CONTENT = {
             fds_p1: {
                 title: "Part 1: DBMS Fundamentals",
@@ -2346,6 +2378,8 @@
             showPage('quiz');
         }
 
+
+
         function showPage(id) {
             document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -2353,6 +2387,7 @@
             if (document.getElementById('btn-' + id)) document.getElementById('btn-' + id).classList.add('active');
             if (id === 'quiz') startQuiz();
             if (id === 'flashcards') loadCard();
+            if (id === 'schedule') renderSchedule();
         }
 
         function startQuiz() {
