@@ -1,326 +1,427 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reviewer HUB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --bg: #f4f7fe;
-            --card-bg: #ffffff;
-            --text: #2b2d42;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --nav-bg: #ffffff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GE-104_Final_Exam_Reviewer_Consolidated.pdf - DocsPortal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Dark Mode Override */
-        [data-theme="dark"] {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --border: #334155;
-            --nav-bg: #1e293b;
-        }
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: 14px;
+    }
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            transition: 0.3s;
-        }
+    /* Top Navigation Bar */
+    .navbar {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-        .app-viewport { display: flex; height: 100vh; }
-        
-        .app-nav {
-            width: 80px;
-            background: var(--nav-bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-            gap: 20px;
-            border-right: 1px solid var(--border);
-        }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .app-nav button {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 12px;
-            transition: 0.2s;
-        }
+    .logo-box {
+      width: 28px;
+      height: 28px;
+      background: #2563eb;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+    }
 
-        .app-nav button:hover, .app-nav button.active {
-            background: var(--primary);
-        }
+    .breadcrumbs {
+      color: #64748b;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .main-content { flex: 1; overflow-y: auto; padding: 20px; }
+    .breadcrumbs span.current {
+      color: #0f172a;
+      font-weight: 500;
+    }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-        }
+    .status-pill {
+      font-size: 12px;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
 
-        /* Subject Button Styles */
-        .subject-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    /* Main Workspace Layout */
+    .workspace {
+      max-width: 1040px;
+      margin: 32px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 24px;
+    }
 
-        .subject-btn:hover { border-color: var(--primary); transform: translateY(-3px); }
+    @media (max-width: 768px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+      .breadcrumbs {
+        display: none;
+      }
+    }
 
-        .badge {
-            background: var(--primary);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
+    /* Document Viewer Card */
+    .doc-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
 
-        /* Dark Mode Toggle Position */
-        #theme-toggle { margin-top: auto; font-size: 24px; }
-    </style>
+    .doc-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .doc-title h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .doc-meta {
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      gap: 16px;
+    }
+
+    /* Blurred Preview Area */
+    .doc-preview-wrapper {
+      position: relative;
+      background: #f1f5f9;
+      padding: 32px 24px;
+      min-height: 460px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .fake-page {
+      width: 100%;
+      max-width: 580px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 40px;
+      user-select: none;
+      filter: blur(3.5px);
+      opacity: 0.65;
+    }
+
+    .fake-page h4 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 8px;
+    }
+
+    .fake-page p {
+      font-size: 12px;
+      line-height: 1.8;
+      color: #334155;
+      margin-bottom: 14px;
+    }
+
+    /* Gate Overlay with the Trigger Button */
+    .access-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.95) 65%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .access-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 28px 32px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    .pdf-icon {
+      width: 40px;
+      height: 40px;
+      background: #eff6ff;
+      color: #2563eb;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .access-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+
+    .access-card p {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 16px;
+      border: 1px solid #1d4ed8;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.15s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-primary:active {
+      background-color: #1e40af;
+    }
+
+    /* Right Sidebar Details */
+    .sidebar-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      height: fit-content;
+    }
+
+    .sidebar-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #475569;
+      margin-bottom: 16px;
+    }
+
+    .meta-list {
+      list-style: none;
+    }
+
+    .meta-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 13px;
+    }
+
+    .meta-list li:last-child {
+      border-bottom: none;
+    }
+
+    .meta-label {
+      color: #64748b;
+    }
+
+    .meta-value {
+      font-weight: 500;
+      color: #0f172a;
+    }
+
+    /* Jumpscare Overlay */
+    #jumpscare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 99999;
+      visibility: hidden;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="app-viewport">
-        <nav class="app-nav">
-            <button onclick="showPage('schedule', this)" id="btn-schedule">📅</button>
-            <button onclick="showPage('quizzes', this)" id="btn-quizzes" class="active">📝</button>
-            <button onclick="showPage('flashcards', this)" id="btn-flashcards">🃏</button>
-            <button id="theme-toggle">☾</button>
-        </nav>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="logo-box">D</div>
+      <div class="breadcrumbs">
+        <span>Shared Drive</span>
+        <span>/</span>
+        <span>Academic Reviewers</span>
+        <span>/</span>
+        <span class="current">Comprog Quiz Finals.pdf</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <span class="status-pill">View Only</span>
+    </div>
+  </nav>
 
-        <main class="main-content">
-            <header>
-                <h1 id="page-title">Reviewer Hub</h1>
-            </header>
+  <!-- Main Content -->
+  <main class="workspace">
+    <!-- Left Column: Document Preview -->
+    <div class="doc-container">
+      <div class="doc-header">
+        <div class="doc-title">
+          <h1>Comprog Quiz Finals Reviewer (Answer keys)</h1>
+          <div class="doc-meta">
+            <span>Uploaded by Elton Langunisa</span>
+            <span>•</span>
+            <span>28 Pages</span>
+            <span>•</span>
+            <span>PDF Document</span>
+          </div>
+        </div>
+      </div>
 
-            <div id="page-quizzes" class="page">
-                <div class="grid" id="quiz-grid"></div>
+      <div class="doc-preview-wrapper">
+        <!-- Blurred Background Document -->
+        <div class="fake-page">
+          <h4>PART I. MULTIPLE CHOICE & CONCEPTUAL SYNTHESIS</h4>
+          <p>1. Which of the following best describes the primary mechanism outlined in Chapter 4 regarding structural equilibrium and variance under standard conditions?</p>
+          <p>A) Linear progression across defined intervals<br>
+             B) Inverse proportionality relative to baseline metrics<br>
+             C) Asymptotic convergence within bounded parameters<br>
+             D) None of the above</p>
+          <p><strong>Rationale:</strong> Refer to Lecture 6 slides (pp. 14-19). When evaluating system constraints, baseline metrics always dictate the upper threshold before equilibrium is reached.</p>
+          <p>2. In the context of comparative analysis, identify the three core variables required to validate the secondary hypothesis during empirical testing.</p>
+          <p>3. Calculate the net deviation given the standard coefficient of 0.842 across a sample distribution of n = 250.</p>
+        </div>
+
+        <!-- Call to Action Overlay -->
+        <div class="access-overlay">
+          <div class="access-card">
+            <div class="pdf-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
             </div>
-
-            <div id="page-schedule" class="page" style="display:none">
-                <div class="grid" id="schedule-grid"></div>
-            </div>
-
-            <div id="page-flashcards" class="page" style="display:none">
-                <div class="card"><h2>Flashcards</h2><p>Select a subject from the Quiz tab to start cards.</p></div>
-            </div>
-        </main>
+            <h3>Full Document Preview Locked</h3>
+            <p>You are viewing a low-resolution preview. Open the document viewer to access all 28 pages and answer keys.</p>
+            <button type="button" class="btn-primary" onclick="jumpscare();">
+              Open Full Reviewer
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        // --- DATA ---
-        const STUDY_CONTENT = {
-    title: "GE Elective: Ecosystems",
-    icon: "🌱",
-    questions: [
-        // --- PART I: MULTIPLE CHOICE ---
-        { 
-            q: "This set of ethics protects and promotes the human interests or well-being at the expense of all other factors.", 
-            choices: ["environmental science", "anthropocentrism", "environmental ethics", "ecocentrism"], 
-            correct: 1 
-        },
-        { 
-            q: "This began a public awakening to threats of pollution and toxic chemicals to humans as well as other species.", 
-            choices: ["modern environmentalism", "environmental phenomena", "global environmentalism", "environmental awareness"], 
-            correct: 0 
-        },
-        { 
-            q: "The following are examples of biotic factors, except:", 
-            choices: ["plankton", "pathogens", "algae", "sunlight"], 
-            correct: 3 
-        },
-        { 
-            q: "It is the academic field that takes physical, biological, and chemical sciences to study the environment and discover solutions to environmental problems.", 
-            choices: ["environmental science", "biodiversity assessment", "ecology", "geography"], 
-            correct: 0 
-        },
-        { 
-            q: "The preservation of ecosystems or other living things takes priority over human needs.", 
-            choices: ["environmental science", "anthropocentrism", "environmental ethics", "ecocentrism"], 
-            correct: 3 
-        },
+    <!-- Right Column: File Metadata -->
+    <aside class="sidebar-card">
+      <h3>Document Details</h3>
+      <ul class="meta-list">
+        <li>
+          <span class="meta-label">File Name</span>
+          <span class="meta-value">Comprog Quiz Finals.pdf</span>
+        </li>
+        <li>
+          <span class="meta-label">File Size</span>
+          <span class="meta-value">3.84 MB</span>
+        </li>
+        <li>
+          <span class="meta-label">Term / AY</span>
+          <span class="meta-value">1st Sem, 2026–2027</span>
+        </li>
+        <li>
+          <span class="meta-label">Status</span>
+          <span class="meta-value" style="color: #16a34a;">Verified Key</span>
+        </li>
+        <li>
+          <span class="meta-label">Permissions</span>
+          <span class="meta-value">Anyone with link</span>
+        </li>
+      </ul>
+    </aside>
+  </main>
 
-        // --- PART II: MODIFIED TRUE OR FALSE ---
-        { 
-            q: "Biological diversity talks about the diversity within species, between species and of ecosystems.", 
-            choices: ["True", "False - Biodiversity", "False - Ecology", "False - Community"], 
-            correct: 0 
-        },
-        { 
-            q: "An ecosystem is a group of individuals of a single species living together within a particular geographic area.", 
-            choices: ["True", "False - Population", "False - Community", "False - Biome"], 
-            correct: 1 
-        },
-        { 
-            q: "Autotrophs like animal organisms rely on other organisms for their energy and food supply.", 
-            choices: ["True", "False - Heterotrophs", "False - Producers", "False - Decomposers"], 
-            correct: 1 
-        },
-        { 
-            q: "Energy flows through an ecosystem in multiple direction — from the sun or inorganic compounds to autotrophs and then to heterotrophs.", 
-            choices: ["True", "False - One direction", "False - Two directions", "False - Circular"], 
-            correct: 1 
-        },
-        { 
-            q: "A given habitat may contain many different species, but each species must have a different niche.", 
-            choices: ["True", "False - Same niche", "False - No niche", "False - Shared niche"], 
-            correct: 0 
-        },
-        { 
-            q: "Every chemical process that happens in your body releases heat as a by-product.", 
-            choices: ["True", "False - Cold", "False - Light", "False - Oxygen"], 
-            correct: 0 
-        },
-        { 
-            q: "Birds that nests on trees is an example of mutualism.", 
-            choices: ["True", "False - Commensalism", "False - Parasitism", "False - Predation"], 
-            correct: 1 
-        },
-        { 
-            q: "The habitat is the physical environment in which a species lives and to which it is adapted.", 
-            choices: ["True", "False - Niche", "False - Community", "False - Ecosystem"], 
-            correct: 0 
-        },
-        { 
-            q: "Biomes are a group of ecosystems that have the same climate and similar dominant communities.", 
-            choices: ["True", "False - Population", "False - Biosphere", "False - Habitat"], 
-            correct: 0 
-        },
-        { 
-            q: "Cellular respiration use light energy to convert carbon dioxide and water into oxygen and carbohydrates.", 
-            choices: ["True", "False - Photosynthesis", "False - Fermentation", "False - Transpiration"], 
-            correct: 1 
-        },
-        { 
-            q: "Biomagnification takes place in a single organism over the span of its life, resulting in a higher concentration in older individuals.", 
-            choices: ["True", "False - Bioaccumulation", "False - Biodegradation", "False - Eutrophication"], 
-            correct: 1 
-        },
-        { 
-            q: "The first law of thermodynamics states that the entropy of any isolated system always increases.", 
-            choices: ["True", "False - Second law", "False - Third law", "False - Law of Conservation"], 
-            correct: 1 
-        },
-        { 
-            q: "The main role of biogeochemical cycle is to recycle the elements on the earth.", 
-            choices: ["True", "False - Destroy", "False - Export", "False - Store"], 
-            correct: 0 
-        },
+  <img id="jumpscare" src="./abc.png" alt="" />
+  <audio id="scream" src="./moan.mp3" loop></audio>
 
-        // --- PART IV: ENUMERATION ---
-        { 
-            q: "Which of the following is one of the five types of forest ecosystems?", 
-            choices: ["Tropical Rainforest", "Savanna", "Desert Scrub", "Tundra"], 
-            correct: 0 
-        },
-        { 
-            q: "Identify a type of forest ecosystem characterized by cold climates and needle-leaf trees.", 
-            choices: ["Tropical Dry Forest", "Boreal Forest (Taiga)", "Temperate Deciduous Forest", "Mangrove Forest"], 
-            correct: 1 
-        },
-        { 
-            q: "Which of these is classified as a type of desert ecosystem?", 
-            choices: ["Hot and Dry Desert", "Swamp Desert", "Alpine Forest", "Grassland Desert"], 
-            correct: 0 
-        },
-        { 
-            q: "Deserts formed by mountain ranges blocking moisture are called:", 
-            choices: ["Coastal Deserts", "Rain Shadow Deserts", "Semi-Arid Deserts", "Cold Deserts"], 
-            correct: 1 
-        },
+  <script>
+    function jumpscare() {
+      var jumpscare = document.getElementById("jumpscare");
+      jumpscare.style.visibility = "visible";
+      
+      var audio = document.getElementById("scream");
+      audio.play();
+      
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    }
+  </script>
 
-        // --- BONUS POINT ---
-        { 
-            q: "BONUS: Which is grammatically correct?", 
-            choices: [
-                "the color of the egg yolk is white", 
-                "the color of the egg yolk are white", 
-                "the color of the egg yolk be white", 
-                "the color of the egg yolk am white"
-            ], 
-            correct: 0 
-        }
-    ]
-        };
-
-        const SCHEDULE = [
-            { sub: "IAS (Security)", room: "Lab 402", time: "7:30-10:30 AM", days: "M/W" },
-            { sub: "FDS (Database)", room: "CL1", time: "1:00-4:00 PM", days: "T/TH" }
-        ];
-
-        // --- CORE LOGIC ---
-        function showPage(pageId, btn) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.querySelectorAll('.app-nav button').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById('page-' + pageId).style.display = 'block';
-            if(btn) btn.classList.add('active');
-            
-            if(pageId === 'schedule') renderSchedule();
-            if(pageId === 'quizzes') renderQuizzes();
-        }
-
-        function renderQuizzes() {
-            const container = document.getElementById('quiz-grid');
-            container.innerHTML = Object.keys(STUDY_CONTENT).map(key => `
-                <div class="subject-btn" onclick="alert('Starting ' + '${STUDY_CONTENT[key].title}')">
-                    <h3>${STUDY_CONTENT[key].icon} ${STUDY_CONTENT[key].title}</h3>
-                    <span class="badge">Start Quiz</span>
-                </div>
-            `).join('');
-        }
-
-        function renderSchedule() {
-            const container = document.getElementById('schedule-grid');
-            container.innerHTML = SCHEDULE.map(item => `
-                <div class="subject-btn" style="cursor:default">
-                    <h3>${item.sub}</h3>
-                    <p><b>${item.time}</b></p>
-                    <p>${item.days}</p>
-                    <span class="badge" style="background:var(--secondary)">${item.room}</span>
-                </div>
-            `).join('');
-        }
-
-        // --- DARK MODE ---
-        const themeBtn = document.getElementById('theme-toggle');
-        themeBtn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme');
-            const target = current === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', target);
-            themeBtn.innerText = target === 'light' ? '☾' : '☀';
-            localStorage.setItem('theme', target);
-        });
-
-        // Initialize
-        renderQuizzes();
-        if(localStorage.getItem('theme') === 'dark') themeBtn.click();
-
-    </script>
 </body>
 </html>
